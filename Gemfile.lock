@@ -115,6 +115,10 @@ GEM
       moped (~> 1.1)
       origin (~> 1.0)
       tzinfo (~> 0.3.22)
+    mongoid-rspec (1.5.5)
+      mongoid (>= 3.0.1)
+      rake
+      rspec (>= 2.9)
     moped (1.3.0)
     multi_json (1.3.7)
     multipart-post (1.1.5)
@@ -239,6 +243,7 @@ DEPENDENCIES
   less-rails
   libnotify
   mongoid
+  mongoid-rspec
   rails
   rb-inotify
   rspec-rails
