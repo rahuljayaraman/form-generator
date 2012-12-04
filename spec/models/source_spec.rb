@@ -26,7 +26,7 @@ describe Source do
        eval(klass.to_s).wrap.last.name.should == 'Rahul'
     end
 
-    it "should not re-create a new collection on re-initialization"  do
+    it "raise an error with an already existing class is being re-initialized"  do
       expect { set.initialize_set(set.set_name.classify) }.to raise_error
     end
   end
