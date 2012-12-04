@@ -11,7 +11,7 @@ describe Source do
 
   context "Dynamic Model", focus: true do
     let(:set) { create(:source) }
-    let(:klass) { set.initialize_set(set.set_name.classify) }
+    let(:klass) { set.initialize_set }
     subject { klass.wrap }
 
     it { should be_instance_of(Class) }
@@ -26,7 +26,9 @@ describe Source do
        eval(klass.to_s).wrap.last.name.should == 'Rahul'
     end
 
-    it "should respond to source" 
+    it "should not re-create a new collection on re-initialization"  do
+      expect { set.initialize_set(set.set_name.classify) }.to raise_error
+    end
   end
 
 end
