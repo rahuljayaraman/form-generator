@@ -1,5 +1,8 @@
 BootstrapData::Application.routes.draw do
 
+  resources :sources
+
+
   get "pages/home"
   root :to => 'pages#home'
 

@@ -7,6 +7,8 @@ class User
   field :crypted_password, type: String
   field :salt, type: String
 
+  has_many :sources
+
   attr_accessible :name, :email, :password, :password_confirmation
 
   validates_length_of :password, :minimum => 5, :message => "password must be at least 5 characters long", :if => :password

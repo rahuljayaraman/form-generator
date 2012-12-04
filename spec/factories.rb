@@ -7,4 +7,9 @@ FactoryGirl.define do
     password 'foobar'
     password_confirmation 'foobar'
   end
+   
+  factory :source do
+    set_name Faker::Lorem.word
+    user
+  end
 end

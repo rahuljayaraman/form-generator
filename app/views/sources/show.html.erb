@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>field name:</b>
+  <%= @source.field_name %>
+</p>
+
+<p>
+  <b>field type:</b>
+  <%= @source.field_type %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @source.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_source_path(@source) %> |
+<%= link_to 'Back', sources_path %>
