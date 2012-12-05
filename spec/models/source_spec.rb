@@ -23,7 +23,7 @@ describe Source do
 
     it "should persist data permanently" do
        subject.create(name: "Rahul").should be_valid
-       eval(klass.to_s).wrap.last.name.should == 'Rahul'
+       klass.wrap.last.name.should == 'Rahul'
     end
 
     it "raise an error with an already existing class is being re-initialized"  do
