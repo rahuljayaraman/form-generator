@@ -19,6 +19,10 @@ class Source
         def self.wrap 
           with(collection: self.name.tableize)
         end
+
+        def wrap
+          self.class.wrap
+        end
       end
       Object.const_set klass_name, klass
 

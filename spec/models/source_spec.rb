@@ -29,6 +29,13 @@ describe Source do
     it "raise an error with an already existing class is being re-initialized"  do
       expect { set.initialize_set(set.set_name.classify) }.to raise_error
     end
+
+    it "should be able to destroy records" do
+      entry = subject.create(name: "Rahul")
+      klass.wrap.last.name.should == 'Rahul'
+      entry.wrap.last.destroy
+      expect { entry.wrap.destroyed? }.to be_true
+    end
   end
 
 end
