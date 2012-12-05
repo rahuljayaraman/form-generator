@@ -12,18 +12,14 @@ describe Source do
   context "Dynamic Model" do
     let(:set) { create(:source) }
     let(:klass) { set.initialize_set }
-    subject { klass.wrap }
+    subject { klass }
 
     it { should be_instance_of(Class) }
-
-    it "should assign a collection automatically" do
-      subject.collection.name.should_not == ""
-      klass.collection.name.should == ""
-    end
-
+    its('collection.name') { should_not == '' }
+    
     it "should persist data permanently" do
        subject.create(name: "Rahul")
-       klass.wrap.last.name.should == 'Rahul'
+       klass.last.name.should == 'Rahul'
     end
 
     it "raise an error with an already existing class is being re-initialized"  do
@@ -32,9 +28,8 @@ describe Source do
 
     it "should be able to destroy records" do
       entry = subject.create(name: "Rahul")
-      klass.wrap.last.name.should == 'Rahul'
-      entry.wrap.last.destroy
-      expect { entry.wrap.destroyed? }.to be_true
+      entry.destroy
+      klass.last.should_not == entry
     end
   end
 

@@ -16,24 +16,19 @@ class Source
     if klass_name.not_loaded?
       klass = Class.new do
         include Mongoid::Document
-        def self.wrap 
-          with(collection: self.name.tableize)
-        end
-
-        def wrap
-          self.class.wrap
+        store_in collection: self.collection_name, database: "bootstrap_data_#{Rails.env.downcase}"
+        def self.collection_name
+          self.name.tableize
         end
       end
       Object.const_set klass_name, klass
 
-      collection_name = create_collection(klass_name) if klass.wrap.collection.name.blank?
+      collection_name = create_collection(klass_name) if klass.collection.name.blank?
       klass
     else
       raise "Model loaded"
     end
   end
-
-
 
   private
 
