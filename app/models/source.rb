@@ -16,29 +16,16 @@ class Source
     if klass_name.not_loaded?
       klass = Class.new do
         include Mongoid::Document
-        store_in collection: self.collection_name, database: "bootstrap_data_#{Rails.env.downcase}"
+        store_in collection: self.collection_name
         def self.collection_name
           self.name.tableize
         end
       end
       Object.const_set klass_name, klass
-
-      collection_name = create_collection(klass_name) if klass.collection.name.blank?
-      klass
     else
       raise "Model loaded"
     end
   end
-
-  private
-
-  def create_collection(klass)
-    eval(klass).mongo_session.with(database: "bootstrap_data_#{Rails.env.downcase}") do |session|
-      session.command(create: klass.tableize )
-    end
-    klass.tableize
-  end
-
 end
 
 
