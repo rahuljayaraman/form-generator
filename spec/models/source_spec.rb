@@ -18,11 +18,11 @@ describe Source do
 
     it "should assign a collection automatically" do
       subject.collection.name.should_not == ""
-      eval(klass.to_s).collection.name.should == ""
+      klass.collection.name.should == ""
     end
 
     it "should persist data permanently" do
-       subject.create(name: "Rahul").should be_valid
+       subject.create(name: "Rahul")
        klass.wrap.last.name.should == 'Rahul'
     end
 
