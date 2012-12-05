@@ -29,7 +29,7 @@ class Source
       collection_name = create_collection(klass_name) if klass.wrap.collection.name.blank?
       klass
     else
-      raise "Model has been loaded."
+      raise "Model loaded"
     end
   end
 
