@@ -1,8 +1,15 @@
-<%= simple_form_for(@source) do |f| %>
+<%= simple_form_for @source, html: {class: "form-search"} do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :set_name %>
+    <%= f.input :set_name %><br>
+    <div id="ma_fields">
+      <%= f.simple_fields_for :model_attributes do |m| %>
+        <%= render 'sources/model_attribute_fields', f: m %>
+      <% end -%>
+      <%= link_to_add_association 'Add Field', f, :model_attributes, class: "btn btn-inverse btn-small"%>
+    </div>
+    <hr>
   </div>
 
   <div class="form-actions">
@@ -10,3 +17,4 @@
     <%= link_to 'Back', sources_path, class: "btn" %>
   </div>
 <% end %>
+

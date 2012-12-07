@@ -5,10 +5,16 @@ class Source
   field :set_name, type: String
   field :user_id, type: Integer
 
+  embeds_many :model_attributes
+  accepts_nested_attributes_for :model_attributes, :reject_if => :all_blank, :allow_destroy => true
+
+  attr_accessible :set_name, :user_id, :model_attributes_attributes
+
   belongs_to :user
 
   validates_presence_of :user_id, :set_name
   validates_uniqueness_of :set_name, scope: :user_id
+
 
   def initialize_set
     model_name = self.set_name.classify
