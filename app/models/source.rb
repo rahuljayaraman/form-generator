@@ -6,7 +6,7 @@ class Source
   field :user_id, type: Integer
 
   embeds_many :model_attributes
-  accepts_nested_attributes_for :model_attributes, :reject_if => :all_blank, :allow_destroy => true
+  accepts_nested_attributes_for :model_attributes, :allow_destroy => true
 
   attr_accessible :set_name, :user_id, :model_attributes_attributes
 

@@ -1,4 +1,4 @@
 <%= f.input_field :field_name, label: 'Field Name', placeholder: 'Field Name' %>
 <%= f.input_field :field_type, label: 'Field Type', collection: ['Word', 'Number', 'Paragraph', 'True or False'], prompt: 'Select Field Type' %>
-<%= link_to_remove_association 'X', f, class: 'badge'%>
+<%= f.link_to_remove 'X', class: 'badge'%>
 <br><br>

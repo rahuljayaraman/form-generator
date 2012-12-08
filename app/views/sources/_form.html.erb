@@ -1,4 +1,4 @@
-<%= simple_form_for @source, html: {class: "form-search"} do |f| %>
+<%= simple_nested_form_for @source, html: {class: "form-search"} do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
@@ -7,7 +7,7 @@
       <%= f.simple_fields_for :model_attributes do |m| %>
         <%= render 'sources/model_attribute_fields', f: m %>
       <% end -%>
-      <%= link_to_add_association 'Add Field', f, :model_attributes, class: "btn btn-inverse btn-small"%>
+      <%= f.link_to_add 'Add Field', :model_attributes, class: "btn btn-inverse btn-small"%>
     </div>
     <hr>
   </div>

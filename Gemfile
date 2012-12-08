@@ -10,7 +10,7 @@ gem 'twitter-bootstrap-rails'
 gem 'bootstrap-datepicker-rails'
 gem 'sorcery'
 gem 'jquery-datatables-rails'
-gem 'cocoon'
+gem 'nested_form'
 
 group :assets do
   gem 'less-rails'
