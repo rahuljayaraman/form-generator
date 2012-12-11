@@ -1,19 +1,9 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <b>field name:</b>
-  <%= @source.field_name %>
-</p>
-
-<p>
-  <b>field type:</b>
-  <%= @source.field_type %>
-</p>
-
-<p>
-  <b>User:</b>
-  <%= @source.user_id %>
-</p>
+<h2><%= @source.set_name %></h2>
+<%= link_to 'View Form', new_form_path(@source.id) %>
+<hr>
+<% @source.model_attributes.each do |m| %>
+  <li><b><%= m.field_name %></b>: <%= m.field_type %></li>
+<% end -%>
 
 
 <%= link_to 'Edit', edit_source_path(@source) %> |

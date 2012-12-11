@@ -1,6 +1,6 @@
 class String
-  def not_loaded?
-    false if eval(self).wrap.exists?
+  def not_loaded
+    false if eval(self).exists?
   rescue NameError
     true
   rescue NoMethodError

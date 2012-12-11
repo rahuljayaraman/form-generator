@@ -23,5 +23,12 @@ describe "Sources" do
     click_button 'Create'
 
     page.should have_content "saved"
+    click_on 'Show'
+    click_on 'View Form'
+    page.should have_content 'code'
+
+    fill_in 'Employee code', with: 'FTL01234'
+    click_on 'Create'
+    page.should have_content 'saved'
   end
 end

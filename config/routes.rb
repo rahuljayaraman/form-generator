@@ -1,6 +1,6 @@
 BootstrapData::Application.routes.draw do
 
-  resources :sources
+  resources :sources, :forms
 
 
   get "pages/home"

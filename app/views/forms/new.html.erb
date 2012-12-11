@@ -1,0 +1,18 @@
+<h1><%= @source.set_name %></h1>
+<hr>
+
+<%= simple_form_for(@object, url: forms_path(@object)) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <% @source.model_attributes.each do |m| %>
+      <%= f.input m.field_name.gsub(' ','').underscore.to_sym %>
+      <%= hidden_field_tag :format, @source.id %>
+    <% end -%>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, "Create #{@source.set_name}", class: "btn btn-primary" %>
+    <%= link_to 'Back', root_path, class: "btn" %>
+  </div>
+<% end %>

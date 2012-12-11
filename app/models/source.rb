@@ -17,21 +17,26 @@ class Source
 
 
   def initialize_set
-    model_name = self.set_name.classify
+    model_name = self.set_name.gsub(' ','').classify
     klass_name = "#{model_name}#{self.user.id}"
-    if klass_name.not_loaded?
-      klass = Class.new do
-        include Mongoid::Document
-        store_in collection: self.collection_name
-        def self.collection_name
-          self.name.tableize
-        end
+    object = self
+    klass =  klass_name.not_loaded ? Class.new : eval(klass_name)
+
+    klass.class_eval do
+      include Mongoid::Document
+      store_in collection: self.collection_name
+      object.model_attributes.each do |m|
+        field m.field_name.gsub(' ','').underscore, type: object.class.mapping[m.field_type]
       end
-      Object.const_set klass_name, klass
-    else
-      raise "Model loaded"
+      
+      def self.collection_name
+        self.name.tableize
+      end
     end
+    Object.const_set klass_name, klass
+  end
+
+  def self.mapping
+    { 'Word' => String, 'Number' => Integer, 'True or False' => Boolean, 'Date & Time' => DateTime, 'Date' => Date, 'Time' => Time }
   end
 end
-
-
