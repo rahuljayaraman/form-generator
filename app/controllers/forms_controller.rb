@@ -29,7 +29,7 @@ class FormsController < ApplicationController
   def create
     @object = @model.new(params[:user])
     if @object.save
-      redirect_to root_path, notice: "Object saved."
+      redirect_to user_path(current_user), notice: "#{@source.set_name} saved."
     else
       render action: "new" 
     end
@@ -42,7 +42,7 @@ class FormsController < ApplicationController
 
     respond_to do |format|
       if @object.update_attributes(params[:user])
-        format.html { redirect_to @object, notice: 'Object was successfully updated.' }
+        format.html { redirect_to user_path(current_user), notice: "#{@source.set_name} was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
