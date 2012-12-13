@@ -1,6 +1,7 @@
 class Source
   include Mongoid::Document
   include Mongoid::Timestamps
+  require 'string_helpers'
 
   field :set_name, type: String
   field :user_id, type: Integer
