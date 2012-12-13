@@ -3,5 +3,13 @@
 <div class="well center">
 <% if @user.sources.blank? %>
   <h2>You haven't created any data sources. To get started click <%= link_to 'here', new_source_path %></h2>
-<% end -%>
 </div>
+<% else -%>
+  <h2>To create a new data source, click <%= link_to 'here', new_source_path %></h2>
+</div>
+
+<hr>
+<h3>Listing your sources</h3>
+<hr>
+<%= render 'sources/index' %>
+<% end -%>
