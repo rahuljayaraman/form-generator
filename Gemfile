@@ -23,11 +23,12 @@ end
 group :test do
   gem 'spork'
   gem 'faker'
-  gem 'capybara'
+  gem 'capybara', '~> 1.1.0'
   gem 'launchy'
-  gem 'factory_girl_rails'
+  gem 'fabrication'
   gem 'database_cleaner'
   gem 'mongoid-rspec'
+  gem 'poltergeist'
 end
 
 group :development, :test do
