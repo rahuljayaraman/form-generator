@@ -1,10 +1,22 @@
-<h2><%= @source.set_name %></h2>
-<%= link_to 'View Form', new_form_path(@source.id) %>
+<h2><%= @source.set_name %> - <small><%= link_to 'View Form', new_form_path(@source.id) %></small></h2>
 <hr>
-<% @source.model_attributes.each do |m| %>
-  <li><b><%= m.field_name %></b>: <%= m.field_type %></li>
-<% end -%>
+<table class = "table table-bordered" id = "datatables">
+  <thead>
+    <th>Field Name</th>
+    <th>Field Type</th>
+  </thead>
+
+  <tbody>
+  <% @source.model_attributes.each do |m| %>
+    <tr>
+      <td><%= m.field_name %></td>
+      <td><%= m.field_type %></td>
+    </tr>
+  <% end -%>
+  </tbody>
+</table>
 
 
-<%= link_to 'Edit', edit_source_path(@source) %> |
-<%= link_to 'Back', sources_path %>
+<hr>
+<%= link_to 'Edit', edit_source_path(@source), class: "btn" %> 
+<%= link_to 'Back', user_path(current_user), class: "btn" %>

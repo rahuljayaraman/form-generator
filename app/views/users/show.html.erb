@@ -1,8 +1,6 @@
-<h1>Welcome <%= @user.name %></h1>
-<hr>
 <div class="well center">
 <% if @user.sources.blank? %>
-  <h2>You haven't created any data sources. To get started click <%= link_to 'here', new_source_path %></h2>
+  <h2>Welcome <%= current_user.name %>. You haven't created any data sources. To get started click <%= link_to 'here', new_source_path %></h2>
 </div>
 <% else -%>
   <h2>To create a new data source, click <%= link_to 'here', new_source_path %></h2>
