@@ -6,19 +6,20 @@ Spork.prefork do
   require 'rspec/rails'
   require 'rspec/autorun'
   require 'capybara/rspec'
+  require 'capybara/poltergeist'
 
+
+  Capybara.javascript_driver = :poltergeist
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
   DatabaseCleaner[:mongoid].strategy = :truncation
 
   RSpec.configure do |config|
-    config.fixture_path = "#{::Rails.root}/spec/fixtures"
     config.use_transactional_fixtures = false
     config.infer_base_class_for_anonymous_controllers = false
     config.order = "random"
     config.filter_run focus: true
     config.run_all_when_everything_filtered = true
     config.include Mongoid::Matchers
-    config.include FactoryGirl::Syntax::Methods
     config.include Capybara::DSL
     ActiveSupport::Dependencies.clear
   end
@@ -26,7 +27,7 @@ end
 
 
 Spork.each_run do
-  FactoryGirl.reload  
+  Fabrication.clear_definitions
   Dir[File.join(File.dirname(__FILE__), '..', 'app', 'helpers', '*.rb')].each do |file|
     require file
   end

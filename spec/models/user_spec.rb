@@ -6,7 +6,7 @@ describe User do
   it { should have_many(:sources) }
 
   context "Validations" do
-    let(:user) { build(:user) }
+    let(:user) { Fabricate.build(:user) }
     subject {user}
 
     its(:email) { should_not be_nil} 

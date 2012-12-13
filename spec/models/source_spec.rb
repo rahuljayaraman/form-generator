@@ -7,11 +7,14 @@ describe Source do
   it { should embed_many(:model_attributes) }
 
   it "should always be associated with a user" do
-    build(:source, user_id: "").should_not be_valid
+    Fabricate.build(:source, user: "").should_not be_valid
   end
 
   context "Dynamic Model" do
-    let(:set) { create(:source) }
+    let(:set) { 
+      Fabricate(:source) 
+    }
+
     let(:klass) { set.initialize_set }
     subject { klass }
 

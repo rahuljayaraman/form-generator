@@ -2,32 +2,25 @@ require 'spec_helper'
 
 describe "Sources" do
   before { 
-    @user = create(:user) 
+    @user =  Fabricate(:user, user_with_attr: true)
   }
 
-  it "should allow a user to login & define data sources", js: true do
+  it "should allow a user to login & define data sources" do
     visit root_path
-    fill_in :email, with: @user.email
-    fill_in :password, with: 'foobar'
+    fill_in 'Email', with: @user.email
+    fill_in 'Password', with: 'foobar'
     click_button 'Login'
     page.should have_content "successful"
 
-    click_link "here"
-    fill_in 'Set name', with: "Sales Data"
+    attr = @user.sources.last.model_attributes.last 
 
-    click_on "Add Field"
-
-    fill_in 'Field Name', with: "Employee Code"
-    select 'Word'
-
-    click_button 'Create'
-
-    page.should have_content "saved"
-    click_on 'Show'
+    within ".table" do
+      click_on 'Show'
+    end
     click_on 'View Form'
-    page.should have_content 'code'
-
-    fill_in 'Employee code', with: 'FTL01234'
+    within ".form-inputs" do
+      fill_in attr.field_name.humanize, with: '1234'
+    end
     click_on 'Create'
     page.should have_content 'saved'
   end
