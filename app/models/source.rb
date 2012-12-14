@@ -29,6 +29,9 @@ class Source
       object.model_attributes.each do |m|
         field m.field_name.gsub(' ','').underscore, type: object.class.mapping[m.field_type]
       end
+       object.model_attributes.where(field_type: "Number").map(&:field_name).each do |o|
+         validates_numericality_of o.gsub(' ','').underscore.to_sym
+      end
       
       def self.collection_name
         self.name.tableize
