@@ -51,7 +51,37 @@ class Source
   end
 
   def self.mapping
-    { 'Word' => String, 'Number' => Integer, 'True or False' => Boolean, 'Date & Time' => DateTime, 'Date' => Date, 'Time' => Time }
+    { 
+      'Word' => String,
+      'Paragraph' => String,
+      'Date & Time' => DateTime,
+      'Date' => Date,
+      'Time' => Time,
+      'Collection' => Array,
+      'Radio Buttons' => Array,
+      'Check Boxes' => Array,
+      'Password' => String,
+      'Email' => String,
+      'Telephone' => String,
+      'True or False' => Boolean
+    }
+  end
+
+  def self.view_mapping
+    { 
+      'Word' => 'string',
+      'Paragraph' => 'text',
+      'Date & Time' => 'datetime',
+      'Date' => 'date',
+      'Time' => 'time',
+      'Collection' => 'select',
+      'Radio Buttons' => 'radio_buttons',
+      'Check Boxes' => 'check_boxes',
+      'Password' => 'password',
+      'Email' => 'email',
+      'Telephone' => 'tel',
+      'True or False' => 'boolean'
+    }
   end
 
 end
