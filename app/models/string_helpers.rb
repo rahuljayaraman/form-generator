@@ -7,4 +7,8 @@ class String
    # This would be applicable for reserved or nil classes i presume. I don't expect this usecase to come up though.
     true
   end
+
+  def attribute
+    self.gsub(' ','').underscore
+  end
 end

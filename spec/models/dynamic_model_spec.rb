@@ -4,7 +4,7 @@ describe 'Dynamic Model' do
   let(:user) { Fabricate(:user) }
   let(:model) { user.sources.last.initialize_set }
   let(:fields) { user.sources.last.model_attributes }
-  let(:field_names) { fields.map(&:field_name) }
+  # let(:field_names) { fields.map(&:field_name) }
   subject { model }
 
   it "should have fields defined with appropriate types" do
@@ -15,7 +15,13 @@ describe 'Dynamic Model' do
   
   it "should restrict data to datatype" do
     fields.create(field_name: "Test", field_type: "Number")
-    subject.create("Test" => "ABC").should_not be_valid
+    subject.create("Test" => "ABC")
+    subject.last.test.should_not == "ABC"
+  end
+
+  it "should allow blank entries if validations not given" do
+    fields.create(field_name: "Number", field_type: "Number")
+    subject.create("Number" => "").should be_valid
   end
 
   #Specs to ascertain Model sanity
