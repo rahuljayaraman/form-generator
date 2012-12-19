@@ -19,7 +19,7 @@ describe "Sources" do
     end
     click_on 'View Form'
     within ".form-inputs" do
-      fill_in attr.field_name.humanize, with: '1234'
+      fill_in attr.field_name.humanize, with: "1234"
     end
     click_on 'Create'
     page.should have_content 'saved'

@@ -21,6 +21,6 @@ end
 
 Fabricator :model_attribute do
   field_name { Faker::Lorem.word }
-  field_type  { Source.mapping.keys.shuffle.first }
+  field_type  { "Word" }
   source
 end

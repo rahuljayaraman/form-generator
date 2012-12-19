@@ -1,6 +1,18 @@
 <div id = "fieldset">
+    <span class="label label-success">Field</span>
   <%= f.input_field :field_name, label: 'Field Name', placeholder: 'Field Name' %>
   <%= f.input_field :field_type, label: 'Field Type', collection: Source.mapping.keys, prompt: 'Select Field Type' %>
   <%= f.link_to_remove 'X', class: 'badge'%>
 </div>
+  <%= f.link_to_add ' Add Validation', :model_validations, class: "btn btn-mini icon-plus"%>
 <br><br>
+  <%= f.simple_fields_for :model_validations do |m| %>
+    <br>
+    <div id = "fieldset">
+      <span class="label label-important">Validation</span>
+      <%= m.input_field :validation_type, prompt: "Select Validation Type", collection: ['Presence', 'Uniqueness'] %>
+      <%= m.input_field :validation_options, placeholder: "Additional Options" %>
+      <%= m.link_to_remove 'X', class: 'badge'%>
+    </div>
+    <br>
+  <% end -%>

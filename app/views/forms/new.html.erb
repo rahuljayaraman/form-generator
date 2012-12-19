@@ -6,7 +6,7 @@
 
   <div class="form-inputs">
     <% @source.model_attributes.each do |m| %>
-      <%= f.input m.field_name.gsub(' ','').underscore.to_sym %>
+      <%= f.input m.field_name.gsub(' ','').underscore.to_sym, as: Source.mapping[m.field_type].to_s.downcase %>
       <%= hidden_field_tag :format, @source.id %>
     <% end -%>
   </div>
