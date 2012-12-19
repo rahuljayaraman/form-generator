@@ -18,6 +18,7 @@ Spork.prefork do
     config.infer_base_class_for_anonymous_controllers = false
     config.order = "random"
     config.filter_run focus: true
+    config.filter_run_excluding :remove => true
     config.run_all_when_everything_filtered = true
     config.include Mongoid::Matchers
     config.include Capybara::DSL
