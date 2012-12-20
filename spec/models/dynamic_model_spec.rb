@@ -14,7 +14,7 @@ describe 'Dynamic Model' do
   end
   
   it "should restrict data to datatype" do
-    subject.new(field_name => "ABC").should_not be_valid
+    subject.new(field_name => "ABC").send(field_name).should_not == "ABC"
   end
 
   it "should allow blank entries if validations not given" do

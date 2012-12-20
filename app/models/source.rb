@@ -4,14 +4,14 @@ class Source
   require 'string_helpers'
 
   field :set_name, type: String
-  field :user_id, type: Integer
 
-  embeds_many :model_attributes
+  has_many :model_attributes
   accepts_nested_attributes_for :model_attributes, :allow_destroy => true
 
   attr_accessible :set_name, :user_id, :model_attributes_attributes
 
   belongs_to :user
+  has_and_belongs_to_many :reports
 
   validates_presence_of :user_id, :set_name
   validates_uniqueness_of :set_name, scope: :user_id
@@ -53,6 +53,7 @@ class Source
   def self.mapping
     { 
       'Word' => String,
+      'Number' => Integer,
       'Paragraph' => String,
       'Date & Time' => DateTime,
       'Date' => Date,
@@ -70,6 +71,7 @@ class Source
   def self.view_mapping
     { 
       'Word' => 'string',
+      'Number' => 'integer',
       'Paragraph' => 'text',
       'Date & Time' => 'datetime',
       'Date' => 'date',
