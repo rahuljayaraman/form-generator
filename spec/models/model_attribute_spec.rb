@@ -6,6 +6,6 @@ describe ModelAttribute do
   it { should embed_many(:model_validations) }
 
   it "should have name & type as mandatory fields" do
-    ModelAttribute.create(field_name: "test").should_not be_valid
+    Fabricate.build(:model_attribute, field_type: "").should_not be_valid
   end
 end
