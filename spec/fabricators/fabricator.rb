@@ -4,7 +4,9 @@ Fabricator :user do
   name { Faker::Name.name }
   email { Faker::Internet.email }
   password 'foobar'
-  password_confirmation 'foobar'
+  salt { "asdasdastr4325234324sdfds" }
+  crypted_password { Sorcery::CryptoProviders::BCrypt.encrypt("foobar", 
+                                                              "asdasdastr4325234324sdfds") }
   transient :user_with_attr
 
   after_create { |user| Fabricate(:source, user: user) }
