@@ -8,6 +8,7 @@ class User
   field :salt, type: String
 
   has_many :sources
+  has_many :reports
 
   attr_accessible :name, :email, :password, :password_confirmation
 

@@ -4,6 +4,7 @@ describe User do
 
   it { should have_fields(:email, :name) }
   it { should have_many(:sources) }
+  it { should have_many(:reports) }
 
   context "Validations" do
     let(:user) { Fabricate.build(:user) }
@@ -11,6 +12,5 @@ describe User do
 
     its(:email) { should_not be_nil} 
     it { should validate_uniqueness_of(:email) }
-    its(:password) { should == user.password_confirmation} 
   end
 end
