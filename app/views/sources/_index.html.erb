@@ -1,6 +1,6 @@
 <table class = "table table-bordered" id="datatables">
   <thead>
-    <th>Set Name</th>
+    <th>Name</th>
     <th>Created At</th>
     <th>Actions</th>
   </thead>
@@ -8,7 +8,7 @@
   <tbody>
   <% @sources.each do |source| %>
     <tr>
-      <td><%= source.set_name %></td>
+      <td><%= source.source_name %></td>
       <td><%= source.created_at %></td>
       <td><%= link_to 'Show', source %>
       <%= link_to 'Edit', edit_source_path(source) %>

@@ -2,7 +2,7 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :set_name, label: "Name your Data Source" %><br>
+    <%= f.input :source_name, label: "Name your Data Source" %><br>
     <%= f.simple_fields_for :model_attributes do |m| %>
       <%= render 'sources/model_attribute_fields', f: m %>
     <% end -%>
