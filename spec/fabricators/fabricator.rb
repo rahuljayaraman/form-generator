@@ -13,7 +13,7 @@ Fabricator :user do
 end
 
 Fabricator :source do
-  set_name { Faker::Lorem.word }
+  source_name { Faker::Lorem.word }
   transient :attr
   user
 

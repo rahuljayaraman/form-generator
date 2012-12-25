@@ -3,7 +3,7 @@ class Source
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  field :set_name, type: String
+  field :source_name, type: String
 
   has_many :source_attributes
   belongs_to :user
@@ -11,14 +11,14 @@ class Source
 
   accepts_nested_attributes_for :source_attributes, :allow_destroy => true
 
-  validates_presence_of :user_id, :set_name
-  validates_uniqueness_of :set_name, scope: :user_id
+  validates_presence_of :user_id, :source_name
+  validates_uniqueness_of :source_name, scope: :user_id
 
-  attr_accessible :set_name, :user_id, :source_attributes_attributes
+  attr_accessible :source_name, :user_id, :source_attributes_attributes
 
 
-  def initialize_set
-    model_name = self.set_name.gsub(' ','').classify
+  def initialize_dynamic_model
+    model_name = self.source_name.gsub(' ','').classify
     klass_name = "#{model_name}#{self.user.id}"
     object = self
 
@@ -34,12 +34,7 @@ class Source
 
       object.source_attributes.where(field_type: "Number").map(&:field_name).each do |o|
         validates_numericality_of o.attribute.to_sym, allow_blank: true
-        # validates o.attribute.to_sym, numericality: true, allow_nil: true
       end
-
-      # fields.each_pair do |k,v|
-      #   v.try(:type)
-      # end
 
       def self.collection_name
         self.name.tableize

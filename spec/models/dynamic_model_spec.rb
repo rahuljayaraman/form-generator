@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Dynamic Model' do
   let(:source) { Fabricate.build(:source) }
-  let(:model) { source.initialize_set }
+  let(:model) { source.initialize_dynamic_model }
   let(:fields) { source.source_attributes }
   let(:field_name) { fields.last.field_name }
   subject { model }

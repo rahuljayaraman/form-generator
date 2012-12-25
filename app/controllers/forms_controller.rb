@@ -1,6 +1,6 @@
 class FormsController < ApplicationController
 
-  before_filter :set_model
+  before_filter :initialize_model
 
   def new
     @object = @model.new
@@ -30,7 +30,7 @@ class FormsController < ApplicationController
   def create
     @object = @model.new(params[:user])
     if @object.save
-      redirect_to user_path(current_user), notice: "#{@source.set_name} saved."
+      redirect_to user_path(current_user), notice: "#{@source.source_name} saved."
     else
       render action: "new" 
     end
@@ -43,7 +43,7 @@ class FormsController < ApplicationController
 
     respond_to do |format|
       if @object.update_attributes(params[:user])
-        format.html { redirect_to user_path(current_user), notice: "#{@source.set_name} was successfully updated." }
+        format.html { redirect_to user_path(current_user), notice: "#{@source.source_name} was successfully updated." }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -66,8 +66,8 @@ class FormsController < ApplicationController
 
   private
 
-  def set_model
+  def initialize_model
     @source = Source.find(params[:format])
-    @model = @source.initialize_set
+    @model = @source.initialize_dynamic_model
   end
 end
