@@ -1,4 +1,4 @@
-<h1><%= @source.set_name %></h1>
+<h1><%= @source.source_name %></h1>
 <hr>
 
 <%= simple_form_for(@object, url: forms_path(@object)) do |f| %>
@@ -12,7 +12,7 @@
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "Create #{@source.set_name}", class: "btn btn-primary" %>
+    <%= f.button :submit, "Create #{@source.source_name}", class: "btn btn-primary" %>
     <%= link_to 'Back', :back, class: "btn" %>
   </div>
 <% end %>
