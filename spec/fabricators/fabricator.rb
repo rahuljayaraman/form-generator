@@ -17,11 +17,11 @@ Fabricator :source do
   transient :attr
   user
 
-  after_create { |source| Fabricate(:model_attribute, source: source) }
-  after_build { |source| Fabricate.build(:model_attribute, source: source) }
+  after_create { |source| Fabricate(:source_attribute, source: source) }
+  after_build { |source| Fabricate.build(:source_attribute, source: source) }
 end
 
-Fabricator :model_attribute do
+Fabricator :source_attribute do
   field_name { Faker::Lorem.word }
   field_type  { "Number" }
   source

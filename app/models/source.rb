@@ -1,20 +1,20 @@
+require 'string_helpers'
 class Source
   include Mongoid::Document
   include Mongoid::Timestamps
-  require 'string_helpers'
 
   field :set_name, type: String
 
-  has_many :model_attributes
-  accepts_nested_attributes_for :model_attributes, :allow_destroy => true
-
-  attr_accessible :set_name, :user_id, :model_attributes_attributes
-
+  has_many :source_attributes
   belongs_to :user
   has_and_belongs_to_many :reports
 
+  accepts_nested_attributes_for :source_attributes, :allow_destroy => true
+
   validates_presence_of :user_id, :set_name
   validates_uniqueness_of :set_name, scope: :user_id
+
+  attr_accessible :set_name, :user_id, :source_attributes_attributes
 
 
   def initialize_set
@@ -27,12 +27,12 @@ class Source
       include ActiveModel::Validations
       store_in collection: self.collection_name
       field_names = []
-      object.model_attributes.each do |m|
+      object.source_attributes.each do |m|
         field m.field_name.attribute.to_sym, type: object.class.mapping[m.field_type]
         attr_accessible m.field_name.attribute.to_sym
       end
 
-      object.model_attributes.where(field_type: "Number").map(&:field_name).each do |o|
+      object.source_attributes.where(field_type: "Number").map(&:field_name).each do |o|
         validates_numericality_of o.attribute.to_sym, allow_blank: true
         # validates o.attribute.to_sym, numericality: true, allow_nil: true
       end

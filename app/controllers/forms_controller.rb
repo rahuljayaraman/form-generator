@@ -4,6 +4,7 @@ class FormsController < ApplicationController
 
   def new
     @object = @model.new
+    @attributes = @source.source_attributes
   end
 
   def index

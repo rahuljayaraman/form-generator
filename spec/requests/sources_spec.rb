@@ -12,7 +12,7 @@ describe "Sources" do
     click_button 'Login'
     page.should have_content "successful"
 
-    attr = @user.sources.last.model_attributes.last 
+    attr = @user.sources.last.source_attributes.last 
 
     within ".table" do
       click_on 'Show'
