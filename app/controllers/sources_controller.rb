@@ -19,7 +19,6 @@ class SourcesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @attributes }
-      format.js
     end
   end
 

@@ -7,7 +7,6 @@ class Source
 
   has_many :source_attributes
   belongs_to :user
-  has_and_belongs_to_many :reports
 
   accepts_nested_attributes_for :source_attributes, :allow_destroy => true
 

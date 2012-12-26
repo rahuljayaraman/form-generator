@@ -1,9 +1,7 @@
 BootstrapData::Application.routes.draw do
 
-  resources :sources, :forms
+  resources :sources, :forms, :reports
 
-
-  get "pages/home"
   root :to => 'pages#home'
 
   resources :user_sessions, as: :user_sessions
@@ -11,4 +9,5 @@ BootstrapData::Application.routes.draw do
     
   match 'login' => 'user_sessions#new', :as => :login
   match 'logout' => 'user_sessions#destroy', :as => :logout
+  match 'view_reports/:id' => 'reports#view_report', :as => :view_reports
 end

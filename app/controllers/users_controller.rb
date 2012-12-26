@@ -1,3 +1,4 @@
+require 'string_helpers'
 class UsersController < ApplicationController
   skip_before_filter :require_login, :only => [:new, :create]
   # GET /users
@@ -16,6 +17,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @sources = current_user.sources.all
+    @reports = current_user.reports.all
 
     respond_to do |format|
       format.html # show.html.erb
@@ -79,4 +81,5 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 end

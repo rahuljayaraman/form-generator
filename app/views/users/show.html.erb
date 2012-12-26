@@ -11,3 +11,18 @@
 <hr>
 <%= render 'sources/index' %>
 <% end -%>
+<hr>
+<div class="well center report">
+<% if @user.reports.blank? %>
+  <h2>You haven't created any reports yet. To get started click <%= link_to 'here', new_report_path %></h2>
+</div>
+<% else -%>
+  <h2>To create a new report, click <%= link_to 'here', new_report_path %></h2>
+</div>
+
+<hr>
+<h3>Listing your reports</h3>
+<hr>
+<%= render 'reports_index' %>
+
+<% end -%>
