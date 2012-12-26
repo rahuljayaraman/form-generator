@@ -3,10 +3,10 @@
 
   <div class="form-inputs">
     <%= f.input :source_name, label: "Name your Data Source" %><br>
-    <%= f.simple_fields_for :model_attributes do |m| %>
+    <%= f.simple_fields_for :source_attributes do |m| %>
       <%= render 'sources/model_attribute_fields', f: m %>
     <% end -%>
-    <%= f.link_to_add ' Add Field', :model_attributes, class: "btn btn-small icon-plus"%>
+    <%= f.link_to_add ' Add Field', :source_attributes, class: "btn btn-small icon-plus"%>
     <hr>
   </div>
 
