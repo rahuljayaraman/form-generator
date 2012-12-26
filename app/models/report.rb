@@ -9,5 +9,7 @@ class Report
 
   validates_presence_of :report_name
 
-  attr_accessible :report_name, :report_attributes, :sources_attributes
+  attr_accessible :report_name, :report_attributes_attributes, :sources_attributes
+
+  accepts_nested_attributes_for :report_attributes, allow_blank: false, allow_destroy: true, :reject_if => :all_blank
 end

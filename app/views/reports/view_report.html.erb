@@ -1,0 +1,17 @@
+<table class = "table table-bordered" id="datatables">
+  <thead>
+    <% @attributes.each do |m| -%>
+      <th><%= m.to_s.humanize %></th>
+    <% end -%>
+  </thead>
+
+  <tbody>
+  <% @data.each do |d| %>
+    <tr>
+    <% @attributes.each do |m| -%>
+      <td><%= d.send(m) %></td>
+    <% end -%>
+    </tr>
+  <% end %>
+</tbody>
+</table>
