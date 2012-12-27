@@ -1,8 +1,0 @@
-<% attributes.each do |attribute| %>
-  <%= f.simple_fields_for :report_attributes do |r| %>
-    <label class = "checkbox">
-      <%= r.check_box :source_attribute_id, {}, attribute.id, "" %>
-      <%= attribute.field_name.humanize %>
-    </label>
-  <% end -%>
-<% end -%>

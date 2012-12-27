@@ -1,8 +1,8 @@
 
   <h2>Report name: <%= @report.report_name %></h2>
   <hr>
-  <% @report.report_attributes.each do |r| -%>
-    <li><b><%= r.source_attribute.source.source_name %></b> - <%= r.source_attribute.field_name %>, <%= r.source_attribute.field_type %></li>
+  <% @report.source_attributes.each do |r| -%>
+    <li><b><%= r.source.source_name %></b> - <%= r.field_name %>, <%= r.field_type %></li>
   <% end -%>
 
   <div class="form-actions">

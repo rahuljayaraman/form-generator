@@ -1,7 +1,7 @@
 <table class = "table table-bordered" id="datatables">
   <thead>
     <% @attributes.each do |m| -%>
-      <th><%= m.to_s.humanize %></th>
+      <th><%= m.field_name.humanize %></th>
     <% end -%>
   </thead>
 

@@ -26,7 +26,6 @@ class ReportsController < ApplicationController
   def new
     @report = current_user.reports.new
     @sources = current_user.sources
-    @report.report_attributes.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -37,6 +36,7 @@ class ReportsController < ApplicationController
   # GET /reports/1/edit
   def edit
     @report = current_user.reports.find(params[:id])
+    @sources = current_user.sources
   end
 
   # POST /reports
@@ -81,5 +81,10 @@ class ReportsController < ApplicationController
       format.html { redirect_to reports_url }
       format.json { head :no_content }
     end
+  end
+
+  def view_report
+    report = current_user.reports.find params[:id]
+    @attributes = report.source_attributes 
   end
 end

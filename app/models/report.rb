@@ -4,12 +4,10 @@ class Report
 
   field :report_name, type: String
 
-  has_many :report_attributes
   belongs_to :user
+  has_and_belongs_to_many :source_attributes, inverse_of: nil
 
   validates_presence_of :report_name
 
-  attr_accessible :report_name, :report_attributes_attributes, :sources_attributes
-
-  accepts_nested_attributes_for :report_attributes, allow_blank: false, allow_destroy: true, :reject_if => :all_blank
+  attr_accessible :report_name, :source_attribute_ids
 end

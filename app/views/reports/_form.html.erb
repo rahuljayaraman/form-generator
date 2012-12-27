@@ -1,11 +1,22 @@
-<%= simple_form_for(@report) do |f| %>
+<%= simple_form_for @report do |f| %>
   <%= f.error_notification %>
-
   <div class="form-inputs">
-    <%= f.input :report_name %>
+    <%= f.input :report_name, label: "Name your Report" %>
+    <hr>
+    <% @sources.each do |source| -%>
+      <div id="attribute_checkboxes">
+        <h3><%= source.source_name %></h3>
+        <label class = "checkbox">
+          <%= f.collection_check_boxes :source_attribute_ids, SourceAttribute.where(source_id: source.id), :id, :field_name %> 
+        </label>
+      </div>
+    <% end -%>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, "Create Report", class: "btn btn-primary" %>
+    <%= link_to 'Back', user_path(current_user), class: "btn" %>
   </div>
 <% end %>
+
+
