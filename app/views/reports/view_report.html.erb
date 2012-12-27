@@ -1,7 +1,9 @@
+<h2><%= @report.report_name.humanize %> Report</h2>
+<hr>
 <table class = "table table-bordered" id="datatables">
   <thead>
     <% @attributes.each do |m| -%>
-      <th><%= m.field_name.humanize %></th>
+      <th><%= m.humanize %></th>
     <% end -%>
   </thead>
 
@@ -9,9 +11,11 @@
   <% @data.each do |d| %>
     <tr>
     <% @attributes.each do |m| -%>
-      <td><%= d.send(m) %></td>
+      <td><%= d.send(m.attribute) || "N/A" %></td>
     <% end -%>
     </tr>
   <% end %>
 </tbody>
 </table>
+
+<div class="form-actions"><%= link_to 'Back', :back, class: "btn" %></div>
