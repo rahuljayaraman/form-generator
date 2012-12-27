@@ -6,7 +6,7 @@ describe Report do
   it { have_and_belong_to_many(:source_attributes) }
   it { should belong_to(:user) }
 
-  it "should find associated sources", focus: true do
+  it "should find associated sources" do
     source = Fabricate :source
     report = Report.new(report_name: "Testing", source_attribute_ids: [source.source_attributes.last.id])
     report.find_sources.should include source
