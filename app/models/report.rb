@@ -10,4 +10,8 @@ class Report
   validates_presence_of :report_name
 
   attr_accessible :report_name, :source_attribute_ids
+
+  def find_sources
+    source_attributes.map(&:source)
+  end
 end
