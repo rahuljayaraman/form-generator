@@ -13,7 +13,4 @@ class SourceAttribute
   validates_presence_of :field_name, :field_type
 
   accepts_nested_attributes_for :model_validations, :allow_destroy => true
-
-  has_many :report_attributes
-
 end
