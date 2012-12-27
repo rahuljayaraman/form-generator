@@ -4,5 +4,5 @@ class ModelValidation
   field :validation_type, type: String
   field :validation_options, type: Array
 
-  embedded_in :model_attribute
+  embedded_in :source_attribute
 end

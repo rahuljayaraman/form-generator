@@ -5,7 +5,7 @@ class SourceAttribute
   field :field_name, type: String
   field :field_type, type: String
 
-  attr_accessible :field_name, :field_type, :model_validation_attributes
+  attr_accessible :field_name, :field_type, :model_validations_attributes
 
   belongs_to :source
   embeds_many :model_validations
