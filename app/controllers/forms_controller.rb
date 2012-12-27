@@ -28,7 +28,7 @@ class FormsController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @object = @model.new(params[:user])
+    @object = @model.new(params[@model.name.underscore])
     if @object.save
       redirect_to user_path(current_user), notice: "#{@source.source_name} saved."
     else
