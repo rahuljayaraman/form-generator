@@ -5,12 +5,21 @@
   <%= f.link_to_remove 'X', class: 'badge'%>
   <hr>
   <%= f.simple_fields_for :model_validations do |m| %>
+    <% if params[:action] == 'edit' -%>
+      <%= link_to 'Toggle Show Validations', '#', id: 'show_validation'%>
+      <br>
+    <% end -%>
     <br>
-    <div id = "fieldset">
+    <% params[:action] == 'edit' ? message = "display: none;" : message = "" %>
+    <div id = "validation_fieldset" style = "<%= message %>">
       <span class="label label-important">Validation</span>
-      <%= m.input_field :validation_type, prompt: "Select Validation Type", collection: ['Presence', 'Uniqueness'] %>
-      <%= m.input_field :validation_options, placeholder: "Additional Options" %>
+      <%= m.input_field :validation_type, prompt: "Select Validation Type", collection: ModelValidation.show, class: 'v_dropdown' %>
       <%= m.link_to_remove 'X', class: 'badge'%>
+      <hr>
+      <span class="label label-warning">Validation Options</span>
+      <%= m.input_field :message, placeholder: "Failure Message", class: "span4" %>
+      <%= m.input_field :min, placeholder: "Min", class: "span1 range" %>
+      <%= m.input_field :max, placeholder: "Max", class: "span1 range" %>
     </div>
     <br>
   <% end -%>

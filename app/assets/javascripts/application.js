@@ -20,6 +20,28 @@
 //= require_tree .
 
 $(document).ready(function(){
+  $(".range").hide();
+
+  //Toggle Show validations for sources/edit
+  $("#show_validation").live("click", function() {
+    var element = $(this).parent('div').find('#validation_fieldset:first')
+    element.toggle();
+    var val = element.find("select.v_dropdown").val();
+    if(val == "Length") {
+      element.find('.range').show();
+    }
+  });
+
+  //Toggle show validation options
+  $("select.v_dropdown").live("click", function() {
+    $(".range").hide();
+    var value = $(this).val();
+    switch(value) {
+      case "Length":
+        $(this).parent("div").find('.range').show();
+        break;
+    }
+  });
   $('#datatables').dataTable({
     "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
     "sPaginationType": "bootstrap",
