@@ -7,6 +7,7 @@ describe 'Dynamic Model' do
   let(:field_name) { fields.last.field_name }
   subject { model }
 
+
   it "should have fields defined with appropriate types" do
     fields.each do |f|
       subject.should have_field(f.field_name).of_type(Source.mapping[f.field_type.to_sym])
@@ -25,4 +26,47 @@ describe 'Dynamic Model' do
 
   it { should be_instance_of(Class) }
   its('collection.name') { should_not == '' }
+
+  context "Validations" do
+    let(:source_attribute) { source.source_attributes.last}
+
+    it "should validate presence" do
+      source_attribute.model_validations.build(validation_type: "Presence") 
+      model = source.initialize_dynamic_model
+      model.create(field_name => "").should_not be_valid
+    end
+
+    it "should validate min length" do
+      source_attribute.model_validations.build(validation_type: "Length", min: 5) 
+      model = source.initialize_dynamic_model
+      model.create(field_name => "1234").should_not be_valid
+    end
+
+    it "should validate max length" do
+      source_attribute.model_validations.build(validation_type: "Length", max: 5) 
+      model = source.initialize_dynamic_model
+      model.create(field_name => "123456").should_not be_valid
+    end
+
+    it "should validate uniqueness" do
+      source_attribute.model_validations.build(validation_type: "Uniqueness") 
+      model = source.initialize_dynamic_model
+      model.create(field_name => "123456")
+      model.create(field_name => "123456").should_not be_valid
+    end
+
+    it "should use custom message" do
+      source_attribute.model_validations.build(validation_type: "Presence", message: "ABCD") 
+      model = source.initialize_dynamic_model
+      instance = model.create(field_name => "")
+      instance.errors.messages.values[0][0].should == "ABCD"
+    end
+
+    it "should default to standard message when nothing provided" do
+      source_attribute.model_validations.build(validation_type: "Presence") 
+      model = source.initialize_dynamic_model
+      instance = model.create(field_name => "")
+      instance.errors.messages.values[0][0].should_not == ""
+    end
+  end
 end

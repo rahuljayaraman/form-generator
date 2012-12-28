@@ -5,7 +5,7 @@ class Source
 
   field :source_name, type: String
 
-  has_many :source_attributes
+  has_many :source_attributes, dependent: :destroy
   belongs_to :user
 
   accepts_nested_attributes_for :source_attributes, :allow_destroy => true
@@ -31,8 +31,19 @@ class Source
         attr_accessible m.field_name.attribute.to_sym
       end
 
-      object.source_attributes.where(field_type: "Number").map(&:field_name).each do |o|
-        validates_numericality_of o.attribute.to_sym, allow_blank: true
+      #Validates Presence
+      object.source_attributes.each do |s|
+        validates_presence_of s.field_name.attribute.to_sym, message: s.fetch_message('presence') if s.validate_presence_of 'presence'
+      end
+
+      #Validates Length
+      object.source_attributes.each do |source_attribute|
+        validates_length_of source_attribute.field_name.attribute.to_sym, minimum: source_attribute.fetch_min, maximum: source_attribute.fetch_max if source_attribute.validate_presence_of 'length'
+      end
+
+      #Validates Uniqueness
+      object.source_attributes.each do |s|
+        validates_uniqueness_of s.field_name.attribute.to_sym if s.validate_presence_of 'uniqueness'
       end
 
       def self.collection_name
