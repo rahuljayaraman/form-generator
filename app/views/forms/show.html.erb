@@ -1,0 +1,10 @@
+<h2>Please check your entires</h2>
+<hr>
+<% @attributes.each do |key, val| -%>
+  <li><b><%= key.humanize %></b>: <%= val %></li>
+<% end -%>
+
+<hr>
+<%= link_to 'Edit', edit_form_path(@object, source: @source), class: "btn" %> 
+<%= link_to 'Continue', new_form_path(source: @source.id), class: "btn" %>
+

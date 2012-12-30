@@ -1,4 +1,4 @@
-<h2><%= @source.source_name %> - <small><%= link_to 'View Form', new_form_path(@source.id) %></small></h2>
+<h2><%= @source.source_name %> - <small><%= link_to 'View Form', new_form_path(source: @source.id) %></small></h2>
 <hr>
 <table class = "table table-bordered" id = "datatables">
   <thead>

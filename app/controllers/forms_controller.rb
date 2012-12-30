@@ -13,6 +13,7 @@ class FormsController < ApplicationController
 
   def show
     @object = @model.find(params[:id])
+    @attributes = @object.attributes.except "_id"
 
     respond_to do |format|
       format.html # show.html.erb
@@ -23,6 +24,7 @@ class FormsController < ApplicationController
   # GET /users/1/edit
   def edit
     @object = @model.find(params[:id])
+    @attributes = @source.source_attributes
   end
 
   # POST /users
@@ -30,7 +32,7 @@ class FormsController < ApplicationController
   def create
     @object = @model.new(params[@model.name.underscore])
     if @object.save
-      redirect_to user_path(current_user), notice: "#{@source.source_name} saved."
+      redirect_to form_path(@object, source: params[:source]), notice: "#{@source.source_name} saved."
     else
       render action: "new" 
     end
@@ -40,15 +42,12 @@ class FormsController < ApplicationController
   # PUT /users/1.json
   def update
     @object = @model.find(params[:id])
+    @attributes = @object.attributes.except "_id"
 
-    respond_to do |format|
-      if @object.update_attributes(params[:user])
-        format.html { redirect_to user_path(current_user), notice: "#{@source.source_name} was successfully updated." }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @object.errors, status: :unprocessable_entity }
-      end
+    if @object.update_attributes(params[@model.name.underscore])
+      redirect_to form_path(@object, source: @source.id), notice: "#{@source.source_name} updated."
+    else
+      render action: "edit" 
     end
   end
 
@@ -67,7 +66,7 @@ class FormsController < ApplicationController
   private
 
   def initialize_model
-    @source = Source.find(params[:format])
+    @source = Source.find(params[:source])
     @model = @source.initialize_dynamic_model
   end
 end
