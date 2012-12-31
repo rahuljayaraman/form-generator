@@ -23,6 +23,7 @@ class Source
 
     klass = Class.new do
       include Mongoid::Document
+      include Mongoid::Timestamps
       include ActiveModel::Validations
       store_in collection: self.collection_name
       field_names = []

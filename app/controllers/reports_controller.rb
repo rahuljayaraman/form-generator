@@ -87,6 +87,7 @@ class ReportsController < ApplicationController
   def view_report
     @report = current_user.reports.find params[:id]
     @attributes = @report.source_attributes.map(&:field_name)
+    @attributes += ['Created At', 'Updated At']
     @sources = @report.find_sources
     @model = @sources.last.initialize_dynamic_model
     @data = @model.all
