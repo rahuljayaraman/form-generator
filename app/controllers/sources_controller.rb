@@ -1,3 +1,4 @@
+require 'string_helpers'
 class SourcesController < ApplicationController
   # GET /sources
   # GET /sources.json
