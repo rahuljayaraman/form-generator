@@ -34,6 +34,7 @@ class FormsController < ApplicationController
     if @object.save
       redirect_to form_path(@object, source: params[:source]), notice: "#{@source.source_name} saved."
     else
+      @attributes = @source.source_attributes
       render action: "new" 
     end
   end
