@@ -1,4 +1,3 @@
-require 'string_helpers'
 class Source
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -91,5 +90,4 @@ class Source
       'True or False' => 'boolean'
     }
   end
-
 end
