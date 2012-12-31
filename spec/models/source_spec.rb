@@ -10,6 +10,17 @@ describe Source do
     Fabricate.build(:source, user: "").should_not be_valid
   end
 
+  context "Dynamic Relationships" do
+    let(:source) { Fabricate(:source) }
+    subject { source }
+    
+    it "should accept arrays of self ids" do
+      next_source = Source.new source_name: "Next"
+      next_source.add_has_many [source.id]
+      next_source.has_manies.last.should == source
+    end
+  end
+
   context "Class Methods" do
     subject { Source } 
     its(:mapping) { should be_instance_of(Hash)  }
