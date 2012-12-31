@@ -28,9 +28,9 @@ end
 
 Spork.each_run do
   Fabrication.clear_definitions
-  Dir[File.join(File.dirname(__FILE__), '..', 'app', 'helpers', '*.rb')].each do |file|
-    require file
-  end
+  # Dir[File.join(File.dirname(__FILE__), '..', 'app', 'helpers', '*.rb')].each do |file|
+  #   require file
+  # end
   RSpec.configure do |config|
     config.before(:each) do
       DatabaseCleaner.start
