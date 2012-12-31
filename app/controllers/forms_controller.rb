@@ -48,6 +48,7 @@ class FormsController < ApplicationController
     if @object.update_attributes(params[@model.name.underscore])
       redirect_to form_path(@object, source: @source.id), notice: "#{@source.source_name} updated."
     else
+      @attributes = @source.source_attributes
       render action: "edit" 
     end
   end
