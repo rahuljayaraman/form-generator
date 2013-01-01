@@ -7,6 +7,15 @@ describe 'Dynamic Model' do
   let(:field_name) { fields.last.field_name }
   subject { model }
 
+  it "should include relationships defined", focus: true do
+    user = stub(id: "123")
+    next_source = stub(:next_source)
+    source.stub(:has_manies) { [next_source] }
+    next_source.stub(:source_name) {"next source"}
+    source.stub(:user) { user }
+    model = source.initialize_dynamic_model
+    model.new.should respond_to "#{'next source'.attribute + "123"}".tableize
+  end
 
   it "should have fields defined with appropriate types" do
     fields.each do |f|

@@ -1,6 +1,6 @@
 module DynamicModel
   def initialize_dynamic_model
-    model_name = self.source_name.gsub(' ','').classify
+    model_name = self.source_name.attribute.classify
     klass_name = "#{model_name}#{self.user.id}"
     object = self
 
@@ -13,6 +13,19 @@ module DynamicModel
       object.source_attributes.each do |m|
         field m.field_name.attribute.to_sym, type: object.class.mapping[m.field_type]
         attr_accessible m.field_name.attribute.to_sym
+      end
+
+      #Relationships
+      object.has_manies.each do |h|
+        object_model_name = h.source_name.attribute.classify
+        object_klass_name = "#{object_model_name}#{object.user.id}"
+        has_many object_klass_name.tableize.to_sym
+      end
+
+      object.belongs_tos.each do |h|
+        object_model_name = h.source_name.attribute.classify
+        object_klass_name = "#{object_model_name}#{object.user.id}"
+        belongs_to object_klass_name.to_sym
       end
 
       #Validates Presence
