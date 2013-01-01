@@ -5,11 +5,15 @@ class Source
   extend Mapping
 
   field :source_name, type: String
-  field :hm_ids, type: Array, default: []
-  field :bt_ids, type: Array, default: []
 
   has_many :source_attributes, dependent: :destroy
   belongs_to :user
+
+  has_and_belongs_to_many :has_manies, class_name: "Source", inverse_of: :has_many_used_in
+  has_and_belongs_to_many :has_many_used_in, class_name: "Source", inverse_of: :has_manies
+  
+  has_and_belongs_to_many :belongs_tos, class_name: "Source", inverse_of: :belongs_to_used_in
+  has_and_belongs_to_many :belongs_to_used_in, class_name: "Source", inverse_of: :belongs_tos
 
   accepts_nested_attributes_for :source_attributes, :allow_destroy => true
 
@@ -17,20 +21,4 @@ class Source
   validates_uniqueness_of :source_name, scope: :user_id
 
   attr_accessible :source_name, :user_id, :source_attributes_attributes
-
-  def has_manies 
-    Source.any_in(id: hm_ids).all
-  end
-
-  def belongs_tos 
-    Source.any_in(id: bt_ids).all
-  end
-
-  def add_has_many arr
-    arr.each {|a| self. hm_ids << a }
-  end
-
-  def add_belongs_to arr
-    arr.each {|a| self. bt_ids << a }
-  end
 end

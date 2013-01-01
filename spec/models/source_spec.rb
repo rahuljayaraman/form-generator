@@ -16,7 +16,7 @@ describe Source do
     
     it "should accept arrays of self ids" do
       next_source = Source.new source_name: "Next"
-      next_source.add_has_many [source.id]
+      next_source.has_many_ids << source.id
       next_source.has_manies.last.should == source
     end
   end
