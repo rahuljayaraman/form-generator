@@ -1,0 +1,31 @@
+<div class="modal hide fade" id="relationships">
+  <div class="modal-header">
+    <h4>Define Relationships</h4>
+  </div>
+  <div class="modal-body">
+    <table class = "table table-bordered">
+      <thead>
+        <th>Many</th>
+        <th>Embedded</th>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>
+            <label class = "checkbox">
+              <%= f.collection_check_boxes :has_many_ids, @sources, :id, :source_name %> 
+            </label>
+          </td>
+          <td>
+            <label class = "checkbox">
+              <%= f.collection_check_boxes :belongs_to_ids, @sources, :id, :source_name %> 
+            </label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>

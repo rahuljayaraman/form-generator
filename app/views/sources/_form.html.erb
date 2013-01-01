@@ -1,15 +1,19 @@
-<%= simple_nested_form_for @source, html: {class: "form-search"} do |f| %>
+<%= simple_nested_form_for @source, html: {class: "span12"} do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :source_name, label: "Name your Data Source" %><br>
+    <%= render 'relationships', f: f %>
+    <%= f.input :source_name, label: "Name your Data Source" %> 
+    <%= link_to ' Relationships', '#relationships', "data-toggle" => "modal", class: "btn btn-small icon-share" %> <br><br>
     <%= f.simple_fields_for :source_attributes do |m| %>
       <%= render 'sources/model_attribute_fields', f: m %>
     <% end -%>
     <%= f.link_to_add ' Add Field', :source_attributes, class: "btn btn-small icon-plus"%>
-    <hr>
   </div>
 
+  <br>
+  <br>
+  <br>
   <div class="form-actions">
     <%= f.button :submit, "Create Data Source", class: "btn btn-primary" %>
     <%= link_to 'Back', user_path(current_user), class: "btn" %>

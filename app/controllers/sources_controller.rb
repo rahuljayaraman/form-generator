@@ -26,6 +26,7 @@ class SourcesController < ApplicationController
   # GET /sources/new.json
   def new
     @source = Source.new
+    @sources = current_user.sources
 
     respond_to do |format|
       format.html # new.html.erb
@@ -36,6 +37,7 @@ class SourcesController < ApplicationController
   # GET /sources/1/edit
   def edit
     @source = Source.find(params[:id])
+    @sources = current_user.sources.not_in(_id: [@source.id])
   end
 
   # POST /sources
