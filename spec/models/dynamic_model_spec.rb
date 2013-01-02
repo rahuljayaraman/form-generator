@@ -7,7 +7,7 @@ describe 'Dynamic Model' do
   let(:field_name) { fields.last.field_name }
   subject { model }
 
-  it "should include relationships defined", focus: true do
+  it "should include relationships defined" do
     user = stub(id: "123")
     next_source = stub(:next_source)
     source.stub(:has_manies) { [next_source] }
