@@ -17,6 +17,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @sources = current_user.sources.all
     @reports = current_user.reports.all
+    @forms = current_user.forms.all
 
     respond_to do |format|
       format.html # show.html.erb

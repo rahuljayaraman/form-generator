@@ -1,0 +1,22 @@
+<table class = "table table-bordered" id="">
+  <thead>
+    <th>Form Name</th>
+    <th>Source</th>
+    <th>Created At</th>
+    <th>Actions</th>
+  </thead>
+
+  <tbody>
+  <% @forms.each do |form| %>
+    <tr>
+      <td><%= form.form_name %></td>
+      <td><%= form.source.source_name %></td>
+      <td><%= form.created_at.to_s(:short) %></td>
+      <td><%= link_to 'Show', form %>
+      <%= link_to 'Edit', edit_form_path(form, source: form.source.id) %>
+      <%= link_to 'Destroy', form, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+</tbody>
+</table>
+

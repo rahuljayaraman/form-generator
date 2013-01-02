@@ -1,4 +1,4 @@
-<table class = "table table-bordered" id="datatables">
+<table class = "table table-bordered" id="">
   <thead>
     <th>Report Name</th>
     <th>Created At</th>
@@ -10,7 +10,7 @@
   <% @reports.each do |report| %>
     <tr>
       <td><%= report.report_name %></td>
-      <td><%= report.created_at %></td>
+      <td><%= report.created_at.to_s(:short) %></td>
       <td><%= link_to 'link', view_reports_path(report)  %></td>
       <td><%= link_to 'Show', report %>
       <%= link_to 'Edit', edit_report_path(report) %>

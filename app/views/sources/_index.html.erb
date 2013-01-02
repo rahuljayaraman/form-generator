@@ -1,4 +1,4 @@
-<table class = "table table-bordered" id="datatables">
+<table class = "table table-bordered" id="">
   <thead>
     <th>Name</th>
     <th>Created At</th>
@@ -9,7 +9,7 @@
   <% @sources.each do |source| %>
     <tr>
       <td><%= source.source_name %></td>
-      <td><%= source.created_at %></td>
+      <td><%= source.created_at.to_s(:short) %></td>
       <td><%= link_to 'Show', source %>
       <%= link_to 'Edit', edit_source_path(source) %>
       <%= link_to 'Destroy', source, method: :delete, data: { confirm: 'Are you sure?' } %></td>
