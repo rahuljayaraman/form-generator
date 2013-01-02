@@ -16,10 +16,13 @@
 //= require bootstrap-datepicker
 //= require dataTables/jquery.dataTables
 //= require dataTables/jquery.dataTables.bootstrap
+//= require jquery.ui.all
+//= require ui.multiselect.js
 //= require jquery_nested_form
 //= require_tree .
 
 $(document).ready(function(){
+  $(".multiselect").multiselect();
   $(".range").hide();
 
   //Toggle Show validations for sources/edit
