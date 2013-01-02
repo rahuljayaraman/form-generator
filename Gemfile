@@ -11,6 +11,7 @@ gem 'bootstrap-datepicker-rails'
 gem 'sorcery'
 gem 'jquery-datatables-rails'
 gem 'nested_form'
+gem 'jquery-ui-rails'
 
 group :assets do
   gem 'less-rails'
