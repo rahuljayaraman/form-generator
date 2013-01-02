@@ -5,6 +5,7 @@ describe Source do
   it { should belong_to(:user) }
   it { should validate_uniqueness_of(:source_name).scoped_to(:user_id) }
   it { should have_many(:source_attributes) }
+  it { should have_and_belong_to_many :forms }
 
   it "should always be associated with a user" do
     Fabricate.build(:source, user: "").should_not be_valid

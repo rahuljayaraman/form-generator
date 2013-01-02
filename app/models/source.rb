@@ -8,6 +8,7 @@ class Source
 
   has_many :source_attributes, dependent: :destroy
   belongs_to :user
+  has_many :forms
 
   has_and_belongs_to_many :has_manies, class_name: "Source", inverse_of: :belongs_tos, dependent: :nullify
   has_and_belongs_to_many :belongs_tos, class_name: "Source", inverse_of: :has_manies, dependent: :nullify

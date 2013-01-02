@@ -9,6 +9,7 @@ class User
 
   has_many :sources
   has_many :reports
+  has_many :forms
 
   attr_accessible :name, :email, :password, :password_confirmation
 
