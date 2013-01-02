@@ -1,10 +1,10 @@
-<h2>Please check your entires</h2>
-<hr>
-<% @attributes.each do |key, val| -%>
-  <li><b><%= key.humanize %></b>: <%= val %></li>
-<% end -%>
+  <h2>Form name: <%= @form.form_name %></h2>
+  <hr>
+  <% @form.source_attributes.each do |r| -%>
+    <li><b><%= r.source.source_name %></b> - <%= r.field_name %></li>
+  <% end -%>
 
-<hr>
-<%= link_to 'Edit', edit_form_path(@object, source: @source), class: "btn" %> 
-<%= link_to 'Continue', new_form_path(source: @source.id), class: "btn" %>
-
+  <div class="form-actions">
+    <%= link_to 'Edit', edit_form_path(@form), class: 'btn' %>
+    <%= link_to 'Back', user_path(current_user), class: 'btn' %>
+  </div>

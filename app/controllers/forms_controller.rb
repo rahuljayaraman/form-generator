@@ -1,74 +1,58 @@
 class FormsController < ApplicationController
 
-  before_filter :initialize_model
-
+  def index
+    @forms = current_user.forms
+  end
+    
   def new
-    @object = @model.new
-    @attributes = @source.source_attributes
+    if @source = Source.find(params[:source])
+      @form = current_user.forms.new
+      @source_attributes = @source.source_attributes
+      @related_has_manies = @source.has_manies
+      @related_belongs_tos = @source.belongs_tos
+    end
   end
 
-  def index
-    @objects = @model.all
+  def edit
+    if @source = Source.find(params[:source])
+      @form = current_user.forms.find(params[:id])
+      @source_attributes = @source.source_attributes
+      @related_has_manies = @source.has_manies
+      @related_belongs_tos = @source.belongs_tos
+    end
   end
 
   def show
-    @object = @model.find(params[:id])
-    @attributes = @object.attributes.except "_id"
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @object }
-    end
+    @form = current_user.forms.find(params[:id])
   end
 
-  # GET /users/1/edit
-  def edit
-    @object = @model.find(params[:id])
-    @attributes = @source.source_attributes
-  end
-
-  # POST /users
-  # POST /users.json
   def create
-    @object = @model.new(params[@model.name.underscore])
-    if @object.save
-      redirect_to form_path(@object, source: params[:source]), notice: "#{@source.source_name} saved."
+    @form = current_user.forms.new params[:form]
+    if @form.save
+      redirect_to user_path(current_user), notice: "Form saved"
     else
-      @attributes = @source.source_attributes
-      render action: "new" 
+      render :new
     end
   end
 
-  # PUT /users/1
-  # PUT /users/1.json
   def update
-    @object = @model.find(params[:id])
-    @attributes = @object.attributes.except "_id"
-
-    if @object.update_attributes(params[@model.name.underscore])
-      redirect_to form_path(@object, source: @source.id), notice: "#{@source.source_name} updated."
-    else
-      @attributes = @source.source_attributes
-      render action: "edit" 
-    end
-  end
-
-  # DELETE /users/1
-  # DELETE /users/1.json
-  def destroy
-    @object = @model.find(params[:id])
-    @object.destroy
+    @form = current_user.forms.find(params[:id])
 
     respond_to do |format|
-      format.html { redirect_to root_path }
-      format.json { head :no_content }
+      if @form.update_attributes(params[:form])
+        format.html { redirect_to @form, notice: 'Form was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @form.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  private
-
-  def initialize_model
-    @source = Source.find(params[:source])
-    @model = @source.initialize_dynamic_model
+  def destroy
+    @form = current_user.forms.find(params[:id])
+    @form.destroy
+    redirect_to user_path(current_user), alert: "Form deleted"
   end
+
 end

@@ -1,13 +1,46 @@
-<%= f.error_notification %>
+<%= simple_form_for(@form) do |f| %>
+  <%= f.input :form_name %>
+  <h4>All the available fields are on the right. Select desired fields by clicking on the + button. Selected fields may be re-ordered by dragging them up & down.</h4>
+  <hr>
+  <select id="products" class="multiselect span6" multiple="multiple" name="form[source_attribute_ids][]" style="height: 50%;">
+    <% @source_attributes.each do |attr| -%>
+      <% if @form.source_attribute_ids.include? attr.id -%>
+        <option value="<%= attr.id %>" selected="selected"><%= attr.field_name %></option>
+      <% else -%>
+        <option value="<%= attr.id %>"><%= attr.field_name %></option>
+      <% end -%>
+    <% end -%>
+    <optgroup label="Has Many">
+      <% @related_has_manies.each do |source| -%>
+        <optgroup label="<%= source.source_name %>">
+          <% source.source_attributes.each do |attr| -%>
+            <% if @form.source_attribute_ids.include? attr.id -%>
+              <option value="<%= attr.id %>" selected="selected"><%= source.source_name %> | <%= attr.field_name %></option>
+            <% else -%>
+              <option value="<%= attr.id %>"><%= source.source_name %> | <%= attr.field_name %></option>
+            <% end -%>
+          <% end -%>
+        </optgroup>
+      <% end -%>
+    </optgroup>
+    <optgroup label="Embedded">
+      <% @related_belongs_tos.each do |source| -%>
+        <optgroup label="<%= source.source_name %>">
+          <% source.source_attributes.each do |attr| -%>
+            <% if @form.source_attribute_ids.include? attr.id -%>
+              <option value="<%= attr.id %>" selected="selected"><%= source.source_name %> | <%= attr.field_name %></option>
+            <% else -%>
+              <option value="<%= attr.id %>"><%= source.source_name %> | <%= attr.field_name %></option>
+            <% end -%>
+          <% end -%>
+        </optgroup>
+      <% end -%>
+    </optgroup>
+  </select>
+  <%= f.input :source_id, input_html: { value: @source.id }, as: :hidden -%>
 
-<div class="form-inputs">
-  <% @attributes.each do |m| %>
-    <%= f.input m.field_name.gsub(' ','').underscore.to_sym, as: Source.view_mapping[m.field_type] %>
-  <%= hidden_field_tag :source, @source.id %>
-<% end -%>
-</div>
-
-<div class="form-actions">
-  <%= f.button :submit, "Create #{@source.source_name}", class: "btn btn-primary" %>
-  <%= link_to 'Back', :back, class: "btn" %>
-</div>
+  <div class="form-actions">
+    <%= f.button :submit, class: "btn" %>
+    <%= link_to 'Back', :back, class: "btn" %>
+  </div>
+<% end %>
