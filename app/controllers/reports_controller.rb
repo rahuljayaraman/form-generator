@@ -1,4 +1,3 @@
-# require 'string_helpers'
 class ReportsController < ApplicationController
   # GET /reports
   # GET /reports.json
@@ -86,10 +85,9 @@ class ReportsController < ApplicationController
 
   def view_report
     @report = current_user.reports.find params[:id]
-    @attributes = @report.source_attributes.map(&:field_name)
+    @attributes = @report.find_attribute_names
     @attributes += ['Created At', 'Updated At']
-    @sources = @report.find_sources
-    @model = @sources.last.initialize_dynamic_model
+    @model = @report.find_model
     @data = @model.all
   end
 end

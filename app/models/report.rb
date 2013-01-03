@@ -11,7 +11,20 @@ class Report
 
   attr_accessible :report_name, :source_attribute_ids
 
+  def find_model
+    find_sources.last.initialize_dynamic_model
+  end
+
   def find_sources
     source_attributes.map(&:source)
+  end
+
+  def find_attribute_names
+    source_attributes.map(&:field_name)
+  end
+
+  def search attr
+   sources = find_sources
+   Source.search sources, attr
   end
 end
