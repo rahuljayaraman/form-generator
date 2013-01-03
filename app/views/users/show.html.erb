@@ -16,8 +16,8 @@
           <%= select_tag "source", options_from_collection_for_select(@sources, "id", "source_name"), class: "search-query" %>
           <%= submit_tag "New Form", class: "btn" %>
       <% end -%>
-    <h3>Listing forms</h3>
     <hr>
+    <h3>Listing forms</h3>
     <%= render 'forms_index' %>
     </div>
   </div>

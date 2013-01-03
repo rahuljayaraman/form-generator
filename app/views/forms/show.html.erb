@@ -1,10 +1,12 @@
   <h2>Form name: <%= @form.form_name %></h2>
+  <%= link_to 'Fill up form', new_form_renderer_path(form: @form.id), class: "btn" %>
+  <%= link_to 'Your Entries', form_renderers_path(form: @form.id), class: "btn" %>
   <hr>
   <% @form.source_attributes.each do |r| -%>
     <li><b><%= r.source.source_name %></b> - <%= r.field_name %></li>
   <% end -%>
 
   <div class="form-actions">
-    <%= link_to 'Edit', edit_form_path(@form), class: 'btn' %>
+    <%= link_to 'Edit', edit_form_path(@form, source: @form.source.id), class: 'btn' %>
     <%= link_to 'Back', user_path(current_user), class: 'btn' %>
   </div>
