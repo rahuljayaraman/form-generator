@@ -19,13 +19,15 @@ module DynamicModel
       object.has_manies.each do |h|
         object_model_name = h.source_name.attribute.classify
         object_klass_name = "#{object_model_name}#{object.user.id}"
-        has_many object_klass_name.tableize.to_sym
+        internal_model_name = object.source_name.attribute.classify
+        internal_klass_name = "#{internal_model_name}#{object.user.id}"
+        has_many object_klass_name.tableize.to_sym, inverse_of: internal_klass_name.tableize.to_sym, inverse_class_name: internal_klass_name
       end
 
       object.belongs_tos.each do |h|
         object_model_name = h.source_name.attribute.classify
         object_klass_name = "#{object_model_name}#{object.user.id}"
-        belongs_to object_klass_name.to_sym
+        belongs_to object_klass_name.underscore.to_sym
       end
 
       #Validates Presence
