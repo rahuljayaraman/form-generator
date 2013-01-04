@@ -9,6 +9,7 @@ class SourceAttribute
 
   belongs_to :source
   embeds_many :model_validations
+  has_many :form_attributes, dependent: :destroy
 
   validates_presence_of :field_name, :field_type
 
