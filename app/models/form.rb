@@ -4,12 +4,17 @@ class Form
 
   field :form_name, type: String
 
-  has_and_belongs_to_many :source_attributes, inverse_of: nil
   belongs_to :source
   belongs_to :user
+  has_many :form_attributes, dependent: :destroy
 
   validates_presence_of :form_name
   validates_uniqueness_of :form_name
 
-  attr_accessible :form_name, :source_attribute_ids, :source_id
+  accepts_nested_attributes_for :form_attributes, :allow_destroy => true, :allow_nil => false
+  attr_accessible :form_name, :source_id, :form_attributes_attributes
+
+  def source_attributes
+    form_attributes.map(&:source_attribute).uniq
+  end
 end
