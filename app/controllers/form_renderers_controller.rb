@@ -5,6 +5,9 @@ class FormRenderersController < ApplicationController
   def new
     @object = @model.new
     @attributes = @form.source_attributes
+    @available_source_attributes = @source.source_attributes
+    @available_has_manies = @source.has_manies.map(&:source_attributes).inject([]){|initial, val| initial + val}
+    @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
   end
 
   def index
@@ -27,6 +30,9 @@ class FormRenderersController < ApplicationController
   def edit
     @object = current_user.send(@model.collection_name).find(params[:id])
     @attributes = @form.source_attributes
+    @available_source_attributes = @source.source_attributes
+    @available_has_manies = @source.has_manies.map(&:source_attributes).inject([]){|initial, val| initial + val}
+    @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
   end
 
   # POST /users
@@ -36,7 +42,7 @@ class FormRenderersController < ApplicationController
     if @object.save
       redirect_to form_renderer_path(@object, form: @form.id), notice: "Entry to #{@form.form_name} saved."
     else
-      @attributes = @source.source_attributes
+      @attributes = @form.source_attributes
       render action: "new" 
     end
   end
@@ -73,7 +79,9 @@ class FormRenderersController < ApplicationController
     @form = Form.find(params[:form])
     @source = @form.source
     @model = @source.initialize_dynamic_model
-    User.has_many @model.collection_name.to_sym
-    @model.belongs_to :user
+    has_manies = @source.has_manies.map(&:initialize_dynamic_model)
+    belongs_tos = @source.belongs_tos.map(&:initialize_dynamic_model)
+    associated_models = (has_manies + belongs_tos) << @model
+    User.define_relationships associated_models
   end
 end

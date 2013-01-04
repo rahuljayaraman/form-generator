@@ -8,8 +8,8 @@ class FormsController < ApplicationController
     if @source = Source.find(params[:source])
       @form = current_user.forms.new
       @available_source_attributes = @source.source_attributes
-      @available_has_manies = @source.has_manies
-      @available_belongs_tos = @source.belongs_tos
+      @available_has_manies = @source.has_manies.map(&:source_attributes).inject([]){|initial, val| initial + val}
+      @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
     end
   end
 
@@ -17,8 +17,8 @@ class FormsController < ApplicationController
     @form = current_user.forms.find(params[:id])
     @source = @form.source
     @source_attributes = @source.source_attributes
-    @related_has_manies = @source.has_manies
-    @related_belongs_tos = @source.belongs_tos
+    @related_has_manies = @source.has_manies.map(&:source_attributes).inject([]){|initial, val| initial + val}
+    @related_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
     @available_source_attributes = @source_attributes - @form.source_attributes
     @available_has_manies = @related_has_manies - @form.source_attributes
     @available_belongs_tos = @related_belongs_tos - @form.source_attributes
