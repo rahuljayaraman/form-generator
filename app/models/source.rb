@@ -19,4 +19,17 @@ class Source
   validates_uniqueness_of :source_name, scope: :user_id
 
   attr_accessible :source_name, :user_id, :source_attributes_attributes, :has_many_ids, :belongs_to_ids
+
+  after_save :remove_unrelated_form_attributes
+
+  def collection_name_helper
+    user_id = self.user.id
+    klass_name = self.source_name.attribute.classify
+    (klass_name + user_id).tableize
+  end
+
+  def remove_unrelated_form_attributes
+    puts "Cleaning up relationships.."
+    FormAttribute.cleanup_relationships self
+  end
 end

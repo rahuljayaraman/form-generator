@@ -20,6 +20,14 @@ describe Source do
       next_source.has_many_ids << source.id
       next_source.has_manies.last.should == source
     end
+
+    it "should remove source_attributes references in form_attributes when references are removed" do
+      next_source = Source.new source_name: "Next"
+      next_source.has_many_ids << source.id
+      next_source.user_id = "1233"
+      FormAttribute.should_receive(:cleanup_relationships).with(next_source)
+      next_source.save
+    end
   end
 
   context "Class Methods" do
