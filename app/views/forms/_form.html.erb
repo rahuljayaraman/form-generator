@@ -1,46 +1,60 @@
 <%= simple_form_for(@form) do |f| %>
   <%= f.input :form_name %>
-  <h4>All the available fields are on the right. Select desired fields by clicking on the + button. Selected fields may be re-ordered by dragging them up & down.</h4>
   <hr>
-  <select id="products" class="multiselect span6" multiple="multiple" name="form[source_attribute_ids][]" style="height: 50%;">
-    <% @source_attributes.each do |attr| -%>
-      <% if @form.source_attribute_ids.include? attr.id -%>
-        <option value="<%= attr.id %>" selected="selected"><%= attr.field_name %></option>
-      <% else -%>
-        <option value="<%= attr.id %>"><%= attr.field_name %></option>
-      <% end -%>
-    <% end -%>
-    <optgroup label="Has Many">
-      <% @related_has_manies.each do |source| -%>
-        <optgroup label="<%= source.source_name %>">
-          <% source.source_attributes.each do |attr| -%>
-            <% if @form.source_attribute_ids.include? attr.id -%>
-              <option value="<%= attr.id %>" selected="selected"><%= source.source_name %> | <%= attr.field_name %></option>
-            <% else -%>
-              <option value="<%= attr.id %>"><%= source.source_name %> | <%= attr.field_name %></option>
+  <div class="row">
+    <div class="span6">
+      <div class="span4">
+        <h4>Selected Attributes</h4>
+        <small class="muted"><b>(Drag up/down to re-order)</b></small>
+        <div id="selected_items" class="well">
+          <% @form.source_attributes.each_with_index do |attr, index| -%>
+            <% if @source_attributes.include? attr -%>
+              <% data_type = "normal" -%>
+            <% elsif @related_has_manies.include? attr -%>
+              <% data_type = "many" -%>
+            <% elsif @related_belongs_tos.include? attr -%>
+              <% data_type = "embedded" -%>
             <% end -%>
+            <div class="checkboxes" id= <%= attr.id %> data_type=<%= data_type %>>
+              <small class="muted"><b>[drag]</b></small>
+              <a href="#" id=<%= attr.field_name %>><%= attr.field_name %>&nbsp;&nbsp;</a> <a href="#" class="icon-remove muted remove"><small> remove</small></a>
+              <input class='hidden' id='form_priority' name='[form][form_attributes_attributes][<%= attr.id %>][priority]' type='hidden' value='<%= index + 1 %>'>
+              <input class='hidden' id='form_source_attributes' name='[form][form_attributes_attributes][<%= attr.id %>][source_attribute_id]' type='hidden' value='<%= attr.id %>'>
+            </div>
           <% end -%>
-        </optgroup>
-      <% end -%>
-    </optgroup>
-    <optgroup label="Embedded">
-      <% @related_belongs_tos.each do |source| -%>
-        <optgroup label="<%= source.source_name %>">
-          <% source.source_attributes.each do |attr| -%>
-            <% if @form.source_attribute_ids.include? attr.id -%>
-              <option value="<%= attr.id %>" selected="selected"><%= source.source_name %> | <%= attr.field_name %></option>
-            <% else -%>
-              <option value="<%= attr.id %>"><%= source.source_name %> | <%= attr.field_name %></option>
-            <% end -%>
-          <% end -%>
-        </optgroup>
-      <% end -%>
-    </optgroup>
-  </select>
+        </div>
+        <div class="form-actions">
+          <%= f.button :submit, class: "btn" %>
+          <%= link_to 'Back', :back, class: "btn" %>
+        </div>
+      </div>
+    </div>
+    <div id="unselected_items" class="span6">
+      <div class="span4 offset1">
+        <h4>Available Attributes</h4>
+        <small class="muted"><b>(Click to select)</b></small>
+        <div class="well normal">
+          <% @available_source_attributes.each do |attr| -%>
+            <%= link_to " #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "normal" %>
+        <% end -%>
+        </div>
+        <h4>Linked Many-Many Attributes</h4>
+        <small class="muted"><b>(Click to select)</b></small>
+        <div class="well many">
+          <% @available_has_manies.each do |attr| -%>
+            <%= link_to " #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "many" %>
+        <% end -%>
+        </div>
+        <h4>Linked Embedded Attributes</h4>
+        <small class="muted"><b>(Click to select)</b></small>
+        <div class="well embedded">
+          <% @available_belongs_tos.each do |attr| -%>
+            <%= link_to " #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "embedded" %>
+        <% end -%>
+        </div>
+      </div>
+    </div>
+  </div>
   <%= f.input :source_id, input_html: { value: @source.id }, as: :hidden -%>
 
-  <div class="form-actions">
-    <%= f.button :submit, class: "btn" %>
-    <%= link_to 'Back', :back, class: "btn" %>
-  </div>
 <% end %>
