@@ -6,8 +6,7 @@
     <% if @available_source_attributes.include? m -%>
       <%= f.input m.field_name.gsub(' ','').underscore.to_sym, as: Source.view_mapping[m.field_type] %>
     <% elsif @available_has_manies.include? m -%>
-      <% binding.pry -%>
-      <%= f.association m.source.collection_name_helper.to_sym, label_method: m.field_name.attribute.to_sym, value_method: :id, collection: eval(m.source.collection_name_helper.classify).all %>
+      <%= f.association m.source.collection_name_helper.to_sym, label_method: m.field_name.attribute.to_sym, value_method: :id, collection: eval(m.source.collection_name_helper.classify).all, label: m.source.source_name %>
     <% elsif @available_belongs_tos.include? m -%>
       <%= f.association m.source.collection_name_helper.singularize.to_sym, label_method: m.field_name.attribute.to_sym, value_method: :id, collection: eval(m.source.collection_name_helper.classify).all, label: m.source.source_name %>
     <% end -%>

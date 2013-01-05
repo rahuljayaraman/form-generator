@@ -19,6 +19,10 @@ class FormRenderersController < ApplicationController
   def show
     @object = current_user.send(@model.collection_name).find(params[:id])
     @attributes = @object.attributes.except "_id"
+    @all_my_attributes = @form.source_attributes
+    @available_has_manies = @source.has_manies.map(&:source_attributes).inject([]){|initial, val| initial + val}
+    @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
+
 
     respond_to do |format|
       format.html # show.html.erb
