@@ -2,7 +2,7 @@
 <hr>
 <% @all_my_attributes.each do |attr| -%>
   <% field_attributes = attr.field_name.attribute %>
-  <% if @available_has_manies.include? attr -%>
+  <% if @available_many_manies.include? attr -%>
     <li><b><%= attr.field_name.pluralize %></b>: <%= @object.send(attr.source.collection_name_helper.to_sym).map do |f| -%>
       <% f.send(field_attributes) %>
     <% end.join(", ") -%>

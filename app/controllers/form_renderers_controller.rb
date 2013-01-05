@@ -6,7 +6,7 @@ class FormRenderersController < ApplicationController
     @object = @model.new
     @attributes = @form.source_attributes
     @available_source_attributes = @source.source_attributes
-    @available_has_manies = @source.has_manies.map(&:source_attributes).inject([]){|initial, val| initial + val}
+    @available_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
     @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
   end
 
@@ -20,7 +20,7 @@ class FormRenderersController < ApplicationController
     @object = current_user.send(@model.collection_name).find(params[:id])
     @attributes = @object.attributes.except "_id"
     @all_my_attributes = @form.source_attributes
-    @available_has_manies = @source.has_manies.map(&:source_attributes).inject([]){|initial, val| initial + val}
+    @available_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
     @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
 
 
@@ -35,7 +35,7 @@ class FormRenderersController < ApplicationController
     @object = current_user.send(@model.collection_name).find(params[:id])
     @attributes = @form.source_attributes
     @available_source_attributes = @source.source_attributes
-    @available_has_manies = @source.has_manies.map(&:source_attributes).inject([]){|initial, val| initial + val}
+    @available_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
     @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
   end
 
@@ -47,6 +47,9 @@ class FormRenderersController < ApplicationController
       redirect_to form_renderer_path(@object, form: @form.id), notice: "Entry to #{@form.form_name} saved."
     else
       @attributes = @form.source_attributes
+      @available_source_attributes = @source.source_attributes
+      @available_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
+      @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
       render action: "new" 
     end
   end
@@ -83,9 +86,10 @@ class FormRenderersController < ApplicationController
     @form = Form.find(params[:form])
     @source = @form.source
     @model = @source.initialize_dynamic_model
+    has_and_belongs_to_many = @source.habtms.map(&:initialize_dynamic_model)
     has_manies = @source.has_manies.map(&:initialize_dynamic_model)
     belongs_tos = @source.belongs_tos.map(&:initialize_dynamic_model)
-    associated_models = (has_manies + belongs_tos) << @model
+    associated_models = (has_manies + belongs_tos + has_and_belongs_to_many) << @model
     User.define_relationships associated_models
   end
 end

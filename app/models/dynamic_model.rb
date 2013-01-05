@@ -32,6 +32,14 @@ module DynamicModel
         attr_accessible attr_field.to_sym
       end
 
+      object.habtms.each do |h|
+        object_model_name = h.source_name.attribute.classify
+        object_klass_name = "#{object_model_name}#{object.user.id}"
+        has_and_belongs_to_many object_klass_name.tableize.to_sym, inverse_of: klass_name.underscore.to_sym, inverse_class_name: klass_name
+        attr_field = object_klass_name.underscore + "_ids"
+        attr_accessible attr_field.to_sym
+      end
+
       #Validates Presence
       object.source_attributes.each do |s|
         validates_presence_of s.field_name.attribute.to_sym, message: s.fetch_message('presence') if s.validate_presence_of 'presence'

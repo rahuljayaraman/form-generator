@@ -10,7 +10,7 @@
           <% @form.source_attributes.each_with_index do |attr, index| -%>
             <% if @source_attributes.include? attr -%>
               <% data_type = "normal" -%>
-            <% elsif @related_has_manies.include? attr -%>
+            <% elsif @related_many_manies.include? attr -%>
               <% data_type = "many" -%>
             <% elsif @related_belongs_tos.include? attr -%>
               <% data_type = "embedded" -%>
@@ -41,7 +41,7 @@
         <h4>Linked Many-Many Attributes</h4>
         <small class="muted"><b>(Click to select)</b></small>
         <div class="well many">
-          <% @available_has_manies.each do |attr| -%>
+          <% @available_many_manies.each do |attr| -%>
             <%= link_to " #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "many" %>
         <% end -%>
         </div>
