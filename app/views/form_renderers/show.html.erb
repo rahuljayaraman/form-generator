@@ -7,7 +7,7 @@
       <% f.send(field_attributes) %>
     <% end.join(", ") -%>
   <% elsif @available_belongs_tos.include? attr -%>
-    <li><b><%= attr.field_name %></b>: <%= @object.send(attr.source.collection_name_helper.singularize.to_sym).send(attr.field_name.attribute.to_sym) %></li>
+    <li><b><%= attr.field_name %></b>: <%= @object.send(attr.source.collection_name_helper.singularize.to_sym).send(attr.field_name.attribute.to_sym) rescue "N/A" %></li>
   <% else -%>
     <li><b><%= attr.field_name %></b>: <%= @object.send(attr.field_name.attribute.to_sym) %></li>
   <% end -%>
