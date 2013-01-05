@@ -12,9 +12,19 @@ describe Source do
   end
 
   context "Dynamic Relationships" do
-    let(:source) { Fabricate(:source) }
+    let(:user) { Fabricate(:user) }
+    let(:source) { user.sources.last }
     subject { source }
     
+    it "should store habtm entries for both related sources"  do
+      source =  Source.create source_name: "first", user_id: user.id
+      next_source =  Source.create source_name: "next", user_id: user.id
+      next_source.update_attributes :habtm_ids => [source.id]
+      next_source.habtms.last.should == source
+      source = Source.find source.id
+      source.habtms.last.should == next_source
+    end
+
     it "should accept arrays of self ids" do
       next_source = Source.new source_name: "Next"
       next_source.has_many_ids << source.id
