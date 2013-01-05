@@ -36,21 +36,47 @@ $(document).ready(function(){
     });
   };
 
-  $(".unselected").live("click", function(e) {
-    e.preventDefault();
-    addElement($(this));
-    $(this).fadeOut("slow").remove();
-  });
+  $("body").on("click",".unselected", listenUnselected);
 
-  $(".remove").live("click", function(e) {
+  function listenUnselected(e) {
+    e.preventDefault();
+    $(this).fadeOut("slow").remove();
+    addElement($(this));
+  };
+
+  $("body").on("click", ".remove", listenSelected)
+
+  function listenSelected(e) {
     e.preventDefault();
     var element = $(this).parent("div");
-    removeElement(element);
     element.fadeOut("slow").remove();
-  });
+    removeElement(element);
+  };
+
+  // Do not allow multiple associated products to be added
+  function linksLogic() {
+    $("#unselected_items").find("a").each(function(){
+      var source = $(this).attr('data_source');
+      var query = "[data_source='" + source + "']";
+      var count = $("body").find(query).length;
+      var innercount = $("#unselected_items").find(query).length;
+      var data_type = $(this).attr('data_type');
+
+      if(innercount < count && data_type != "normal") {
+        //Disable this
+        $(this).hide();
+      }
+      else if(innercount == count && data_type != "normal") {
+        //Enable this
+        $(this).show();
+      }
+    });
+  };
+  linksLogic();
+
 
   var removeElement = function(element) {
-    var newElement = "<a href='#' class='icon-arrow-left unselected' data_type='" + element.attr('data_type') + "' id='" + element.attr('id') + "'> " + element.find('a:first').text().trim() +"</a>";
+    var newElement = "<a href='#' class='icon-arrow-left unselected' data_type='" + element.attr('data_type') + "' id='" + element.attr('id') + "' data_source='" + element.attr('data_source') + "'> " + element.find('a:first').text().trim() +"</a>";
     if(element.attr('data_type').trim() == "normal") {
       $(".normal").append(newElement);
     }
@@ -60,6 +86,7 @@ $(document).ready(function(){
     else {
       $(".embedded").append(newElement);
     }
+    linksLogic();
   };
 
   var addElement = function(element) {
@@ -67,10 +94,11 @@ $(document).ready(function(){
     var value = "<small class='muted'><b>[drag]</b></small><a href='#' class='' id='" + element.text().trim() + "'>  " + element.text().trim() +"&nbsp;&nbsp;</a>" + "<a href='#' class='icon-remove muted remove'><small> remove </small></a>";
     var hiddenPosition = "<input class='hidden' id='form_priority' name='[form][form_attributes_attributes][" + element.attr("id") + "][priority]' type='hidden' value='" + position + "'>";
     var hiddenSource = "<input class='hidden' id='form_source' name='[form][form_attributes_attributes][" + element.attr("id") + "][source_attribute_id]' type='hidden' value='" + element.attr("id") + "'>";
-    var openTag = "<div class='checkboxes' id='" + element.attr("id") + "' data_type='" + element.attr('data_type') + "'>";
+    var openTag = "<div class='checkboxes' id='" + element.attr("id") + "' data_type='" + element.attr('data_type') + "' data_source='" + element.attr('data_source') + "'>";
     var closeTag = "</div>";
     var newElement = openTag + value + hiddenPosition + hiddenSource + closeTag;
     $("#selected_items").append(newElement);
+    linksLogic();
   };
 
   var fetchPosition = function() {

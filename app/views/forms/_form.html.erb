@@ -15,7 +15,7 @@
             <% elsif @related_belongs_tos.include? attr -%>
               <% data_type = "embedded" -%>
             <% end -%>
-            <div class="checkboxes" id= <%= attr.id %> data_type=<%= data_type %>>
+            <div class="checkboxes" id= <%= attr.id %> data_type=<%= data_type %> data_source=<%= attr.source.source_name %>>
               <small class="muted"><b>[drag]</b></small>
               <a href="#" id=<%= attr.field_name %>><%= attr.field_name %>&nbsp;&nbsp;</a> <a href="#" class="icon-remove muted remove"><small> remove</small></a>
               <input class='hidden' id='form_priority' name='[form][form_attributes_attributes][<%= attr.id %>][priority]' type='hidden' value='<%= index + 1 %>'>
@@ -35,21 +35,21 @@
         <small class="muted"><b>(Click to select)</b></small>
         <div class="well normal">
           <% @available_source_attributes.each do |attr| -%>
-            <%= link_to " #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "normal" %>
+            <%= link_to " #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "normal", data_source: attr.source.source_name %>
         <% end -%>
         </div>
         <h4>Linked Many-Many Attributes</h4>
-        <small class="muted"><b>(Click to select)</b></small>
+        <small class="muted"><b>(Click to select. Only one attribute may be selected)</b></small>
         <div class="well many">
           <% @available_many_manies.each do |attr| -%>
-            <%= link_to " #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "many" %>
+            <%= link_to " #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "many", data_source: attr.source.source_name %>
         <% end -%>
         </div>
         <h4>Linked Embedded Attributes</h4>
-        <small class="muted"><b>(Click to select)</b></small>
+        <small class="muted"><b>(Click to select. Only one attribute may be selected)</b></small>
         <div class="well embedded">
           <% @available_belongs_tos.each do |attr| -%>
-            <%= link_to " #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "embedded" %>
+            <%= link_to " #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "embedded", data_source: attr.source.source_name %>
         <% end -%>
         </div>
       </div>
