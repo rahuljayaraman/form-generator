@@ -19,8 +19,8 @@ class User
 
   def self.define_relationships associated
     associated.each do |model|
-      User.has_many model.collection_name.to_sym
-      model.belongs_to :user
+      User.has_many model.collection_name.to_sym, inverse_of: :user, inverse_class_name: 'User'
+      model.belongs_to :user, inverse_of: model.name.underscore.to_sym, inverse_class_name: model.name.classify
     end
   end
 
