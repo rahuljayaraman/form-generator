@@ -1,2 +1,11 @@
 <h2>Welcome to <%= @application.application_name  %></h2>
 <hr>
+<div class="row">
+  <div class="add_users well offset9 span3">
+    <h4>Add users</h4>
+    <%= form_tag invite_users_path(@application), :method => :post do %>
+      <%= text_area_tag :users, nil, placeholder: 'Enter email addresses seperated by commas', rows: 3, class: "input-block-level" %><br>
+      <%= submit_tag "Invite Users", class: "btn btn-block" %>
+    <% end %>
+  </div>
+</div>
