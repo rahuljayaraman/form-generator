@@ -20,9 +20,19 @@ class User
 
   attr_accessible :name, :email, :password, :password_confirmation
 
-  validates_length_of :password, :minimum => 5, :message => "password must be at least 5 characters long", :if => :password
-  validates_confirmation_of :password, :message => "should match confirmation", :if => :password
-  validates_uniqueness_of :email
+  validates :email, presence: true, uniqueness: true
+  validates :password,   :presence => true, :confirmation => true, :if => :activated?
+  validates :name,  :presence => true, :if => :activated?
+  
+  #Sorcery can bypass password validations after this
+  before_create :setup_activation
+  def external?
+    false
+  end
+
+  def activated?
+    self.activation_state == 'active'
+  end
 
   def self.define_relationships associated
     associated.each do |model|
@@ -31,4 +41,11 @@ class User
     end
   end
 
+  def self.create_temporary_user email
+    self.create email: email
+  end
+
+  def send_activation_email application_id
+    UserMailer.activation_needed_email(self, application_id).deliver
+  end
 end

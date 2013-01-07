@@ -13,4 +13,17 @@ describe User do
     its(:email) { should_not be_nil} 
     it { should validate_uniqueness_of(:email) }
   end
+
+  context "Invitations" do
+    subject { User }
+
+    it { should respond_to :create_temporary_user }
+
+    it "should create temporary user & send invite" do
+      email = "test@test.com"
+      user = User.stub(:create) { stub :user, email: email, id: "123", activation_token: "123" }
+      User.should_receive(:create)
+      User.create_temporary_user email
+    end
+  end
 end
