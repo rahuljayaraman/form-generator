@@ -10,6 +10,8 @@ class User
   has_many :sources
   has_many :reports
   has_many :forms
+  has_many :owned_applications, class_name: "Application", inverse_of: :owner
+  has_and_belongs_to_many :used_applications, class_name: "Application", inverse_of: :members
 
   attr_accessible :name, :email, :password, :password_confirmation
 
