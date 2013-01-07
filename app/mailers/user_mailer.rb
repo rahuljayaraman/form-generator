@@ -1,12 +1,12 @@
 class UserMailer < ActionMailer::Base
-  default from: "recklessrahul@gmail.com"
+  default from: "notifications@forbestechnosys.com"
 
-  def activation_needed_email user, application
+  def activation_needed_email user, application_id
     @user = user
     @url  = users_url + "/#{user.activation_token}/activate"
-    @application = application
-    mail(:to => user.email,
-         :subject => "Please join #{application.application_name}")
+    @application = user.used_applications.find application_id
+    mail(:to => "recklessrahul@gmail.com",
+         :subject => "Please join #{@application.application_name}")
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -14,10 +14,11 @@ class UserMailer < ActionMailer::Base
   #
   #   en.user_mailer.activation_success_email.subject
   #
-  def activation_success_email user, application
+  def activation_success_email user, application_id
     @user = user
     @url  = login_url
-    mail(:to => user.email,
+    @application = user.used_applications.find application_id
+    mail(:to => "recklessrahul@gmail.com",
          :subject => "Your account has been activated")
   end
 end
