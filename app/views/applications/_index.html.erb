@@ -1,0 +1,20 @@
+<table class="table table-bordered">
+  <thead>
+    <th>Application name</th>
+    <th>Application description</th>
+    <th></th>
+  </thead>
+
+<% @applications.each do |application| %>
+  <tbody>
+  <tr>
+      <td><%= application.application_name %></td>
+      <td><%= application.application_description %></td>
+      <td><%= link_to 'Show', application %>
+      <%= link_to 'Edit', edit_application_path(application) %>
+      <%= link_to 'Destroy', application, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  </tbody>
+<% end %>
+</table>
+<hr>
