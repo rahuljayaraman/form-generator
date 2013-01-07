@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
 
-  it { should have_fields(:email, :name) }
+  it { should have_fields(:email, :name, :activation_state, :activation_token, :activation_token) }
   it { should have_many(:sources) }
   it { should have_many(:reports) }
 

@@ -6,6 +6,11 @@ class User
   field :email, type: String
   field :crypted_password, type: String
   field :salt, type: String
+  field :activation_state,            type: String
+  field :activation_token,            type: String
+  field :activation_token_expires_at, type: DateTime
+
+  index({ activation_token: 1 }, { unique: true, background: true })
 
   has_many :sources
   has_many :reports

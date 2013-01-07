@@ -1,5 +1,15 @@
 require 'faker'
 
+Fabricator :standalone_user, from: :user do
+  name { Faker::Name.name }
+  email { Faker::Internet.email }
+  password 'foobar'
+  salt { "asdasdastr4325234324sdfds" }
+  crypted_password { Sorcery::CryptoProviders::BCrypt.encrypt("foobar", 
+                                                              "asdasdastr4325234324sdfds") }
+  activation_state { "active" }
+end
+
 Fabricator :user do
   name { Faker::Name.name }
   email { Faker::Internet.email }
@@ -7,6 +17,7 @@ Fabricator :user do
   salt { "asdasdastr4325234324sdfds" }
   crypted_password { Sorcery::CryptoProviders::BCrypt.encrypt("foobar", 
                                                               "asdasdastr4325234324sdfds") }
+  activation_state { "active" }
   transient :user_with_attr
 
   after_create { |user| Fabricate(:source, user: user) }
