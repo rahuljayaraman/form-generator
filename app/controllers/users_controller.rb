@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_filter :require_login, :only => [:new, :create]
+  skip_before_filter :require_login, :only => [:new, :create, :activate]
   # GET /users
   # GET /users.json
   def index
@@ -18,6 +18,7 @@ class UsersController < ApplicationController
     @sources = current_user.sources.all
     @reports = current_user.reports.all
     @forms = current_user.forms.all
+    @applications = current_user.owned_applications.all
 
     respond_to do |format|
       format.html # show.html.erb
@@ -82,4 +83,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def activate
+    if (@user = User.load_from_activation_token(params[:id]))
+      @user.activate!
+      auto_login @user
+    else
+      not_authenticated
+    end
+  end
+
+  def confirm
+    @user = User.find params[:id]
+    if @user.update_attributes(params[:user])
+      redirect_to @user, :notice => 'User was successfully activated.'
+    else
+      render :activate
+    end
+  end
 end
+
