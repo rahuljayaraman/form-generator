@@ -1,6 +1,7 @@
 <%= simple_form_for @user, url: confirm_user_path(@user) do |f| %>
+  <%= f.input :email, disabled: true %>
   <%= f.input :name %>
-  <%= f.password :password %>
+  <%= f.input :password %>
   <%= f.input :password_confirmation %>
   <div class="form-actions">
     <%= f.button :submit, class: "btn btn-primary" %>
