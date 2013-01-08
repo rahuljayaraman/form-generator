@@ -10,7 +10,6 @@ describe Application do
 
   it "should send users with pending registration the activation link" do
     user.activation_state = 'pending'
-    user.save
     application.stub(:send_activation_email)
     application.stub(:send_confirmation_email)
     application.should_receive(:send_activation_email).with(user)
