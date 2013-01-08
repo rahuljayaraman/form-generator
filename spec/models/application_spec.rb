@@ -8,6 +8,15 @@ describe Application do
   let(:user) { Fabricate.build :standalone_user }
   let(:application) { user.owned_applications.new application_name: "test" }
 
+  it "should send users with pending registration the activation link" do
+    user.activation_state = 'pending'
+    user.save
+    application.stub(:send_activation_email)
+    application.stub(:send_confirmation_email)
+    application.should_receive(:send_activation_email).with(user)
+    application.add_member user
+  end
+
   it "should add registered members & register un-registered members" do
     user.save
     MEMBERS = [user.email, "test@test.com"]

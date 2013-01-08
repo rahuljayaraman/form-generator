@@ -35,6 +35,10 @@ class Application
 
   def add_member user
     self.members << user
-    send_confirmation_email self.id
+    if user.activation_state == 'active'
+      send_confirmation_email user
+    else
+      send_activation_email user
+    end
   end
 end
