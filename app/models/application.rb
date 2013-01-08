@@ -8,11 +8,28 @@ class Application
 
   validates_presence_of :application_name
 
-  def add_members users
+  def register_or_add users
     users.each do |email|
-      user = User.create_temporary_user email
-      self.members << user
-      user.send_activation_email self.id
+      if user = User.find_by_email(email)
+        add_member user
+      else
+        register_user email
+      end
     end
+  end
+
+  def register_user email
+    user = User.create_temporary_user email
+    add_member user
+    send_activation_email user
+    user
+  end
+
+  def send_activation_email user
+    user.send_activation_email self.id
+  end
+
+  def add_member user
+    self.members << user
   end
 end

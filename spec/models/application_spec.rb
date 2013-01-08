@@ -8,28 +8,36 @@ describe Application do
   let(:user) { Fabricate.build :standalone_user }
   let(:application) { user.owned_applications.new application_name: "test" }
 
-  it "should allow the owner to invite users to the application" do
-    INVITED_MEMBERS = ["test@test.com", "test1@test.com"]
-    user = stub(:user, id: "123")
-    application.stub(:members) {[]}
-    User.stub(:create_temporary_user) { user }
-    user.stub(:send_activation_email)
-    User.should_receive(:create_temporary_user).with(INVITED_MEMBERS[0])
-    User.should_receive(:create_temporary_user).with(INVITED_MEMBERS[1])
-    user.should_receive(:send_activation_email).with(application.id)
-    application.add_members INVITED_MEMBERS
+  it "should add registered members & register un-registered members" do
+    user.save
+    MEMBERS = [user.email, "test@test.com"]
+    application.stub(:add_member)
+    application.stub(:register_user)
+    application.should_receive(:add_member).with(user)
+    application.should_receive(:register_user).with(MEMBERS[1])
+    application.register_or_add MEMBERS
+  end
+
+  it "should allow registration of unregistered members by email" do
+    email = "test@test.com"
+    application.stub(:send_activation_email)
+    application.stub(:add_member)
+    application.should_receive(:add_member)
+    application.should_receive(:send_activation_email)
+    unregistered_member = application.register_user email
+    unregistered_member.should respond_to(:activation_token)
+  end
+
+  it "should allow adding users as members" do
+    member = Fabricate.build :standalone_user, email: "test@test.com"
+    application.add_member member
+    application.members.should include member
+    application.save
+    member.used_applications.should include application
   end
 
   it "should set the creator of the application as the owner" do
     application.owner.should == user
     user.owned_applications.should include application
-  end
-
-  it "should allow adding users as members" do
-    member = Fabricate.build :standalone_user, email: "test@test.com"
-    application.members << member
-    application.members.should include member
-    application.save
-    member.used_applications.should include application
   end
 end

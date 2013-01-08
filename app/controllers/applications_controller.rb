@@ -85,7 +85,7 @@ class ApplicationsController < ApplicationController
     raw_users = params[:users]
     split_users = raw_users.delete(" ").split(",")
     application = current_user.owned_applications.find params[:id]
-    application.add_members split_users
+    application.register_or_add split_users
     respond_to do |format|
       format.html { redirect_to user_path current_user, notice: "Invites sent." }
       format.json { head :no_content }
