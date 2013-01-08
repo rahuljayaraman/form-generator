@@ -87,7 +87,7 @@ class ApplicationsController < ApplicationController
     application = current_user.owned_applications.find params[:id]
     application.register_or_add split_users
     respond_to do |format|
-      format.html { redirect_to user_path current_user, notice: "Invites sent." }
+      format.html { redirect_to application_path(application), notice: "Invites sent." }
       format.json { head :no_content }
     end
   end
