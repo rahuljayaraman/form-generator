@@ -29,7 +29,12 @@ class Application
     user.send_activation_email self.id
   end
 
+  def send_confirmation_email user
+    user.send_confirmation_email self.id
+  end
+
   def add_member user
     self.members << user
+    send_confirmation_email self.id
   end
 end

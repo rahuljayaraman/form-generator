@@ -19,10 +19,10 @@ describe User do
 
     it { should respond_to :create_temporary_user }
 
-    it "should create temporary user & send invite" do
+    it "should create temporary user" do
       email = "test@test.com"
       user = User.stub(:create) { stub :user, email: email, id: "123", activation_token: "123" }
-      User.should_receive(:create)
+      User.should_receive(:create).with({email: email})
       User.create_temporary_user email
     end
   end

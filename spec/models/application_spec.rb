@@ -30,6 +30,7 @@ describe Application do
 
   it "should allow adding users as members" do
     member = Fabricate.build :standalone_user, email: "test@test.com"
+    application.stub(:send_confirmation_email)
     application.add_member member
     application.members.should include member
     application.save
