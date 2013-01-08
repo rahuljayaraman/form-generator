@@ -16,7 +16,7 @@ class UserMailer < ActionMailer::Base
   #   en.user_mailer.activation_success_email.subject
   #
   def activation_success_email user, application_id
-    @user = user
+    @user = User.find user
     @application = @user.used_applications.find application_id
     @url  = application_url(@application)
     mail(:to => "recklessrahul@gmail.com",
