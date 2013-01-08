@@ -8,6 +8,16 @@ describe Application do
   let(:user) { Fabricate.build :standalone_user }
   let(:application) { user.owned_applications.new application_name: "test" }
 
+  it "should allow removal of user from the application without deleting him" do
+    member = Fabricate :standalone_user, email: "test@test.com"
+    application.members << member 
+    application.save
+    application.remove_member member.id
+    application.save
+    application.members.should_not include member
+    User.find_by_id(member.id).should == member
+  end
+
   it "should send users with pending registration the activation link" do
     user.activation_state = 'pending'
     application.stub(:send_activation_email)

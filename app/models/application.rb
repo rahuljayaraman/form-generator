@@ -8,6 +8,11 @@ class Application
 
   validates_presence_of :application_name
 
+  def remove_member user_id
+    member = self.members.find_by_id user_id
+    members.delete member
+  end
+
   def register_or_add users
     users.each do |email|
       if user = User.find_by_email(email)
