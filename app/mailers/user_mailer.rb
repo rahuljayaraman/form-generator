@@ -17,9 +17,9 @@ class UserMailer < ActionMailer::Base
   #
   def activation_success_email user, application_id
     @user = user
-    @url  = login_url
     @application = @user.used_applications.find application_id
+    @url  = application_url(@application)
     mail(:to => "recklessrahul@gmail.com",
-         :subject => "Your account has been activated")
+         :subject => "You have been added to #{@application.application_name}")
   end
 end
