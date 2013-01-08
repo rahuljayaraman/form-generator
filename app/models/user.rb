@@ -46,6 +46,6 @@ class User
   end
 
   def send_activation_email application_id
-    UserMailer.activation_needed_email(self, application_id).deliver
+    UserMailer.activation_needed_email(self.id, application_id).deliver
   end
 end
