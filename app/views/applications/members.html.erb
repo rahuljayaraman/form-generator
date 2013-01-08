@@ -1,0 +1,24 @@
+<%= link_to 'Back', :back, class: "btn pull-right" -%>
+<h2>Listing Members</h2>
+<hr>
+
+<table class="table table-bordered" id="datatables">
+  <thead>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Status</th>
+    <th></th>
+  </thead>
+
+<% @members.each do |user| %>
+  <tbody>
+    <tr>
+      <td><%= user.name || "N/A" %></td>
+      <td><%= user.email %></td>
+      <td><%= user.activation_state.humanize %></td>
+      <td><%= link_to 'Remove', application_members_path(@application, remove_user: user.id) %></td>
+    </tr>
+  </tbody>
+<% end %>
+</table>
+
