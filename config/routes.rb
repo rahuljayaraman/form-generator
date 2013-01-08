@@ -3,6 +3,7 @@ BootstrapData::Application.routes.draw do
   resources :sources, :forms, :reports, :form_renderers, :applications
 
   root :to => 'pages#home'
+  mount Resque::Server, :at => "/resque"
 
   resources :user_sessions, as: :user_sessions
   resources :users do

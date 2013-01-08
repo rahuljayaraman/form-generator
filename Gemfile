@@ -12,7 +12,7 @@ gem 'sorcery'
 gem 'jquery-datatables-rails'
 gem 'nested_form'
 gem 'jquery-ui-rails'
-gem 'resque'
+gem 'resque', :require => 'resque/server'
 gem 'resque_mailer'
 
 group :assets do
