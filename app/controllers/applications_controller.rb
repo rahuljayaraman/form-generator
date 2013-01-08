@@ -96,10 +96,10 @@ class ApplicationsController < ApplicationController
     @application = current_user.owned_applications.find params[:id]
     @members = @application.members
     if params[:remove_user]
-      if @application.remove_user params[:remove_user]
-        redirect_to application_path @application, notice: "Member Removed"
+      if @application.remove_member params[:remove_user]
+        redirect_to :back, notice: "Member Removed"
       else
-        redirect_to application_path @application, alert: "Error! Please try again"
+        redirect_to :back, alert: "Error! Please try again"
       end
     end
   end
