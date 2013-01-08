@@ -6,6 +6,7 @@ class Report
 
   belongs_to :user
   has_and_belongs_to_many :source_attributes, inverse_of: nil
+  has_and_belongs_to_many :roles
 
   validates_presence_of :report_name
 

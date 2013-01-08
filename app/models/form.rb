@@ -7,6 +7,7 @@ class Form
   belongs_to :source
   belongs_to :user
   has_many :form_attributes, dependent: :destroy
+  has_and_belongs_to_many :roles
 
   validates_presence_of :form_name
   validates_uniqueness_of :form_name
