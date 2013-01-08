@@ -86,6 +86,9 @@ class UsersController < ApplicationController
   def activate
     logout
     if (@user = User.load_from_activation_token(params[:id]))
+      if @user.activation_state == 'active'
+        not_authenticated
+      end
     else
       not_authenticated
     end
@@ -95,10 +98,11 @@ class UsersController < ApplicationController
     @user = User.find params[:id]
     @user.activate!
     if @user.update_attributes(params[:user])
+      User.find_by_id(@user.id).update_attribute(:activation_state, "active")
       auto_login @user
       redirect_to @user, :notice => 'Your account has been activated!'
     else
-      @user.activation_state == 'pending'
+      @user.activation_state = 'pending'
       render :activate
     end
   end
