@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_filter :require_login, :only => [:new, :create, :activate]
+  skip_before_filter :require_login, :only => [:new, :create, :activate, :confirm]
   # GET /users
   # GET /users.json
   def index
@@ -84,9 +84,8 @@ class UsersController < ApplicationController
   end
 
   def activate
+    logout
     if (@user = User.load_from_activation_token(params[:id]))
-      @user.activate!
-      auto_login @user
     else
       not_authenticated
     end
@@ -94,9 +93,12 @@ class UsersController < ApplicationController
 
   def confirm
     @user = User.find params[:id]
+    @user.activate!
     if @user.update_attributes(params[:user])
-      redirect_to @user, :notice => 'User was successfully activated.'
+      auto_login @user
+      redirect_to @user, :notice => 'Your account has been activated!'
     else
+      @user.activation_state == 'pending'
       render :activate
     end
   end
