@@ -1,6 +1,6 @@
 BootstrapData::Application.routes.draw do
 
-  resources :sources, :forms, :reports, :form_renderers, :applications
+  resources :sources, :forms, :reports, :form_renderers, :applications, :roles
 
   root :to => 'pages#home'
   mount Resque::Server, :at => "/resque"
