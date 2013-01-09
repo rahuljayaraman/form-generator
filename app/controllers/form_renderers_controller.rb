@@ -1,5 +1,6 @@
 class FormRenderersController < ApplicationController
 
+  before_filter :authorize
   before_filter :initialize_model
 
   def new
