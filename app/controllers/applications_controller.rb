@@ -13,9 +13,13 @@ class ApplicationsController < ApplicationController
   # GET /applications/1
   # GET /applications/1.json
   def show
-    @application = current_user.owned_applications.find(params[:id])
+    @application = current_user.owned_applications.find(params[:id]) rescue current_user.used_applications.find(params[:id])
     @role = @application.roles.new
     @roles = @application.roles.all
+    unless current_user.owns_application @application
+      @reports = current_user.app_reports @application.id
+      @forms = current_user.app_forms @application.id
+    end
 
     respond_to do |format|
       format.html # show.html.erb

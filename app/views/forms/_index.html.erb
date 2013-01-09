@@ -1,0 +1,13 @@
+<table class="table table-bordered">
+  <thead>
+    <th>Forms</th>
+  </thead>
+
+<% @forms.each do |form| %>
+  <tbody>
+    <tr>
+      <td><%= link_to form.form_name, new_form_renderer_path(form: form.id) %></td>
+    </tr>
+  </tbody>
+<% end %>
+</table>
