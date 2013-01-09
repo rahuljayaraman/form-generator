@@ -14,6 +14,8 @@ class ApplicationsController < ApplicationController
   # GET /applications/1.json
   def show
     @application = current_user.owned_applications.find(params[:id])
+    @role = @application.roles.new
+    @roles = @application.roles.all
 
     respond_to do |format|
       format.html # show.html.erb
