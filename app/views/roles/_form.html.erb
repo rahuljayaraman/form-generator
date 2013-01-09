@@ -1,17 +1,23 @@
 <%= simple_form_for(@role) do |f| %>
   <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :role_name %>
-    <%= f.input :role_description, as: :text, input_html: {rows: 3} %>
-    <%= f.input :application, as: :hidden, input_html: {value: @application.id} %>
-    <h3>Permissions</h3>
-    <hr>
+  <div class="pull-right">
+    <h3>Select Members</h3>
+    <%= f.association :users, as: :check_boxes, label_method: :email, value_method: :id, collection: @application.members, label_class: "inline" %>
+  </div>
+  <div class="pull-left">
+    <div class="form-inputs">
+      <%= f.input :role_name %>
+      <%= f.input :role_description, as: :text, input_html: {rows: 3} %>
+      <%= f.input :application, as: :hidden, input_html: {value: @application.id} %>
+      <h3>Permissions</h3>
+      <hr>
       <div class=""><%= f.association :reports, as: :check_boxes, label_method: :report_name, value_method: :id, collection: current_user.reports %></div>
       <div class=""><%= f.association :forms, as: :check_boxes, label_method: :form_name, value_method: :id, collection: current_user.forms, label_class: "inline" %></div>
-  </div>
+    </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, 'Save' %>
+    <div class="form-actions">
+      <%= f.button :submit, 'Save' %>
+    </div>
   </div>
 <% end %>

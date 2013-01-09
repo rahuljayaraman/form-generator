@@ -19,7 +19,7 @@ class User
   has_and_belongs_to_many :used_applications, class_name: "Application", inverse_of: :members
   has_and_belongs_to_many :roles
 
-  attr_accessible :name, :email, :password, :password_confirmation
+  attr_accessible :name, :email, :password, :password_confirmation, :role_ids
 
   validates :email, presence: true, uniqueness: true
   validates :password,   :presence => true, :confirmation => true, :if => :activated?
@@ -52,5 +52,9 @@ class User
 
   def send_confirmation_email application_id
     UserMailer.activation_success_email(self.id, application_id).deliver
+  end
+
+  def app_roles app_id
+    roles.where(application_id: app_id)
   end
 end

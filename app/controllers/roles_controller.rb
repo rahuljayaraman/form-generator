@@ -58,11 +58,13 @@ class RolesController < ApplicationController
   # PUT /roles/1
   # PUT /roles/1.json
   def update
-    @role = Role.find(params[:id])
+    @application = current_user.owned_applications.find params[:role][:application]
+    @role = @application.roles.find(params[:id])
+    params[:role].delete :application
 
     respond_to do |format|
       if @role.update_attributes(params[:role])
-        format.html { redirect_to @role, notice: 'Role was successfully updated.' }
+        format.html { redirect_to application_path(@application), notice: 'Role was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
