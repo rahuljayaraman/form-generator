@@ -57,4 +57,18 @@ class User
   def app_roles app_id
     roles.where(application_id: app_id)
   end
+
+  def app_forms app_id
+    roles = self.app_roles app_id
+    roles.map(&:forms).inject([]) {|initial, sum| initial + sum }
+  end
+
+  def app_reports app_id
+    roles = self.app_roles app_id
+    roles.map(&:reports).inject([]) {|initial, sum| initial + sum }
+  end
+
+  def owns_application app
+    owned_applications.include? app
+  end
 end
