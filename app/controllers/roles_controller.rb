@@ -34,7 +34,8 @@ class RolesController < ApplicationController
 
   # GET /roles/1/edit
   def edit
-    @role = Role.find(params[:id])
+    @application = current_user.owned_applications.find(params[:application])
+    @role = @application.roles.find(params[:id])
   end
 
   # POST /roles
@@ -77,7 +78,7 @@ class RolesController < ApplicationController
     @role.destroy
 
     respond_to do |format|
-      format.html { redirect_to roles_url }
+      format.html { redirect_to :back, alert: "Role deleted" }
       format.json { head :no_content }
     end
   end

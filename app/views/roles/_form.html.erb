@@ -5,6 +5,10 @@
     <%= f.input :role_name %>
     <%= f.input :role_description, as: :text, input_html: {rows: 3} %>
     <%= f.input :application, as: :hidden, input_html: {value: @application.id} %>
+    <h3>Permissions</h3>
+    <hr>
+      <div class=""><%= f.association :reports, as: :check_boxes, label_method: :report_name, value_method: :id, collection: current_user.reports %></div>
+      <div class=""><%= f.association :forms, as: :check_boxes, label_method: :form_name, value_method: :id, collection: current_user.forms, label_class: "inline" %></div>
   </div>
 
   <div class="form-actions">
