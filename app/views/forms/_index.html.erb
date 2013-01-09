@@ -6,7 +6,7 @@
 <% @forms.each do |form| %>
   <tbody>
     <tr>
-      <td><%= link_to form.form_name, new_form_renderer_path(form: form.id) %></td>
+      <td><%= link_to form.form_name, new_form_renderer_path(form: form.id, application: @application.id) %></td>
     </tr>
   </tbody>
 <% end %>

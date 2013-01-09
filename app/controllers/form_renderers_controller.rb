@@ -84,6 +84,9 @@ class FormRenderersController < ApplicationController
   private
 
   def initialize_model
+    if params[:application]
+      @application = Application.find params[:application]
+    end
     @form = Form.find(params[:form])
     @source = @form.source
     @model = @source.initialize_dynamic_model
