@@ -5,6 +5,7 @@ describe User do
   it { should have_fields(:email, :name, :activation_state, :activation_token, :activation_token) }
   it { should have_many(:sources) }
   it { should have_many(:reports) }
+  it { should have_and_belong_to_many :roles }
 
   context "Validations" do
     let(:user) { Fabricate.build(:user) }
