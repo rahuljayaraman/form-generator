@@ -5,6 +5,7 @@ class Role
 
   has_and_belongs_to_many :reports
   has_and_belongs_to_many :forms
+  belongs_to :application
 
   validates_presence_of :role_name
 end

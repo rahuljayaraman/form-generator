@@ -4,6 +4,7 @@ describe Application do
   it { should have_fields(:application_name, :application_description) }
   it { should validate_presence_of :application_name }
   it { should belong_to :owner }
+  it { should have_many :roles }
 
   let(:user) { Fabricate.build :standalone_user }
   let(:application) { user.owned_applications.new application_name: "test" }
