@@ -32,4 +32,22 @@ class Source
   def remove_unrelated_form_attributes
     FormAttribute.cleanup_relationships self
   end
+
+  def search_models attr
+    # attr = {model: {}, belongs_to: {source_id: {hash of attributes & values}}}
+    belongs_to = {}
+    if attr[:belongs_to]
+      attr[:belongs_to].keys.each do |source_id|
+        source = Source.find source_id
+        belongs_to[source_id.to_sym] = [] unless belongs_to[source_id.to_sym]
+        belongs_to[source_id.to_sym] += source.search(attr[:belongs_to][source_id]).map(&:id) 
+      end
+    end
+    # ({:quia=>""}, {:"50eea19581ee9e61a7000013"=>[1, 2, 3]})
+    records = self.search attr[:model], belongs_to
+  end
+
+  def search attr, belongs_to = nil
+    initialize_dynamic_model.search attr, belongs_to
+  end
 end

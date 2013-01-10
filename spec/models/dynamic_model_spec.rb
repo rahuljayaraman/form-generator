@@ -7,6 +7,12 @@ describe 'Dynamic Model' do
   let(:field_name) { fields.last.field_name }
   subject { model }
 
+  it "should perform a search based on attributes provided", focus: true do
+    hash = {field_name.to_sym => "123"}
+    record = model.create(hash)
+    model.search(hash).should include record
+  end
+
   it "should include relationships defined" do
     user = stub(id: "123")
     next_source = stub(:next_source)

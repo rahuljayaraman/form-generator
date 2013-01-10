@@ -17,6 +17,22 @@ module DynamicModel
         attr_accessible m.field_name.attribute.to_sym
       end
 
+      #Search
+      def self.search attr, belongs_to = nil
+        search = self
+        attr.keys.each do |field|
+          search = search.where(field.to_sym => attr[field.to_sym])
+        end
+        if belongs_to
+          belongs_to.keys.each do |source_id|
+            source = Source.find(source_id)
+            field_name = source.collection_name.singluarize + '_id'
+            search = search.where(field_name.to_sym.in => belongs_to[:source_id])
+          end
+        end
+        search.all
+      end
+
       #Relationships
       object.has_manies.each do |h|
         object_model_name = h.source_name.attribute.classify
