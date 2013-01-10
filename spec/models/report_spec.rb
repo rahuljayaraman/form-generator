@@ -6,20 +6,18 @@ describe Report do
   it { have_and_belong_to_many(:source_attributes) }
   it { should have_and_belong_to_many :roles }
   it { should belong_to(:user) }
+  it { should belong_to(:source) }
 
   context "Methods" do
     let(:source) { Fabricate :source }
-    let(:report) { Report.new(report_name: "Testing", source_attribute_ids: [source.source_attributes.last.id]) }
+    let(:report) { Report.new(report_name: "Testing", source_attribute_ids: [source.source_attributes.last.id], source_id: source.id) }
     subject { report }
-
-    its(:find_sources) { should include source }
 
     it "should be able to search & filter records based on params provided" do
       attributes = Hash[report.find_attribute_names.map {|name| [name.attribute.to_sym, "123"]}]
-      report_sources = report.find_sources
-      Source.stub(:search)
-      Source.should_receive(:search).with(report_sources, attributes)
-      report.search attributes
+      report.source.stub(:search)
+      report.source.should_receive(:search).with(attributes)
+      subject.search attributes
     end
   end
 end
