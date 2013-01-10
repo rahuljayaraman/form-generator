@@ -1,9 +1,4 @@
-<% content_for :app_url do -%>
-  <%= application_path @application %>
-<% end -%>
-<% content_for :app_name do -%>
-  <%= @application.application_name.camelize %>
-<% end -%>
+<% set_application_parameters -%>
 <h2>Welcome to <%= @application.application_name  %></h2>
 <hr>
 <% if current_user.owns_application @application -%>
