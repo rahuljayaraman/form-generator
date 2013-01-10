@@ -50,4 +50,16 @@ class Source
   def search attr, belongs_to = nil
     initialize_dynamic_model.search attr, belongs_to
   end
+
+  def belongs_tos_attributes
+    belongs_tos.map(&:source_attributes).inject([]){|initial,sum| initial + sum}
+  end
+
+  def has_manies_attributes
+    has_manies.map(&:source_attributes).inject([]){|initial,sum| initial + sum}
+  end
+
+  def habtms_attributes
+    habtms.map(&:source_attributes).inject([]){|initial,sum| initial + sum}
+  end
 end
