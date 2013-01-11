@@ -1,4 +1,4 @@
-test:
+production:
   sessions:
     default:
       database: bootstrap_data_production
