@@ -3,7 +3,7 @@
 <table class = "table table-bordered" id="datatables">
   <thead>
     <% @attributes.each do |m| -%>
-      <th><%= m.humanize %></th>
+      <th><%= m.field_name.humanize %></th>
     <% end -%>
   </thead>
 
@@ -11,7 +11,17 @@
   <% @data.each do |d| %>
     <tr>
     <% @attributes.each do |m| -%>
-      <td><%= d.send(m.attribute) || "N/A" %></td>
+      <% if @report.find_direct_attributes.include? m -%>
+        <td><%= d.send(m.field_name.attribute) || "N/A" %></td>
+      <% elsif @report.find_belongs_to_attributes.include? m -%>
+      <td><%= d.send(m.source.collection_name_helper.singularize).send(m.field_name.attribute) || "N/A" rescue "N/A"%></td>
+      <% elsif @report.find_habtm_attributes.include? m -%>
+        <td><%= d.send(m.source.collection_name_helper).map(&m.field_name.attribute.to_sym).join(", ") || "N/A" %></td>
+      <% elsif @report.find_has_many_attributes.include? m -%>
+        <td><%= d.send(m.source.collection_name_helper).map(&m.field_name.attribute.to_sym).join(", ") || "N/A" %></td>
+      <% else -%>
+          <td><%= d.send(m.field_name.attribute).to_s(:short) rescue "N/A" %></td>
+      <% end -%>
     <% end -%>
     </tr>
   <% end %>
