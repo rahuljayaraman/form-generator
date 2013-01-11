@@ -1,8 +1,17 @@
 <% set_application_parameters -%>
-<h2>Welcome to <%= @application.application_name  %></h2>
-<hr>
-<% if current_user.owns_application @application -%>
-  <%= render 'owner' %>
-<% else -%>
-  <%= render 'member' %>
-<% end -%>
+<div class="row">
+  <div class="span12">
+    <div class="span8">
+      <h2>Welcome to <%= @application.application_name  %></h2>
+      <p class="well"><%= @application.application_description %></p>
+      <hr>
+    </div>
+    <div class="offset1 span2">
+      <% if current_user.owns_application @application -%>
+        <%= render 'owner' %>
+      <% else -%>
+        <%= render 'member' %>
+      <% end -%>
+    </div>
+  </div>
+</div>

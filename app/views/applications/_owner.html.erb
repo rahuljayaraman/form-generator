@@ -1,15 +1,12 @@
-<div class="row">
-  <div class="add_users well offset10 span2">
-    <small class="pull-right"><%= link_to 'Member List', application_members_path(@application) %></small>
-    <h4>Add Members</h4>
-    <%= form_tag invite_users_path(@application), :method => :post do %>
-      <%= text_area_tag :users, nil, placeholder: 'Enter email addresses seperated by commas', rows: 3, class: "input-block-level" %><br>
-      <%= submit_tag "Invite Members", class: "btn btn-block" %>
-    <% end %>
-  </div>
+<div class="add_users well">
+  <small class="pull-right"><%= link_to 'Member List', application_members_path(@application) %></small>
+  <h4>Add Members</h4>
+  <%= form_tag invite_users_path(@application), :method => :post do %>
+    <%= text_area_tag :users, nil, placeholder: 'Enter email addresses seperated by commas', rows: 3, class: "input-block-level" %><br>
+    <%= submit_tag "Invite Members", class: "btn btn-block" %>
+  <% end %>
 </div>
-<div class="row">
-<div class="roles well offset10 span2">
+<div class="roles well">
   <a href="#role_form" role="button" class="btn btn-small pull-right" data-toggle="modal">Add</a>
   <div id="role_form" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">

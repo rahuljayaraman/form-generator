@@ -1,15 +1,9 @@
-<div class="row">
-  <div class="forms well offset10 span2">
-    <b>Role: <%= current_user.app_roles(@application).size > 0 ? current_user.app_roles(@application).map(&:role_name).join(", ") : "N/A" %></b>
-  </div>
+<div class="role well">
+  <b>Role: <%= current_user.app_roles(@application).size > 0 ? current_user.app_roles(@application).map(&:role_name).join(", ") : "N/A" %></b>
 </div>
-<div class="row">
-  <div class="forms well offset10 span2">
-    <%= render 'forms/index' %>
-  </div>
+<div class="forms">
+  <%= render 'forms/index' %>
 </div>
-<div class="row">
-  <div class="reports well offset10 span2">
-    <%= render 'reports/index' %>
-  </div>
+<div class="reports">
+  <%= render 'reports/index' %>
 </div>
