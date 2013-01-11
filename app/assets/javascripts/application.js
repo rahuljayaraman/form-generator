@@ -22,6 +22,11 @@
 
 
 $(document).ready(function(){
+  $(".datepicker").datepicker({
+    format: 'yyyy-mm-dd',
+    autoclose: true
+  });
+
   $("#selected_items").sortable({
     axis: 'y',
     stop: function(event, ui) {
