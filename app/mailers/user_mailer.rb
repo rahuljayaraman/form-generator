@@ -6,7 +6,7 @@ class UserMailer < ActionMailer::Base
     @user = User.find user
     @url  = users_url + "/#{@user.activation_token}/activate"
     @application = @user.used_applications.find application_id
-    mail(:to => "recklessrahul@gmail.com",
+    mail(:to => @user.email,
          :subject => "Please join #{@application.application_name}")
   end
 
@@ -19,7 +19,7 @@ class UserMailer < ActionMailer::Base
     @user = User.find user
     @application = @user.used_applications.find application_id
     @url  = application_url(@application)
-    mail(:to => "recklessrahul@gmail.com",
+    mail(:to => @user.email,
          :subject => "You have been added to #{@application.application_name}")
   end
 
@@ -27,14 +27,14 @@ class UserMailer < ActionMailer::Base
     @user = User.find user
     @sender = User.find sender
     @url  = users_url + "/#{@user.activation_token}/activate"
-    mail(:to => "recklessrahul@gmail.com",
+    mail(:to => @user.email,
          :subject => "App Generator | Builder Invite")
   end
 
   def confirm_builder_invitation sender, user
     @user = User.find user
     @sender = User.find sender
-    mail(:to => "recklessrahul@gmail.com",
+    mail(:to => @user.email,
          :subject => "App Generator | Builder Confirmation")
   end
 end
