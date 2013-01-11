@@ -90,6 +90,10 @@ class ReportsController < ApplicationController
     add = Struct.new(:field_name)
     @attributes += [add.new('Created At'), add.new('Updated At')]
     @model = @report.find_model
-    @data = @model.all
+    if params[:search]
+      @data = @report.search(params[:search])
+    else
+      @data = @model.all
+    end
   end
 end

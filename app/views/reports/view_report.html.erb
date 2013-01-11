@@ -1,3 +1,18 @@
+<div class="filters well">
+  <%= form_tag view_reports_path(@report) do %>
+    <%# attr = {model: {}, belongs_to: {source_id: {hash of attributes & values}}} %>
+      <% @report.find_direct_attributes.each do |direct| -%>
+        <%= text_field_tag direct.field_name.attribute.to_sym, nil, placeholder: direct.field_name, name: "search[model][#{direct.field_name.attribute}]" %>
+      <% end -%>
+
+      <% @report.find_belongs_to_attributes.each do |direct| -%>
+        <%= text_field_tag direct.field_name.attribute.to_sym, nil, placeholder: direct.field_name, name: "search[belongs_to][#{direct.source.id}][#{direct.field_name.attribute}]" %>
+      <% end -%>
+      <br>
+      <%= submit_tag "Search", class: "btn" %>
+
+  <% end -%>
+</div>
 <h2><%= @report.report_name.humanize %> Report</h2>
 <hr>
 <table class = "table table-bordered" id="datatables">
