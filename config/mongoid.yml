@@ -1,3 +1,15 @@
+test:
+  sessions:
+    default:
+      database: bootstrap_data_production
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
+        # In the test environment we lower the retries and retry interval to
+        # low amounts for fast failures.
+        max_retries: 2
+        retry_interval: 0
 development:
   # Configure available database sessions. (required)
   sessions:
