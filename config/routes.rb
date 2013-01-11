@@ -18,4 +18,5 @@ BootstrapData::Application.routes.draw do
   match 'view_reports/:id' => 'reports#view_report', :as => :view_reports
   match 'applications/invite_users/:id' => 'applications#invite', as: :invite_users
   match 'applications/:id/members' => 'applications#members', as: :application_members
+  match 'select' => 'users#select_application', as: :select_application
 end

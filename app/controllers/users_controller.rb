@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   skip_before_filter :require_login, :only => [:new, :create, :activate, :confirm]
+  before_filter :check_builder, :only => [:show]
   # GET /users
   # GET /users.json
   def index
@@ -104,6 +105,16 @@ class UsersController < ApplicationController
     else
       @user.activation_state = 'pending'
       render :activate
+    end
+  end
+
+  def select_application
+    @used_applications = current_user.used_applications 
+  end
+
+  def check_builder
+    unless current_user.builder?
+      redirect_to select_application_path
     end
   end
 end

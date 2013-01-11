@@ -9,6 +9,7 @@ class User
   field :activation_state,            type: String
   field :activation_token,            type: String
   field :activation_token_expires_at, type: DateTime
+  field :builder, type: Boolean
 
   index({ activation_token: 1 }, { unique: true, background: true })
 

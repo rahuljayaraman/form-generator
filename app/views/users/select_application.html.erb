@@ -1,0 +1,7 @@
+<h3>Maybe you wanted to access one of these applications</h3>
+<hr>
+<ul>
+  <% @used_applications.each do |app| %>
+    <li><%= link_to app.application_name, application_path(app) %></li>
+  <% end -%>
+</ul>
