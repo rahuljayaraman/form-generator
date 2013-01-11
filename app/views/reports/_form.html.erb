@@ -1,36 +1,11 @@
-<%= simple_form_for @report do |f| %>
-  <%= f.error_notification %>
-  <div class="form-inputs">
-    <%= f.input :report_name, label: "Name your Report" %>
-    <hr>
-    <ul class="nav nav-tabs">
-      <% @sources.each_with_index do |source, index| -%>
-          <% if index == 0 -%>
-            <li class = "active"><a href="#<%= source.source_name.attribute %>" data-toggle="tab"><%= source.source_name %></a></li>
-          <% else -%>
-            <li><a href="#<%= source.source_name.attribute %>" data-toggle="tab"><%= source.source_name %></a></li>
-          <% end -%>
-      <% end -%>
-    </ul>
-    <div class="tab-content">
-      <% @sources.each_with_index do |source, index| -%>
-        <% if index == 0 -%>
-          <div class="tab-pane active" id="<%= source.source_name.attribute %>">
-        <% else -%>
-          <div class="tab-pane" id="<%= source.source_name.attribute %>">
-        <% end -%>
-            <label class = "checkbox">
-              <%= f.collection_check_boxes :source_attribute_ids, SourceAttribute.where(source_id: source.id), :id, :field_name %> 
-            </label>
-          </div>
-      <% end -%>
-    </div>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Create Report", class: "btn btn-primary" %>
-    <%= link_to 'Back', user_path(current_user), class: "btn" %>
-  </div>
-<% end %>
-
+<% unless @edit -%>
+  <h3>Please select a database</h3>
+  <% @sources.each do |source| -%>
+    <%= link_to source.source_name, source_path(source), remote: true, class: "btn btn-mini" %>
+  <% end -%>
+<hr>
+<% end -%>
+<div class = "render_form">
+  <%= render 'reports/attributes' if @edit %>
+</div>
 

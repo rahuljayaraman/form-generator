@@ -36,7 +36,8 @@ class ReportsController < ApplicationController
   # GET /reports/1/edit
   def edit
     @report = current_user.reports.find(params[:id])
-    @sources = current_user.sources
+    @selected_source = @report.source
+    @edit = true
   end
 
   # POST /reports

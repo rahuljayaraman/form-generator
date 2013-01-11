@@ -15,10 +15,13 @@ class SourcesController < ApplicationController
   def show
     @source = Source.find(params[:id])
     @attributes = @source.source_attributes
+    @selected_source = @source
+    @report = current_user.reports.new
 
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @attributes }
+      format.js
     end
   end
 
