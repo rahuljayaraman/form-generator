@@ -14,6 +14,6 @@ class ApplicationController < ActionController::Base
 
   protected
   def not_authenticated
-      redirect_to login_path, :alert => "You're not authorized to access this page. Please login first."
+      redirect_to root_path, :alert => "Please login to access the Application!"
   end
 end

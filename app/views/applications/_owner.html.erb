@@ -1,10 +1,10 @@
 <div class="row">
   <div class="add_users well offset10 span2">
     <small class="pull-right"><%= link_to 'Member List', application_members_path(@application) %></small>
-    <h4>Add users</h4>
+    <h4>Add Members</h4>
     <%= form_tag invite_users_path(@application), :method => :post do %>
       <%= text_area_tag :users, nil, placeholder: 'Enter email addresses seperated by commas', rows: 3, class: "input-block-level" %><br>
-      <%= submit_tag "Invite Users", class: "btn btn-block" %>
+      <%= submit_tag "Invite Members", class: "btn btn-block" %>
     <% end %>
   </div>
 </div>
