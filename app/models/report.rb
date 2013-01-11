@@ -22,7 +22,7 @@ class Report
   end
 
   def search attr
-    source.search attr
+    source.search_models attr
   end
 
   def find_direct_attributes
