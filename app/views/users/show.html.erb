@@ -18,7 +18,7 @@
       </div>
 
       <div class = "forms span4">
-        <div class="well center report">
+        <div class="well center form">
           <h2>Forms</h2>
           <%= form_tag new_form_path, :method => :get, class: "form-search" do %>
             <%= select_tag "source", options_from_collection_for_select(@sources, "id", "source_name"), class: "search-query" %>

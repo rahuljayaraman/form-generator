@@ -32,7 +32,7 @@ class FormsController < ApplicationController
   def create
     @form = current_user.forms.new params[:form]
     if @form.save
-      redirect_to form_path(@form), notice: "Form saved"
+      redirect_to user_path(current_user), notice: "Form saved"
     else
       render :new
     end
@@ -44,7 +44,7 @@ class FormsController < ApplicationController
     # This line makes me want to puke. Unfortunately, find_or_initialize may not work for nested_attributes. Will wrap this in a transaction later.
     @form.form_attributes.destroy_all
     if @form.update_attributes(params[:form])
-      redirect_to form_path(@form), notice: 'Form was successfully updated.' 
+      redirect_to user_path(current_user), notice: 'Form was successfully updated.' 
     else
       render action: "edit" 
     end

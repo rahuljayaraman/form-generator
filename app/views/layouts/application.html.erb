@@ -33,7 +33,7 @@
           <% else -%>
             <% link = root_path -%>
           <% end -%>
-          <a class="brand" href="<%= link %>"><%= content_for?(:app_name) ? yield(:app_name) :  "App Generator" %></a>
+          <a class="brand icon-home" href="<%= link %>"> <%= content_for?(:app_name) ? yield(:app_name) :  "App Generator" %></a>
           <div class="container nav-collapse">
             <ul class="nav pull-right">
               <% if current_user -%>
@@ -43,7 +43,7 @@
                 <% end -%>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                     <i class="icon-play-circle"></i> Applications
+                     <i class="icon-play-circle"></i>Applications
                       <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
@@ -65,7 +65,7 @@
                 <li class="divider-vertical"></li>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                     <i class="icon-user"></i> <%= current_user.name  %>
+                     <i class="icon-user"></i><%= current_user.name  %>
                       <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">

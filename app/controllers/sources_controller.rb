@@ -50,7 +50,7 @@ class SourcesController < ApplicationController
 
     respond_to do |format|
       if @source.save
-        format.html { redirect_to sources_path, notice: 'Data Set was successfully saved.' }
+        format.html { redirect_to user_path(current_user), notice: 'Database was successfully saved.' }
         format.json { render json: @source, status: :created, location: @source }
       else
         format.html { render action: "new" }
@@ -66,7 +66,7 @@ class SourcesController < ApplicationController
 
     respond_to do |format|
       if @source.update_attributes(params[:source])
-        format.html { redirect_to @source, notice: 'Source was successfully updated.' }
+        format.html { redirect_to user_path(current_user), notice: 'Database was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -82,7 +82,7 @@ class SourcesController < ApplicationController
     @source.destroy
 
     respond_to do |format|
-      format.html { redirect_to sources_url }
+      format.html { redirect_to user_path(current_user), notice: "Database was deleted!" }
       format.json { head :no_content }
     end
   end

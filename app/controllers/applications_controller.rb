@@ -30,7 +30,7 @@ class ApplicationsController < ApplicationController
   # GET /applications/new
   # GET /applications/new.json
   def new
-    @application = current_user.owned_applications.new
+    @application = Application.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -50,7 +50,7 @@ class ApplicationsController < ApplicationController
 
     respond_to do |format|
       if @application.save
-        format.html { redirect_to user_path current_user, notice: 'Application was successfully created.' }
+        format.html { redirect_to user_path(current_user), notice: 'Application was successfully created.' }
         format.json { render json: @application, status: :created, location: @application }
       else
         format.html { render action: "new" }
@@ -66,7 +66,7 @@ class ApplicationsController < ApplicationController
 
     respond_to do |format|
       if @application.update_attributes(params[:application])
-        format.html { redirect_to user_path current_user, notice: 'Application was successfully updated.' }
+        format.html { redirect_to user_path(current_user), notice: 'Application was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -82,7 +82,7 @@ class ApplicationsController < ApplicationController
     @application.destroy
 
     respond_to do |format|
-      format.html { redirect_to user_path current_user }
+      format.html { redirect_to user_path(current_user), notice: "Application Deleted!" }
       format.json { head :no_content }
     end
   end
