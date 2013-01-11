@@ -21,13 +21,13 @@ module DynamicModel
       def self.search attr, belongs_to = nil
         search = self
         attr.keys.each do |field|
-          search = search.where(field.to_sym => attr[field.to_sym])
+          search = search.where(field.to_sym => attr[field.to_sym]) unless attr[field.to_sym].blank?
         end
         if belongs_to
           belongs_to.keys.each do |source_id|
             source = Source.find(source_id)
-            field_name = source.collection_name.singluarize + '_id'
-            search = search.where(field_name.to_sym.in => belongs_to[:source_id])
+            field_name = source.collection_name_helper.singularize + '_id'
+            search = search.where(field_name.to_sym.in => belongs_to[source_id]) if belongs_to[source_id].count > 0
           end
         end
         search.all

@@ -38,12 +38,16 @@ class Source
     belongs_to = {}
     if attr[:belongs_to]
       attr[:belongs_to].keys.each do |source_id|
+        attr[:belongs_to][source_id].each do |key, value|
+          attr[:belongs_to][source_id].delete key if value.blank?
+        end
         source = Source.find source_id
-        belongs_to[source_id.to_sym] = [] unless belongs_to[source_id.to_sym]
-        belongs_to[source_id.to_sym] += source.search(attr[:belongs_to][source_id]).map(&:id) 
+        belongs_to[source_id] = [] unless belongs_to[source_id.to_sym]
+        belongs_to[source_id] += source.search(attr[:belongs_to][source_id]).map(&:id) unless attr[:belongs_to][source_id].empty?
       end
     end
     # ({:quia=>""}, {:"50eea19581ee9e61a7000013"=>[1, 2, 3]})
+    belongs_to = nil if belongs_to.empty?
     records = self.search attr[:model], belongs_to
   end
 
