@@ -22,4 +22,19 @@ class UserMailer < ActionMailer::Base
     mail(:to => "recklessrahul@gmail.com",
          :subject => "You have been added to #{@application.application_name}")
   end
+
+  def send_builder_invitation sender, user
+    @user = User.find user
+    @sender = User.find sender
+    @url  = users_url + "/#{@user.activation_token}/activate"
+    mail(:to => "recklessrahul@gmail.com",
+         :subject => "App Generator | Builder Invite")
+  end
+
+  def confirm_builder_invitation sender, user
+    @user = User.find user
+    @sender = User.find sender
+    mail(:to => "recklessrahul@gmail.com",
+         :subject => "App Generator | Builder Confirmation")
+  end
 end

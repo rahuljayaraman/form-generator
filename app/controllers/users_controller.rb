@@ -107,5 +107,15 @@ class UsersController < ApplicationController
       redirect_to select_application_path
     end
   end
+
+  def invite_builder
+    raw_users = params[:users]
+    split_users = raw_users.delete(" ").split(",")
+    current_user.find_or_send_invitations split_users
+    respond_to do |format|
+      format.html { redirect_to user_path(current_user), notice: "#{view_context.pluralize(split_users.size, "Builder")} invited." }
+      format.json { head :no_content }
+    end
+  end
 end
 

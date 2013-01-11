@@ -10,6 +10,7 @@ class User
   field :activation_token,            type: String
   field :activation_token_expires_at, type: DateTime
   field :builder, type: Boolean
+  field :inviter, type: Boolean
 
   index({ activation_token: 1 }, { unique: true, background: true })
 
@@ -71,5 +72,29 @@ class User
 
   def owns_application app
     owned_applications.include? app
+  end
+
+  def send_builder_invitation sender
+    UserMailer.send_builder_invitation(self.id, sender).deliver
+  end
+
+  def confirm_builder_invitation sender
+    UserMailer.confirm_builder_invitation(self.id, sender).deliver
+  end
+
+  def find_or_send_invitations emails
+    emails.each do |email|
+      user = User.find_by_email email
+      if user
+        if !user.builder?
+          self.confirm_builder_invitation user.id
+          user.update_attribute(:builder, true)
+        end
+      else
+        user = User.create_temporary_user(email)
+        user.update_attribute(:builder, true)
+        self.send_builder_invitation user.id
+      end
+    end
   end
 end

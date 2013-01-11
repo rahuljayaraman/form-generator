@@ -42,3 +42,13 @@
     </div>
   </div>
 </div>
+<hr>
+<div class="row span4">
+  <% if current_user.inviter? %>
+    <h4>Add Builders</h4>
+    <%= form_tag invite_builder_path, :method => :post do %>
+      <%= text_area_tag :users, nil, placeholder: 'Enter email addresses seperated by commas', rows: 3, class: "input-block-level" %><br>
+      <%= submit_tag "Invite Builders", class: "btn" %>
+    <% end %>
+  <% end %>
+</div>
