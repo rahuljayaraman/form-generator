@@ -20,6 +20,11 @@ module DynamicModel
       #Search
       def self.search attr, belongs_to = nil
         search = self
+        unless attr[:created_from].blank? or attr[:created_to].blank?
+          search = search.where(created_at: {'$gte' => attr[:created_from], '$lt' => attr[:created_to]})
+        end
+        attr.delete :created_from
+        attr.delete :created_to
         attr.keys.each do |field|
           search = search.where(field.to_sym => attr[field.to_sym]) unless attr[field.to_sym].blank?
         end
