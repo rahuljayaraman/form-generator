@@ -38,12 +38,12 @@
             <ul class="nav pull-right">
               <% if current_user -%>
                 <% if current_user.builder? -%>
-                  <li><%= link_to raw("<i class='icon-wrench'></i>Builder"), user_path(current_user) %></li>
+                  <li><%= link_to raw("<i class='icon-wrench'></i> Builder"), user_path(current_user) %></li>
                   <li class="divider-vertical"></li>
                 <% end -%>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                     <i class="icon-play-circle"></i>Applications
+                     <i class="icon-play-circle"></i> Applications
                       <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
@@ -65,7 +65,7 @@
                 <li class="divider-vertical"></li>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                     <i class="icon-user"></i><%= current_user.name  %>
+                     <i class="icon-user"></i> <%= current_user.name  %>
                       <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
