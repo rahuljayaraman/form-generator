@@ -90,6 +90,6 @@ namespace :mongoid do
   end
 
   task :index do
-    run "cd #{current_path} && bundle exec rake db:mongoid:create_indexes", :once => true
+    run "cd #{current_path} && RAILS_ENV='production' bundle exec rake db:mongoid:create_indexes", :once => true
   end
 end
