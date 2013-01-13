@@ -1,7 +1,9 @@
+require "rvm/capistrano"
 require "bundler/capistrano"
 
 server "54.235.220.246", :web, :app, :db, primary: true
 
+set :rvm_ruby_string, "1.9.3@bootstrap"
 set :application, "bootstrap_data"
 set :user, "deployer"
 set :deploy_to, "/home/#{user}/apps/#{application}"
@@ -14,7 +16,6 @@ set :branch, "master"
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
-ssh_options[:keys] = [File.join(ENV["HOME"], ".ssh", "aws")]
 
 after "deploy", "deploy:cleanup" # keep only the last 5 releases
 

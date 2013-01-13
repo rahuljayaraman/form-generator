@@ -16,6 +16,7 @@ gem 'resque', :require => 'resque/server'
 gem 'resque_mailer'
 gem 'unicorn'
 gem 'capistrano'
+gem 'rvm-capistrano'
 
 group :assets do
   gem 'less-rails'
