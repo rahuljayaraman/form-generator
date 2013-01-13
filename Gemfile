@@ -14,6 +14,8 @@ gem 'nested_form'
 gem 'jquery-ui-rails'
 gem 'resque', :require => 'resque/server'
 gem 'resque_mailer'
+gem 'unicorn'
+gem 'capistrano'
 
 group :assets do
   gem 'less-rails'
