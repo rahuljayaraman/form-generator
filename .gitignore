@@ -18,6 +18,7 @@
 *.csv
 *.tsv
 /config/database.yml
+/config/mongoid.yml
 .rvmrc
 .rvmrc.*
 *.god
