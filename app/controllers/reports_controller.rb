@@ -89,11 +89,14 @@ class ReportsController < ApplicationController
     @attributes = @report.source_attributes
     add = Struct.new(:field_name)
     @attributes += [add.new('Created At'), add.new('Updated At')]
+    @user_attributes = @report.user_attributes.reject(&:blank?)
     @model = @report.find_model
     #Initialize related models
-    @report.source.habtms.map(&:initialize_dynamic_model)
-    @report.source.belongs_tos.map(&:initialize_dynamic_model)
-    @report.source.has_manies.map(&:initialize_dynamic_model)
+    has_and_belongs_to_many = @report.source.habtms.map(&:initialize_dynamic_model)
+    has_manies = @report.source.has_manies.map(&:initialize_dynamic_model)
+    belongs_tos = @report.source.belongs_tos.map(&:initialize_dynamic_model)
+    associated_models = (has_manies + belongs_tos + has_and_belongs_to_many) << @model
+    User.define_relationships associated_models
     if params[:search]
       @data = @report.search(params[:search])
     else
