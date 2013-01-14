@@ -33,4 +33,8 @@ class SourceAttribute
     val = model_validations.where(validation_type: attr.humanize).last
     val.message
   end
+
+  def name_with_source
+    "#{source.source_name} - #{field_name}"
+  end
 end

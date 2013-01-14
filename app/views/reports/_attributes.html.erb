@@ -6,7 +6,7 @@
     <%= f.input :report_name, label: "Name your Report" %>
     <hr>
     <label class = "checkbox">
-      <%= f.collection_check_boxes :source_attribute_ids, @selected_source.source_attributes.all + @selected_source.belongs_tos_attributes + @selected_source.has_manies_attributes + @selected_source.habtms_attributes, :id, :field_name %> 
+      <%= f.collection_check_boxes :source_attribute_ids, @selected_source.source_attributes.all + @selected_source.belongs_tos_attributes + @selected_source.has_manies_attributes + @selected_source.habtms_attributes, :id, :name_with_source %> 
       <%= f.input :source_id, input_html: { value: @selected_source.id }, as: :hidden -%>
     </label>
   </div>
