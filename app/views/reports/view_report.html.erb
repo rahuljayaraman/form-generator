@@ -1,28 +1,15 @@
 <div class="filters well">
-  <%= form_tag view_reports_path(@report) do %>
-    <%# attr = {model: {}, belongs_to: {source_id: {hash of attributes & values}}} %>
-      <% @report.find_direct_attributes.each do |direct| -%>
-        <%= text_field_tag direct.field_name.attribute.to_sym, nil, placeholder: direct.field_name, name: "search[model][#{direct.field_name.attribute}]" %>
-      <% end -%>
-
-      <% @report.find_belongs_to_attributes.each do |direct| -%>
-        <%= text_field_tag direct.field_name.attribute.to_sym, nil, placeholder: direct.field_name, name: "search[belongs_to][#{direct.source.id}][#{direct.field_name.attribute}]" %>
-      <% end -%>
-      <br>
-      <%= text_field_tag :from, nil, name: "search[model][created_from]", placeholder: "Creation date: From", class: "datepicker"%>
-      <%= text_field_tag :to, nil, name: "search[model][created_to]", placeholder: "Creation date: To", class: "datepicker" %>
-      <br>
-      <%= submit_tag "Search", class: "btn" %>
-
-  <% end -%>
+  <%= render 'filters' %>
 </div>
 <h2><%= @report.report_name.humanize %> Report</h2>
 <hr>
 <table class = "table table-bordered" id="datatables">
   <thead>
+  <% if @user_attributes %>
     <% @user_attributes.each do |u| -%>
       <th><%= u.humanize %></th>
     <% end -%>
+  <% end -%>
     <% @attributes.each do |m| -%>
       <th><%= m.field_name.humanize %></th>
     <% end -%>
@@ -31,8 +18,10 @@
   <tbody>
   <% @data.each do |d| %>
     <tr>
-    <% @user_attributes.each do |u| -%>
-        <td><%= d.send("user").send(u.attribute) || "N/A" %></td>
+    <% if @user_attributes %>
+      <% @user_attributes.each do |u| -%>
+          <td><%= d.send("user").send(u.attribute) || "N/A" %></td>
+      <% end -%>
     <% end -%>
     <% @attributes.each do |m| -%>
       <% if @report.find_direct_attributes.include? m -%>

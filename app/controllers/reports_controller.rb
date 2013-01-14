@@ -89,7 +89,7 @@ class ReportsController < ApplicationController
     @attributes = @report.source_attributes
     add = Struct.new(:field_name)
     @attributes += [add.new('Created At'), add.new('Updated At')]
-    @user_attributes = @report.user_attributes.reject(&:blank?)
+    @user_attributes = @report.user_attributes.reject(&:blank?) if @report.user_attributes
     @model = @report.find_model
     #Initialize related models
     has_and_belongs_to_many = @report.source.habtms.map(&:initialize_dynamic_model)
