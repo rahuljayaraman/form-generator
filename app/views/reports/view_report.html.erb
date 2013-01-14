@@ -20,6 +20,9 @@
 <hr>
 <table class = "table table-bordered" id="datatables">
   <thead>
+    <% @user_attributes.each do |u| -%>
+      <th><%= u.humanize %></th>
+    <% end -%>
     <% @attributes.each do |m| -%>
       <th><%= m.field_name.humanize %></th>
     <% end -%>
@@ -28,6 +31,9 @@
   <tbody>
   <% @data.each do |d| %>
     <tr>
+    <% @user_attributes.each do |u| -%>
+        <td><%= d.send("user").send(u.attribute) || "N/A" %></td>
+    <% end -%>
     <% @attributes.each do |m| -%>
       <% if @report.find_direct_attributes.include? m -%>
         <td><%= d.send(m.field_name.attribute) || "N/A" %></td>
