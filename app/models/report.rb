@@ -3,6 +3,7 @@ class Report
   include Mongoid::Timestamps
 
   field :report_name, type: String
+  field :user_attributes, type: Array
 
   belongs_to :user
   belongs_to :source
@@ -11,7 +12,7 @@ class Report
 
   validates_presence_of :report_name
 
-  attr_accessible :report_name, :source_attribute_ids, :source_id
+  attr_accessible :report_name, :source_attribute_ids, :source_id, :user_attributes
 
   def find_model
     source.initialize_dynamic_model
