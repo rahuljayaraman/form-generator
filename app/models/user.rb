@@ -97,4 +97,8 @@ class User
       end
     end
   end
+
+  def self.available_attributes
+    ['Name', 'Email']
+  end
 end
