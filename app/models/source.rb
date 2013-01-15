@@ -41,9 +41,19 @@ class Source
         attr[:belongs_to][source_id].each do |key, value|
           attr[:belongs_to][source_id].delete key if value.blank?
         end
-        source = Source.find source_id
-        belongs_to[source_id] = [] unless belongs_to[source_id.to_sym]
-        belongs_to[source_id] += source.search(attr[:belongs_to][source_id]).map(&:id) unless attr[:belongs_to][source_id].empty?
+        if source_id == "user"
+          if attr[:belongs_to]["user"].empty?
+            attr[:belongs_to].delete "user"
+          else
+            belongs_to["user"] = [] unless belongs_to[source_id.to_sym]
+            belongs_to["user"] += User.search(attr[:belongs_to]["user"]).map(&:id)
+            attr[:belongs_to].delete "user"
+          end
+        else
+          source = Source.find source_id
+          belongs_to[source_id] = [] unless belongs_to[source_id.to_sym]
+          belongs_to[source_id] += source.search(attr[:belongs_to][source_id]).map(&:id) unless attr[:belongs_to][source_id].empty?
+        end
       end
     end
     # ({:quia=>""}, {:"50eea19581ee9e61a7000013"=>[1, 2, 3]})

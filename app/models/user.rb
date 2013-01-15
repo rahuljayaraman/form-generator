@@ -101,4 +101,13 @@ class User
   def self.available_attributes
     ['Name', 'Email']
   end
+
+  def self.search hash
+    binding.pry
+    search = User
+    hash.each do |key, value|
+      search = search.where(key.attribute.to_sym => value) unless value.blank?
+    end
+    search.all
+  end
 end
