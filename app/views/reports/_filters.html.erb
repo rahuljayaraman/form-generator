@@ -2,12 +2,12 @@
   <%# attr = {model: {}, belongs_to: {source_id: {hash of attributes & values}}} %>
     <% if @user_attributes -%>
       <% @user_attributes.each do |attr| -%>
-        <%= text_field_tag attr, nil, placeholder: attr, name: "search[belongs_to][user][#{attr.attribute}]" %><br>
-      <% end -%>
+        <%= text_field_tag attr, nil, placeholder: attr, name: "search[belongs_to][user][#{attr.attribute}]" %>
+      <% end -%><br>
     <% end -%>
     <% @report.find_direct_attributes.each do |direct| -%>
       <%= text_field_tag direct.field_name.attribute.to_sym, nil, placeholder: direct.field_name, name: "search[model][#{direct.field_name.attribute}]" %>
-    <% end -%>
+    <% end -%><br>
 
     <% @report.find_belongs_to_attributes.each do |direct| -%>
       <%= text_field_tag direct.field_name.attribute.to_sym, nil, placeholder: direct.field_name, name: "search[belongs_to][#{direct.source.id}][#{direct.field_name.attribute}]" %>
