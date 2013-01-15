@@ -50,9 +50,11 @@ class Source
             attr[:belongs_to].delete "user"
           end
         else
-          source = Source.find source_id
-          belongs_to[source_id] = [] unless belongs_to[source_id.to_sym]
-          belongs_to[source_id] += source.search(attr[:belongs_to][source_id]).map(&:id) unless attr[:belongs_to][source_id].empty?
+          unless attr[:belongs_to][source_id].empty?
+            source = Source.find source_id
+            belongs_to[source_id] = [] unless belongs_to[source_id.to_sym]
+            belongs_to[source_id] += source.search(attr[:belongs_to][source_id]).map(&:id) unless attr[:belongs_to][source_id].empty?
+          end
         end
       end
     end
