@@ -48,12 +48,13 @@ describe Application do
   end
 
   it "should allow adding users as members" do
+    user.save
     member = Fabricate.build :standalone_user, email: "test@test.com"
+    member.save
     application.stub(:send_confirmation_email)
     application.add_member member
-    application.members.should include member
-    application.save
-    member.used_applications.should include application
+    Application.last.members.should include member
+    User.last.used_applications.should include application
   end
 
   it "should set the creator of the application as the owner" do
