@@ -24,3 +24,4 @@ config/mongoid
 .rvmrc.*
 /public/*
 /config/application.yml
+.rspec
