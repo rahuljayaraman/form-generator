@@ -39,15 +39,19 @@ module DynamicModel
 
           # Look for user attributes if present
           if belongs_to["user"]
+            return [] if belongs_to["user"].empty?
             field_name =  'user_id'
             search = search.where(field_name.to_sym.in => belongs_to["user"]) if belongs_to["user"].count > 0
             belongs_to.delete "user"
           end
 
           belongs_to.keys.each do |source_id|
-            source = Source.find(source_id)
-            field_name = source.collection_name_helper.singularize + '_id'
-            search = search.where(field_name.to_sym.in => belongs_to[source_id]) if belongs_to[source_id].count > 0
+            if belongs_to[source_id]
+              return [] if belongs_to[source_id].empty?
+              source = Source.find(source_id)
+              field_name = source.collection_name_helper.singularize + '_id'
+              search = search.where(field_name.to_sym.in => belongs_to[source_id]) if belongs_to[source_id].count > 0
+            end
           end
         end
         search.all
