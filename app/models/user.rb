@@ -103,7 +103,6 @@ class User
   end
 
   def self.search hash
-    binding.pry
     search = User
     hash.each do |key, value|
       search = search.where(key.attribute.to_sym => value) unless value.blank?
