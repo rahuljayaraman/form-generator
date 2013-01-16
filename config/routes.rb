@@ -1,5 +1,15 @@
 BootstrapData::Application.routes.draw do
 
+  match "wizard/step1" => "wizard#step1", as: :wizard_step1
+  match "wizard/step2" => "wizard#step2", as: :wizard_step2
+
+
+  get "wizard/step3"
+
+  get "wizard/step4"
+
+  get "wizard/step5"
+
   resources :sources, :forms, :reports, :form_renderers, :applications, :roles
 
   root :to => 'pages#home'
