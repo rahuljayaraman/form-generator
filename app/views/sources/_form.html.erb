@@ -2,13 +2,14 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= render 'relationships', f: f %>
-    <%= f.input :source_name, label: "Name your Data Source" %> 
-    <%= link_to ' Relationships', '#relationships', "data-toggle" => "modal", class: "btn btn-small icon-share" %> <br><br>
+    <%= render 'sources/relationships', f: f unless @wizard %>
+    <%= f.input :source_name, label: "Name your Database", hint: "Add fields to build your database. Custom validations will help keep your data clean." %> 
+    <%= f.input :wizard, input_html: { value: true }, as: :hidden -%>
+    <%= link_to ' Relationships', '#relationships', "data-toggle" => "modal", class: "btn btn-small icon-share" unless @wizard %> <br><br>
     <%= f.simple_fields_for :source_attributes do |m| %>
       <%= render 'sources/model_attribute_fields', f: m %>
     <% end -%>
-    <%= f.link_to_add ' Add Field', :source_attributes, class: "btn btn-small icon-plus"%>
+    <%= f.link_to_add ' Add Field', :source_attributes, class: "btn btn-danger icon-plus"%>
   </div>
 
   <br>

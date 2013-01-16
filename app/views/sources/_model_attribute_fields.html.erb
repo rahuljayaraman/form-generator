@@ -2,7 +2,7 @@
     <span class="label label-success">Field</span>
   <%= f.input_field :field_name, label: 'Field Name', placeholder: 'Field Name' %>
   <%= f.input_field :field_type, label: 'Field Type', collection: Source.mapping.keys, prompt: 'Select Field Type' %>
-  <%= f.link_to_remove 'X', class: 'badge'%>
+  <%= f.link_to_remove ' remove field', class: 'icon-remove badge'%>
   <hr>
   <%= f.simple_fields_for :model_validations do |m| %>
     <% if params[:action] == 'edit' -%>
@@ -14,7 +14,7 @@
     <div id = "validation_fieldset" style = "<%= message %>">
       <span class="label label-important">Validation</span>
       <%= m.input_field :validation_type, prompt: "Select Validation Type", collection: ModelValidation.show, class: 'v_dropdown' %>
-      <%= m.link_to_remove 'X', class: 'badge'%>
+      <%= m.link_to_remove ' remove validation', class: 'badge icon-remove'%>
       <hr>
       <span class="label label-warning">Validation Options</span>
       <%= m.input_field :message, placeholder: "Failure Message", class: "span4" %>
@@ -24,6 +24,6 @@
     <br>
   <% end -%>
 </div>
-  <%= f.link_to_add ' Add Validation', :model_validations, class: "btn btn-mini icon-plus"%>
+  <%= f.link_to_add ' Add Validation', :model_validations, class: "btn btn-small icon-plus"%>
 <br><br>
 <hr>
