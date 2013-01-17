@@ -2,13 +2,10 @@ BootstrapData::Application.routes.draw do
 
   match "wizard/step1" => "wizard#step1", as: :wizard_step1
   match "wizard/step2" => "wizard#step2", as: :wizard_step2
-
-
-  get "wizard/step3"
-
-  get "wizard/step4"
-
-  get "wizard/step5"
+  match "wizard/step3" => "wizard#step3", as: :wizard_step3
+  match "wizard/step4" => "wizard#step4", as: :wizard_step4
+  match "wizard/step5" => "wizard#step5", as: :wizard_step5
+  match "wizard/step6" => "wizard#step6", as: :wizard_step6
 
   resources :sources, :forms, :reports, :form_renderers, :applications, :roles
 
