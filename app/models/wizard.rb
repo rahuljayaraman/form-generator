@@ -40,7 +40,7 @@ class Wizard
     if @databases 
       source_tags = ""
       list_databases.each do |source|
-        source_tags += content_tag(:li, link_to(source.source_name, edit_source_path(source)))
+        source_tags += content_tag(:li, link_to(source.source_name, edit_source_path(source, wizard: {databases: @databases})))
       end
       inner_content = content_tag(:h3, "Wizard Progress") +
         content_tag(:h5, "Databases created: " + count_databases.to_s) +

@@ -41,6 +41,8 @@ class SourcesController < ApplicationController
   def edit
     @source = Source.find(params[:id])
     @sources = current_user.sources.not_in(_id: [@source.id])
+    @wizard = Wizard.new params, view_context
+    render template: "wizard/step1"
   end
 
   # POST /sources
@@ -48,16 +50,16 @@ class SourcesController < ApplicationController
   def create
     @source = current_user.sources.new(params[:source])
     @wizard = Wizard.new params[:source], view_context
-    @wizard.append_database @source.id
 
       if @source.save
         if @wizard.active?
-         redirect_to wizard_step1_path(wizard: {databases: @wizard.url}), notice: 'Database was successfully saved.'
+          @wizard.append_database @source.id
+          redirect_to wizard_step1_path(wizard: {databases: @wizard.url}), notice: 'Database was successfully saved.'
         else
          redirect_to user_path(current_user), notice: 'Database was successfully saved.'
         end
       else
-         render action: "new" 
+        render action: "new" 
       end
   end
 
@@ -65,16 +67,17 @@ class SourcesController < ApplicationController
   # PUT /sources/1.json
   def update
     @source = Source.find(params[:id])
+    @wizard = Wizard.new params[:source], view_context
 
-    respond_to do |format|
       if @source.update_attributes(params[:source])
-        format.html { redirect_to user_path(current_user), notice: 'Database was successfully updated.' }
-        format.json { head :no_content }
+        if @wizard.active?
+          redirect_to wizard_step1_path(wizard: {databases: @wizard.url}), notice: 'Database was successfully saved.'
+        else
+          redirect_to user_path(current_user), notice: 'Database was successfully saved.'
+        end
       else
-        format.html { render action: "edit" }
-        format.json { render json: @source.errors, status: :unprocessable_entity }
+        render action: "edit" 
       end
-    end
   end
 
   # DELETE /sources/1
