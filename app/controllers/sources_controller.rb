@@ -47,16 +47,12 @@ class SourcesController < ApplicationController
   # POST /sources.json
   def create
     @source = current_user.sources.new(params[:source])
-    if params[:source][:wizard]
-      arr = []
-      arr << params[:source][:wizard][:databases] unless params[:source][:wizard][:databases].blank?
-      arr << @source.source_name
-      @databases = arr.join(",")
-    end
+    @wizard = Wizard.new params[:source], view_context
+    @wizard.append_database @source.id
 
       if @source.save
-        if @databases
-         redirect_to wizard_step1_path(wizard: {databases: @databases}), notice: 'Database was successfully saved.'
+        if @wizard.active?
+         redirect_to wizard_step1_path(wizard: {databases: @wizard.url}), notice: 'Database was successfully saved.'
         else
          redirect_to user_path(current_user), notice: 'Database was successfully saved.'
         end

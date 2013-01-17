@@ -2,10 +2,10 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= render 'sources/relationships', f: f unless @wizard %>
+    <%= render 'sources/relationships', f: f unless @wizard.active? %>
     <%= f.input :source_name, label: "Name your Database", hint: "Add fields to build your database. Custom validations will help keep your data clean." %> 
-    <%= f.input "wizard[databases]", input_html: { value: @databases }, as: :hidden if @wizard -%>
-    <%= link_to ' Relationships', '#relationships', "data-toggle" => "modal", class: "btn btn-small icon-share" unless @wizard %> <br><br>
+    <%= f.input "wizard[databases]", input_html: { value: @wizard.url }, as: :hidden if @wizard.active? -%>
+    <%= link_to ' Relationships', '#relationships', "data-toggle" => "modal", class: "btn btn-small icon-share" unless @wizard.active? %> <br><br>
     <%= f.simple_fields_for :source_attributes do |m| %>
       <%= render 'sources/model_attribute_fields', f: m %>
     <% end -%>
