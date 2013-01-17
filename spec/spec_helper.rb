@@ -27,12 +27,7 @@ Spork.each_run do
   Fabrication.clear_definitions
   RSpec.configure do |config|
     config.before(:each) do
-      # DatabaseCleaner.start
       DatabaseCleaner.clean
     end
-# 
-#     config.after(:each) do
-#       DatabaseCleaner.clean
-#     end
   end
 end
