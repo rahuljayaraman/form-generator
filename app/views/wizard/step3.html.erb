@@ -1,0 +1,21 @@
+<h2 class="well">Step 3/5: Forms</h2>
+<div class="row">
+  <p style="font-size: 110%;" class="span9">
+   Let's build some forms now. Start by selecting a database below. Note how all related database attributes become available to you.
+  </p>
+  <%= link_to " Reports", wizard_step4_path(@wizard.parameters), class: "btn btn-large btn-primary span2 icon-arrow-right pull-right" %>
+</div>
+<hr>
+<div class="row">
+  <div class="span9">
+    <% @wizard.list_databases.each do |database| -%>
+      <% @parameters[:source] = database -%>
+      <%= link_to database.source_name, new_form_path(@parameters), class: "btn", remote: true %>
+    <% end -%>
+  </div>
+  <%= @wizard.render_progress %>
+</div>
+<div class="row">
+  <div class="render_forms span12">
+  </div>
+</div>

@@ -1,6 +1,9 @@
 <%= simple_form_for(@form) do |f| %>
   <%= f.input :form_name %>
   <hr>
+    <%= f.input "wizard[databases]", input_html: { value: @wizard.try(:databases) }, as: :hidden if @wizard.try(:active?) -%>
+    <%= f.input "wizard[relationships]", input_html: { value: @wizard.try(:relationships) }, as: :hidden if @wizard.try(:active?) -%>
+    <%= f.input "wizard[forms]", input_html: { value: @wizard.try(:forms) }, as: :hidden if @wizard.try(:active?) -%>
   <div class="row">
     <div class="span6">
       <div class="span4">

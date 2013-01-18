@@ -11,6 +11,11 @@ class FormsController < ApplicationController
       @available_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
       @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
     end
+    @wizard = Wizard.new params, view_context
+    respond_to do |format|
+      format.html # show.html.erb
+      format.js
+    end
   end
 
   def edit
@@ -23,6 +28,7 @@ class FormsController < ApplicationController
     @available_many_manies = @related_many_manies - @form.source_attributes
     @available_belongs_tos = @related_belongs_tos - @form.source_attributes
     @source_attribute_ids = @form.source_attributes.map(&:id)
+    @wizard = Wizard.new params, view_context
   end
 
   def show
@@ -30,9 +36,15 @@ class FormsController < ApplicationController
   end
 
   def create
+    @wizard = Wizard.new params[:form], view_context
     @form = current_user.forms.new params[:form]
     if @form.save
-      redirect_to user_path(current_user), notice: "Form saved"
+      if @wizard.active?
+        @wizard.append_form @form.id
+        redirect_to wizard_step3_path(@wizard.parameters), notice: 'Form was saved.'
+      else
+        redirect_to user_path(current_user), notice: "Form saved"
+      end
     else
       render :new
     end
@@ -40,11 +52,16 @@ class FormsController < ApplicationController
 
   def update
     @form = current_user.forms.find(params[:id])
+    @wizard = Wizard.new params[:form], view_context
 
     # This line makes me want to puke. Unfortunately, find_or_initialize may not work for nested_attributes. Will wrap this in a transaction later.
     @form.form_attributes.destroy_all
     if @form.update_attributes(params[:form])
-      redirect_to user_path(current_user), notice: 'Form was successfully updated.' 
+      if @wizard.active?
+        redirect_to wizard_step3_path(@wizard.parameters), notice: 'Form was Updated.'
+      else
+        redirect_to user_path(current_user), notice: "Form Updated"
+      end
     else
       render action: "edit" 
     end
