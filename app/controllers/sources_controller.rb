@@ -17,6 +17,7 @@ class SourcesController < ApplicationController
     @attributes = @source.source_attributes
     @selected_source = @source
     @report = current_user.reports.new
+    @wizard = Wizard.new params, view_context
 
     respond_to do |format|
       format.html # show.html.erb

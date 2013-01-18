@@ -46,6 +46,10 @@ class FormsController < ApplicationController
         redirect_to user_path(current_user), notice: "Form saved"
       end
     else
+      @source = @form.source
+      @available_source_attributes = @source.source_attributes
+      @available_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
+      @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
       render :new
     end
   end

@@ -17,6 +17,9 @@ class WizardController < ApplicationController
   end
 
   def step4
+    @report = current_user.reports.new
+    @wizard = Wizard.new(params, view_context)
+    @sources = @wizard.list_databases
   end
 
   def step5
