@@ -1,0 +1,27 @@
+<h2 class="well">Step 2/5: Relationships</h2>
+<div class="row">
+  <div style="font-size: 110%;" class="span9">
+    Now that we have made databases, let's link them together. There can be 3 types of relationships. Assuming we have two databases A & B,<br><br>
+  <ol>
+    <li>A could <b class="" style="font-size: 120%">Have one</b> B.<br><small>Can also be read as 'Belongs to'. While building a form or a report for A, you could link it to a single record for B and reference all of it's attributes</small></li> <br>
+    <li>A could <b class="text-error" style="font-size: 120%">Have Many</b> B.<br><small>This is Have One's inverse relationship & is automatically applied. You can perform aggregations like sum/count on an attribute of B. Currently cannot be used in forms.</small></li><br>
+    <li>A could <b class="" style="font-size: 120%">Have Many & Vice Versa</b> B.<br><small>Best of both worlds. Can be used in forms & reports.</small></li>
+  </ol>
+  An Example: When a door-door salesman tries to sell a <b class="" style="font-size: 120%">Product</b>, he approaches <b class="" style="font-size: 120%">A Customer</b> to pitch <b class="" style="font-size: 120%">Many Products</b>. So a sales activity can <b class="" style="font-size: 120%">Have One Customer</b> & <b class="" style="font-size: 120%">Have Many & Vice Versa Products</b>.
+  </div>
+  <%= link_to " Forms", wizard_step3_path, class: "btn btn-large btn-primary span2 icon-arrow-right pull-right" %><br><br><br><br>
+  <%= @wizard.render_progress %>
+</div>
+<hr>
+<div class="row">
+  <div class="span12">
+    <% @wizard.list_databases.each do |database| -%>
+      <%= link_to database.source_name, edit_source_path(database, wizard: {databases: @wizard.databases, relationships: @wizard.relationships}), class: "btn", remote: true %>
+    <% end -%>
+  </div>
+  <hr>
+</div>
+<div class="row">
+  <div class="relationship span6">
+  </div>
+</div>
