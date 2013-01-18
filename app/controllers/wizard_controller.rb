@@ -6,13 +6,8 @@ class WizardController < ApplicationController
   end
 
   def step2
-    @wizard = Wizard.new(params, view_context)
     @sources = current_user.sources
-    if params[:wizard]
-      @databases = params[:wizard][:databases]
-    else
-      @databases = ""
-    end
+    @wizard = Wizard.new(params, view_context)
   end
 
   def step3
