@@ -57,7 +57,7 @@ class SourcesController < ApplicationController
       if @source.save
         if @wizard.active?
           @wizard.append_database @source.id
-          redirect_to wizard_step1_path(wizard: {databases: @wizard.databases, relationships: @wizard.relationships}), notice: 'Database was successfully saved.'
+          redirect_to wizard_step1_path(@wizard.parameters), notice: 'Database was successfully saved.'
         else
          redirect_to user_path(current_user), notice: 'Database was successfully saved.'
         end
@@ -77,9 +77,9 @@ class SourcesController < ApplicationController
 
       if @source.update_attributes(params[:source])
         if @wizard.active? && params[:source][:disjoint_relationship]
-          redirect_to wizard_step2_path(wizard: {databases: @wizard.databases, relationships: @wizard.relationships}), notice: 'Relationship was successfully saved.'
+          redirect_to wizard_step2_path(@wizard.parameters), notice: 'Relationship was successfully saved.'
         elsif @wizard.active?
-          redirect_to wizard_step1_path(wizard: {databases: @wizard.databases, relationships: @wizard.relationships}), notice: 'Database was successfully saved.'
+          redirect_to wizard_step1_path(@wizard.parameters), notice: 'Database was successfully saved.'
         else
           redirect_to user_path(current_user), notice: 'Database was successfully saved.'
         end

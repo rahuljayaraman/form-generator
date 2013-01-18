@@ -9,14 +9,14 @@
   </ol>
   An Example: When a door-door salesman tries to sell a <b class="" style="font-size: 120%">Product</b>, he approaches <b class="" style="font-size: 120%">A Customer</b> to pitch <b class="" style="font-size: 120%">Many Products</b>. So a sales activity can <b class="" style="font-size: 120%">Have One Customer</b> & <b class="" style="font-size: 120%">Have Many & Vice Versa Products</b>.
   </div>
-  <%= link_to " Forms", wizard_step3_path, class: "btn btn-large btn-primary span2 icon-arrow-right pull-right" %><br><br><br><br>
+  <%= link_to " Forms", wizard_step3_path(@wizard.parameters), class: "btn btn-large btn-primary span2 icon-arrow-right pull-right" %><br><br><br><br>
   <%= @wizard.render_progress %>
 </div>
 <hr>
 <div class="row">
   <div class="span12">
     <% @wizard.list_databases.each do |database| -%>
-      <%= link_to database.source_name, edit_source_path(database, wizard: {databases: @wizard.databases, relationships: @wizard.relationships}), class: "btn", remote: true %>
+      <%= link_to database.source_name, edit_source_path(database, @wizard.parameters), class: "btn", remote: true %>
     <% end -%>
   </div>
   <hr>

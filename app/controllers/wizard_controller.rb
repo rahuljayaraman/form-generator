@@ -11,6 +11,9 @@ class WizardController < ApplicationController
   end
 
   def step3
+    @sources = current_user.sources
+    @wizard = Wizard.new(params, view_context)
+    @parameters = @wizard.parameters
   end
 
   def step4

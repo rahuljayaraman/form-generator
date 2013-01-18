@@ -3,7 +3,7 @@
   <p style="font-size: 110%;" class="span9">
   Let's make some databases first. Take some time out & plan what data you need to capture. Remember to make <b style="font-size: 120%;">Several Small Re-usable Databases</b> instead of one large data structure. Your databases can be <b style="font-size: 120%">Linked</b> together using <b style="font-size: 120%">Relationships</b> in the next step.
   </p>
-  <%= link_to " Relationships", wizard_step2_path(wizard: {databases: @wizard.databases, relationships: @wizard.relationships}), class: "btn btn-large btn-primary span2 icon-arrow-right pull-right" %>
+  <%= link_to " Relationships", wizard_step2_path(@wizard.parameters), class: "btn btn-large btn-primary span2 icon-arrow-right pull-right" %>
 </div>
 <hr>
 <div class="row">
