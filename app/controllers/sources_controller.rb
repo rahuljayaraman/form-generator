@@ -42,7 +42,10 @@ class SourcesController < ApplicationController
     @source = Source.find(params[:id])
     @sources = current_user.sources.not_in(_id: [@source.id])
     @wizard = Wizard.new params, view_context
-    render template: "wizard/step1"
+    respond_to do |format|
+      format.html { render template: "wizard/step1" }
+      format.js
+    end
   end
 
   # POST /sources
@@ -54,7 +57,7 @@ class SourcesController < ApplicationController
       if @source.save
         if @wizard.active?
           @wizard.append_database @source.id
-          redirect_to wizard_step1_path(wizard: {databases: @wizard.url}), notice: 'Database was successfully saved.'
+          redirect_to wizard_step1_path(wizard: {databases: @wizard.databases, relationships: @wizard.relationships}), notice: 'Database was successfully saved.'
         else
          redirect_to user_path(current_user), notice: 'Database was successfully saved.'
         end
@@ -68,10 +71,15 @@ class SourcesController < ApplicationController
   def update
     @source = Source.find(params[:id])
     @wizard = Wizard.new params[:source], view_context
+    if params[:source][:disjoint_relationship]
+      @wizard.mark_relationships
+    end
 
       if @source.update_attributes(params[:source])
-        if @wizard.active?
-          redirect_to wizard_step1_path(wizard: {databases: @wizard.url}), notice: 'Database was successfully saved.'
+        if @wizard.active? && params[:source][:disjoint_relationship]
+          redirect_to wizard_step2_path(wizard: {databases: @wizard.databases, relationships: @wizard.relationships}), notice: 'Relationship was successfully saved.'
+        elsif @wizard.active?
+          redirect_to wizard_step1_path(wizard: {databases: @wizard.databases, relationships: @wizard.relationships}), notice: 'Database was successfully saved.'
         else
           redirect_to user_path(current_user), notice: 'Database was successfully saved.'
         end
