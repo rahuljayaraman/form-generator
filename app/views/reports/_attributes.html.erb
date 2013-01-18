@@ -4,6 +4,10 @@
   <%= f.error_notification %>
   <div class="form-inputs">
     <%= f.input :report_name, label: "Name your Report" %>
+    <%= f.input "wizard[databases]", input_html: { value: @wizard.try(:databases) }, as: :hidden if @wizard.try(:active?) -%>
+    <%= f.input "wizard[relationships]", input_html: { value: @wizard.try(:relationships) }, as: :hidden if @wizard.try(:active?) -%>
+    <%= f.input "wizard[forms]", input_html: { value: @wizard.try(:forms) }, as: :hidden if @wizard.try(:active?) -%>
+    <%= f.input "wizard[reports]", input_html: { value: @wizard.try(:reports) }, as: :hidden if @wizard.try(:active?) -%>
     <%= f.input :user_attributes, collection: User.available_attributes, as: :check_boxes %>
     <hr>
     <p>Data Attributes</p>

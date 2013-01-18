@@ -1,7 +1,7 @@
 <% unless @edit -%>
   <h3>Please select a database</h3>
   <% @sources.each do |source| -%>
-    <%= link_to source.source_name, source_path(source), remote: true, class: "btn btn-mini" %>
+    <%= link_to source.source_name, source_path(source, @wizard.parameters), remote: true, class: "btn btn-mini" %>
   <% end -%>
 <hr>
 <% end -%>

@@ -37,6 +37,7 @@ class ReportsController < ApplicationController
   def edit
     @report = current_user.reports.find(params[:id])
     @selected_source = @report.source
+    @wizard = Wizard.new(params, view_context)
     @edit = true
   end
 
@@ -44,15 +45,17 @@ class ReportsController < ApplicationController
   # POST /reports.json
   def create
     @report = current_user.reports.new(params[:report])
+    @wizard = Wizard.new(params[:report], view_context)
 
-    respond_to do |format|
-      if @report.save
-        format.html { redirect_to user_path(current_user), notice: 'Report was successfully created.' }
-        format.json { render json: @report, status: :created, location: @report }
+    if @report.save
+      if @wizard.active?
+        @wizard.append_report @report.id
+        redirect_to wizard_step4_path(@wizard.parameters), notice: 'Report was successfully saved.'
       else
-        format.html { render action: "new" }
-        format.json { render json: @report.errors, status: :unprocessable_entity }
+        redirect_to user_path(current_user), notice: 'Report was successfully created.' 
       end
+    else
+      render action: "new" 
     end
   end
 
@@ -60,15 +63,16 @@ class ReportsController < ApplicationController
   # PUT /reports/1.json
   def update
     @report = current_user.reports.find(params[:id])
+    @wizard = Wizard.new(params[:report], view_context)
 
-    respond_to do |format|
-      if @report.update_attributes(params[:report])
-        format.html { redirect_to user_path(current_user), notice: 'Report was successfully updated.' }
-        format.json { head :no_content }
+    if @report.update_attributes(params[:report])
+      if @wizard.active?
+        redirect_to wizard_step4_path(@wizard.parameters), notice: 'Report was successfully updated.'
       else
-        format.html { render action: "edit" }
-        format.json { render json: @report.errors, status: :unprocessable_entity }
+        redirect_to user_path(current_user), notice: 'Report was successfully updated.' 
       end
+    else
+      render action: "edit" 
     end
   end
 
