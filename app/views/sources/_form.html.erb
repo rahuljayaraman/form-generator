@@ -2,6 +2,9 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.button :submit, "Save", class: "btn btn-primary" %>
+    <%= link_to 'Back', user_path(current_user), class: "btn" %>
+    <br><br>
     <%= render 'sources/relationships', f: f unless @wizard.try(:active?) %>
     <%= f.input :source_name, label: "Name your Database", hint: "Add fields to build your database. Custom validations will help keep your data clean." %> 
     <%= wizard_helper f, @wizard %>
@@ -12,12 +15,5 @@
     <%= f.link_to_add ' Add Field', :source_attributes, class: "btn btn-danger icon-plus"%>
   </div>
 
-  <br>
-  <br>
-  <br>
-  <div class="form-actions">
-    <%= f.button :submit, "Save", class: "btn btn-primary" %>
-    <%= link_to 'Back', user_path(current_user), class: "btn" %>
-  </div>
 <% end %>
 
