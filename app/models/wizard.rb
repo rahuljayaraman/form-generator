@@ -91,7 +91,7 @@ class Wizard
         content_tag(:h5, "Databases created: " + count_databases.to_s) +
         raw(source_tags) + relationships + content_tag(:h5, "Forms created: " + count_forms.to_s) + raw(form_tags) + content_tag(:h5, "Reports created: " + count_reports.to_s) + raw(report_tags)
 
-      content_tag(:div, inner_content, class: "well span-2 pull-right")
+      content_tag(:div, inner_content, class: "well span-2 pull-right", style: "-webkit-box-shadow: -3px 2px 10px 2px #000; box-shadow: -3px 2px 10px 2px #000;")
     end
   end
 end
