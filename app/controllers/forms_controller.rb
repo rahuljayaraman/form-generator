@@ -47,9 +47,13 @@ class FormsController < ApplicationController
       end
     else
       @source = @form.source
-      @available_source_attributes = @source.source_attributes
-      @available_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
-      @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
+      @source_attributes = @source.source_attributes
+      @related_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
+      @related_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
+      @available_source_attributes = @source_attributes - @form.source_attributes
+      @available_many_manies = @related_many_manies - @form.source_attributes
+      @available_belongs_tos = @related_belongs_tos - @form.source_attributes
+      @source_attribute_ids = @form.source_attributes.map(&:id)
       render :new
     end
   end
