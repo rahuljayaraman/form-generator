@@ -52,7 +52,7 @@ class ApplicationsController < ApplicationController
 
     if @application.save
       if @wizard.active?
-        redirect_to application_path(@application), notice: 'Welcome!'
+        redirect_to application_path(@application, @wizard.parameters), notice: 'Welcome!'
       else
         redirect_to user_path(current_user), notice: 'Application was successfully created.' 
       end
