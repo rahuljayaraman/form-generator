@@ -7,4 +7,11 @@ module ApplicationHelper
       @application.application_name.camelize unless @application.nil?
     end
   end
+
+  def wizard_helper f, wizard
+    output = f.input "wizard[databases]", input_html: { value: wizard.try(:databases) }, as: :hidden if wizard.try(:active?) 
+    output += f.input "wizard[relationships]", input_html: { value: wizard.try(:relationships) }, as: :hidden if wizard.try(:active?) 
+    output += f.input "wizard[forms]", input_html: { value: wizard.try(:forms) }, as: :hidden if wizard.try(:active?) 
+    output += f.input "wizard[reports]", input_html: { value: wizard.try(:reports) }, as: :hidden if wizard.try(:active?) 
+  end
 end
