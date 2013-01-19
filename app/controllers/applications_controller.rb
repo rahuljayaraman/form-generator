@@ -16,6 +16,7 @@ class ApplicationsController < ApplicationController
     @application = current_user.owned_applications.find(params[:id]) rescue current_user.used_applications.find(params[:id])
     @role = @application.roles.new
     @roles = @application.roles.all
+    @wizard = Wizard.new params, view_context
     unless current_user.owns_application @application
       @reports = current_user.app_reports @application.id
       @forms = current_user.app_forms @application.id
@@ -47,15 +48,16 @@ class ApplicationsController < ApplicationController
   # POST /applications.json
   def create
     @application = current_user.owned_applications.new(params[:application])
+    @wizard = Wizard.new params[:application], view_context
 
-    respond_to do |format|
-      if @application.save
-        format.html { redirect_to user_path(current_user), notice: 'Application was successfully created.' }
-        format.json { render json: @application, status: :created, location: @application }
+    if @application.save
+      if @wizard.active?
+        redirect_to application_path(@application), notice: 'Welcome!'
       else
-        format.html { render action: "new" }
-        format.json { render json: @application.errors, status: :unprocessable_entity }
+        redirect_to user_path(current_user), notice: 'Application was successfully created.' 
       end
+    else
+      render action: "new" 
     end
   end
 

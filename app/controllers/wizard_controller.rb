@@ -23,5 +23,7 @@ class WizardController < ApplicationController
   end
 
   def step5
+    @application = Application.new
+    @wizard = Wizard.new(params, view_context)
   end
 end

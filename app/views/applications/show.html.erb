@@ -1,6 +1,13 @@
 <% set_application_parameters -%>
 <div class="row">
   <div class="span12">
+    <% if @wizard.active? -%>
+      <div class="center">
+        <h3 class="text-success">Congratulations! Your Application is now live!</h3>
+        <b><p class="well"> Use the Owner Panel on the right to invite Stakeholders. Use the Roles tab to define new Roles & Permissions.<br> Click on the builder button on the navigation bar above to modify resources like databases/forms or reports. </p></b>
+        <hr>
+      </div>
+    <% end -%>
     <div class="span8">
       <h2>Welcome to <%= @application.application_name  %></h2>
       <p class="well"><%= @application.application_description %></p>
