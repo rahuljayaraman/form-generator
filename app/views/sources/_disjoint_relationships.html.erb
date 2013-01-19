@@ -1,8 +1,16 @@
 <%= simple_nested_form_for @source, html: {class: "span12"} do |f| %>
-  <%= render 'sources/relationship_table', f: f %>
-  <%= f.input "disjoint_relationship", input_html: { value: true }, as: :hidden if @wizard.try(:active?) -%>
-  <%= wizard_helper f, @wizard %>
-  <div class="form-actions">
-    <%= f.button :submit, "Save", class: "btn btn-primary" %>
+<div id="myModal" class="large modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 90%; margin-left: -45%;">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Define Relationships</h3>
   </div>
+  <div class="modal-body">
+    <%= render 'sources/relationship_table', f: f %>
+    <%= f.input "disjoint_relationship", input_html: { value: true }, as: :hidden if @wizard.try(:active?) -%>
+    <%= wizard_helper f, @wizard %>
+    <div class="form-actions">
+      <%= f.button :submit, "Save", class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>
 <% end -%>
