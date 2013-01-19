@@ -11,6 +11,7 @@ class Wizard
     @forms = params[:wizard][:forms] rescue ""
     @reports = params[:wizard][:reports] rescue ""
     @view = view_context
+    @wizard = params[:wizard][:wizard] rescue false
     @url = ""
   end 
 
@@ -43,7 +44,11 @@ class Wizard
   end
 
   def active?
-    !@databases.nil?
+    @wizard
+  end
+
+  def initialize_wizard
+    @wizard = true
   end
 
   def append_database id
@@ -59,7 +64,7 @@ class Wizard
   end
 
   def parameters
-    { "wizard" => { "databases" => @databases, "relationships" => @relationships, "forms" => @forms, "reports" => @reports } }
+    { "wizard" => { "databases" => @databases, "relationships" => @relationships, "forms" => @forms, "reports" => @reports, "wizard" => @wizard } }
   end
 
   def mark_relationships

@@ -3,6 +3,7 @@ class WizardController < ApplicationController
     @source = Source.new
     @sources = current_user.sources
     @wizard = Wizard.new(params, view_context)
+    @wizard.initialize_wizard
   end
 
   def step2

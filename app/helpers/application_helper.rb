@@ -13,5 +13,6 @@ module ApplicationHelper
     output += f.input "wizard[relationships]", input_html: { value: wizard.try(:relationships) }, as: :hidden if wizard.try(:active?) 
     output += f.input "wizard[forms]", input_html: { value: wizard.try(:forms) }, as: :hidden if wizard.try(:active?) 
     output += f.input "wizard[reports]", input_html: { value: wizard.try(:reports) }, as: :hidden if wizard.try(:active?) 
+    output += f.input "wizard[wizard]", input_html: { value: @wizard }, as: :hidden if wizard.try(:active?) 
   end
 end
