@@ -38,6 +38,9 @@
             <ul class="nav pull-right">
               <% if current_user -%>
                 <% if current_user.builder? -%>
+                  <li class="divider-vertical"></li>
+                  <li><%= link_to raw("<i class='icon-magic'></i> Wizard"), wizard_step1_path %></li>
+                  <li class="divider-vertical"></li>
                   <li><%= link_to raw("<i class='icon-wrench'></i> Builder"), user_path(current_user) %></li>
                   <li class="divider-vertical"></li>
                 <% end -%>
