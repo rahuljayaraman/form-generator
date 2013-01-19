@@ -15,8 +15,8 @@ describe Wizard do
   end
 
   it "should find and list databases" do
-    @wizard.should_receive(:find_source).with("1") {@database1}
-    @wizard.should_receive(:find_source).with("2") {@database2}
+    @wizard.should_receive(:find_databases).with("1") {@database1}
+    @wizard.should_receive(:find_databases).with("2") {@database2}
     @wizard.list_databases 
   end
 end
