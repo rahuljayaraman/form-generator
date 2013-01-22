@@ -1,5 +1,5 @@
 <% unless @edit -%>
-  <h3>Please select a database</h3>
+  <h3>Please select a Register</h3>
   <% @sources.each do |source| -%>
     <%= link_to source.source_name, source_path(source, @wizard.try(:parameters)), remote: true, class: "btn btn-mini" %>
   <% end -%>
