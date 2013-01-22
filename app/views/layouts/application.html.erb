@@ -33,6 +33,7 @@
           <% else -%>
             <% link = root_path -%>
           <% end -%>
+      <a class="brand icon-home" style="color: #fff; font-size: 140%;" href="<%= link %>"> <%= content_for?(:app_name) ? yield(:app_name) :  "App Generator | Alpha" %></a>
           <div class="container nav-collapse">
             <ul class="nav pull-right">
               <% if current_user -%>
@@ -79,8 +80,7 @@
           </div><!--/.nav-collapse -->
         </div>
       </div>
-      <div class="well"><a class="brand icon-home" style="color: #000000; font-size: 190%;" href="<%= link %>"> <%= content_for?(:app_name) ? yield(:app_name) :  "App Generator | Alpha" %></a></div>
-    </div><br><br>
+    </div>
 
     <div class="container">
         <div class="row">
