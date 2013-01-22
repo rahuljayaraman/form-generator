@@ -20,7 +20,7 @@
   </head>
   <body>
 
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-fixed-top navbar-inverse" style="font-size: 95%; font-weight: bold;">
       <div class="navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
@@ -33,16 +33,12 @@
           <% else -%>
             <% link = root_path -%>
           <% end -%>
-          <a class="brand icon-home" href="<%= link %>"> <%= content_for?(:app_name) ? yield(:app_name) :  "App Generator | Alpha" %></a>
           <div class="container nav-collapse">
             <ul class="nav pull-right">
               <% if current_user -%>
                 <% if current_user.builder? -%>
-                  <li class="divider-vertical"></li>
                   <li><%= link_to raw("<i class='icon-magic'></i> Wizard"), wizard_step1_path %></li>
-                  <li class="divider-vertical"></li>
                   <li><%= link_to raw("<i class='icon-wrench'></i> Builder"), user_path(current_user) %></li>
-                  <li class="divider-vertical"></li>
                 <% end -%>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -65,7 +61,6 @@
                       <% end -%>
                     </ul>
                   </li>
-                <li class="divider-vertical"></li>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                      <i class="icon-user"></i> <%= current_user.name  %>
@@ -78,14 +73,14 @@
                     </ul>
                   </li>
               <% else -%>
-                <li class="divider-vertical"></li>
                 <li><%# link_to "Register", new_user_path %></li>
               <% end -%>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
-    </div>
+      <div class="well"><a class="brand icon-home" style="color: #000000; font-size: 190%;" href="<%= link %>"> <%= content_for?(:app_name) ? yield(:app_name) :  "App Generator | Alpha" %></a></div>
+    </div><br><br>
 
     <div class="container">
         <div class="row">
