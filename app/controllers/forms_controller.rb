@@ -41,6 +41,12 @@ class FormsController < ApplicationController
     @wizard = Wizard.new params[:form], view_context
     @form = current_user.forms.new params[:form]
     if @form.save
+      @source = @form.source
+      @related_has_manies = @form.has_manies.map(&:source) - [@source]
+      @related_belongs_tos = @form.belongs_tos.map(&:source) - [@source]
+      @source.habtm_ids += @related_has_manies.map(&:id)
+      @source.belongs_to_ids += @related_belongs_tos.map(&:id)
+      @source.save
       if @wizard.active?
         @wizard.append_form @form.id
         redirect_to wizard_step3_path(@wizard.parameters), notice: 'Form was saved.'

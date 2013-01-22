@@ -21,6 +21,8 @@
               <a href="#" id=<%= "#{attr.source.source_name} | #{attr.field_name}" %>><%= "#{attr.source.source_name} | #{attr.field_name}" %>&nbsp;&nbsp;</a> <a href="#" class="icon-remove muted remove"><small> remove</small></a>
               <input class='hidden' id='form_priority' name='[form][form_attributes_attributes][<%= attr.id %>][priority]' type='hidden' value='<%= index + 1 %>'>
               <input class='hidden' id='form_source_attributes' name='[form][form_attributes_attributes][<%= attr.id %>][source_attribute_id]' type='hidden' value='<%= attr.id %>'>
+              <% form_attribute = @form.form_attributes.where(:source_attribute_id => attr.id).last -%>
+              <input class='hidden' id='form_source_attributes' name='[form][form_attributes_attributes][<%= attr.id %>][relationship]' type='hidden' value='<%= form_attribute.relationship %>'>
             </div>
           <% end -%>
         </div>

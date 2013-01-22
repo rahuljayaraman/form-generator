@@ -99,9 +99,10 @@ $(document).ready(function(){
     var value = "<small class='muted'><b>[drag]</b></small><a href='#' class='' id='" + element.text().trim() + "'>  " + element.text().trim() +"&nbsp;&nbsp;</a>" + "<a href='#' class='icon-remove muted remove'><small> remove </small></a>";
     var hiddenPosition = "<input class='hidden' id='form_priority' name='[form][form_attributes_attributes][" + element.attr("id") + "][priority]' type='hidden' value='" + position + "'>";
     var hiddenSource = "<input class='hidden' id='form_source' name='[form][form_attributes_attributes][" + element.attr("id") + "][source_attribute_id]' type='hidden' value='" + element.attr("id") + "'>";
+    var hiddenRelationship = "<input class='hidden' id='form_source' name='[form][form_attributes_attributes][" + element.attr("id") + "][relationship]' type='hidden' value='" + element.attr("data_type") + "'>";
     var openTag = "<div class='checkboxes' id='" + element.attr("id") + "' data_type='" + element.attr('data_type') + "' data_source='" + element.attr('data_source') + "'>";
     var closeTag = "</div>";
-    var newElement = openTag + value + hiddenPosition + hiddenSource + closeTag;
+    var newElement = openTag + value + hiddenPosition + hiddenSource + hiddenRelationship + closeTag;
     $("#selected_items").append(newElement);
     linksLogic();
   };
