@@ -44,7 +44,7 @@ class SourcesController < ApplicationController
     @sources = current_user.sources.not_in(_id: [@source.id])
     @wizard = Wizard.new params, view_context
     respond_to do |format|
-      format.html { render template: "wizard/step1" }
+      format.html { render template: "wizard/step1" if @wizard.active? }
       format.js
     end
   end

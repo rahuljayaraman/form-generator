@@ -5,10 +5,10 @@
     <%= f.button :submit, "Save", class: "btn btn-primary" %>
     <%= link_to 'Back', user_path(current_user), class: "btn" %>
     <br><br>
-    <%= render 'sources/relationships', f: f unless @wizard.try(:active?) %>
+    <%# render 'sources/relationships', f: f unless @wizard.try(:active?) %>
     <%= f.input :source_name, label: "Name your Database", hint: "Add fields to build your database. Custom validations will help keep your data clean." %> 
-    <%= wizard_helper f, @wizard %>
-    <%= link_to ' Relationships', '#relationships', "data-toggle" => "modal", class: "btn btn-small icon-share" unless @wizard.try(:active?) %> <br><br>
+    <%= wizard_helper f, @wizard if @wizard.try(:active?) %>
+    <%# link_to ' Relationships', '#relationships', "data-toggle" => "modal", class: "btn btn-small icon-share" unless @wizard.try(:active?) %> <br><br>
     <%= f.simple_fields_for :source_attributes do |m| %>
       <%= render 'sources/model_attribute_fields', f: m %>
     <% end -%>
