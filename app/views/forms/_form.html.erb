@@ -3,7 +3,7 @@
   <hr>
   <%= wizard_helper f, @wizard %>
   <div class="row">
-    <div class="span6">
+    <div class="span5">
       <div class="span4">
         <h4>Selected Attributes</h4>
         <small class="muted"><b>(Drag up/down to re-order)</b></small>
@@ -18,7 +18,7 @@
             <% end -%>
             <div class="checkboxes" id= <%= attr.id %> data_type=<%= data_type %> data_source=<%= attr.source.source_name %>>
               <small class="muted"><b>[drag]</b></small>
-              <a href="#" id=<%= attr.field_name %>><%= attr.field_name %>&nbsp;&nbsp;</a> <a href="#" class="icon-remove muted remove"><small> remove</small></a>
+              <a href="#" id=<%= "#{attr.source.source_name} | #{attr.field_name}" %>><%= "#{attr.source.source_name} | #{attr.field_name}" %>&nbsp;&nbsp;</a> <a href="#" class="icon-remove muted remove"><small> remove</small></a>
               <input class='hidden' id='form_priority' name='[form][form_attributes_attributes][<%= attr.id %>][priority]' type='hidden' value='<%= index + 1 %>'>
               <input class='hidden' id='form_source_attributes' name='[form][form_attributes_attributes][<%= attr.id %>][source_attribute_id]' type='hidden' value='<%= attr.id %>'>
             </div>
@@ -30,27 +30,55 @@
         </div>
       </div>
     </div>
-    <div id="unselected_items" class="span6">
-      <div class="span4 offset1">
+    <div id="unselected_items" class="span4" style="height: 400px; overflow-y: scroll; overflow-x: hidden;">
+      <div class="span3">
         <h4>Available Attributes</h4>
         <small class="muted"><b>(Click to select)</b></small>
         <div class="well normal">
           <% @available_source_attributes.each do |attr| -%>
-            <%= link_to " #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "normal", data_source: attr.source.source_name %>
+            <%= link_to " #{attr.source.source_name} | #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "normal", data_source: attr.source.source_name %><br>
         <% end -%>
         </div>
-        <h4>Linked Many-Many Attributes</h4>
+        <h4>Multi-Select</h4>
         <small class="muted"><b>(Click to select. Only one attribute may be selected)</b></small>
         <div class="well many">
           <% @available_many_manies.each do |attr| -%>
-            <%= link_to " #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "many", data_source: attr.source.source_name %>
+            <%= link_to " #{attr.source.source_name} | #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "many", data_source: attr.source.source_name %><br>
         <% end -%>
         </div>
-        <h4>Linked Embedded Attributes</h4>
+        <h4>Single-Select</h4>
         <small class="muted"><b>(Click to select. Only one attribute may be selected)</b></small>
         <div class="well embedded">
           <% @available_belongs_tos.each do |attr| -%>
-            <%= link_to " #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "embedded", data_source: attr.source.source_name %>
+            <%= link_to " #{attr.source.source_name} | #{attr.field_name}", "#", class: "icon-arrow-left unselected", id: attr.id, data_type: "embedded", data_source: attr.source.source_name %><br>
+        <% end -%>
+        </div>
+      </div>
+    </div>
+    <div id="remaining_sources" class="span3" style="height: 400px; overflow-y: scroll; overflow-x: hidden;">
+      <div class="span2" style="text-align: center;">
+        <h4>Import Database</h4>
+        <hr>
+        <div class="sources">
+          <% @available_sources.each do |source| -%>
+            <%# link_to " #{source.source_name}", "#", class: "icon-plus database", data: { url: source_attribute_list_path(source) } %>
+            <a href="#<%= source.id %>" role="button" class="btn icon-plus" data-toggle="modal" style="display: block; width: 100%;"> <%= source.source_name %></a><br>
+             
+            <!-- Modal -->
+            <div id="<%= source.id %>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Import</h3>
+              </div>
+              <div class="modal-body">
+                <p>How many of <%= source.source_name %>'s items can be selected? </p>
+              </div>
+              <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <%= link_to "One", fetch_attributes_path(source, data_type: "embedded"), class: "btn btn-primary", remote: true, disable_with: "loading.." %>
+                <%= link_to "Many", fetch_attributes_path(source, data_type: "many"), class: "btn btn-success", remote: true, disable_with: "loading.." %>
+              </div>
+            </div>
         <% end -%>
         </div>
       </div>

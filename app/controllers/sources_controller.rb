@@ -22,7 +22,7 @@ class SourcesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @attributes }
-      format.js
+      format.js { render "sources/render_for_form", source_attributes: @attributes, data_type: params[:data_type] if params[:attributes] }
     end
   end
 
@@ -98,6 +98,16 @@ class SourcesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to user_path(current_user), notice: "Database was deleted!" }
       format.json { head :no_content }
+    end
+  end
+
+  def fetch_attributes
+    @source = Source.find(params[:id])
+    @source_attributes = @source.source_attributes
+    @data_type = params[:data_type]
+
+    respond_to do |format|
+      format.js
     end
   end
 end

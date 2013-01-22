@@ -27,4 +27,5 @@ BootstrapData::Application.routes.draw do
   match 'users/invite_users/' => 'users#invite_builder', as: :invite_builder
   match 'applications/:id/members' => 'applications#members', as: :application_members
   match 'select' => 'users#select_application', as: :select_application
+  match 'sources/:id/attributes' => 'sources#fetch_attributes', as: :fetch_attributes
 end

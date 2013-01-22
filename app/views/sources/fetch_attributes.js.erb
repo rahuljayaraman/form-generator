@@ -1,0 +1,7 @@
+console.log("Javascript for replacement called");
+<% if @data_type == "embedded" -%>
+  $("div.embedded").html("<%= j render 'sources/source_attribute_list', source_attributes: @source_attributes, data_type: @data_type %>");
+<% else -%>
+  $("div.many").html("<%= j render 'sources/source_attribute_list', source_attributes: @source_attributes, data_type: @data_type %>");
+<% end -%>
+$('#<%= @source.id %>').modal('hide');
