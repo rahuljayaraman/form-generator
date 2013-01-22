@@ -58,9 +58,9 @@ class SourcesController < ApplicationController
       if @source.save
         if @wizard.active?
           @wizard.append_database @source.id
-          redirect_to wizard_step1_path(@wizard.parameters), notice: 'Database was successfully saved.'
+          redirect_to wizard_step1_path(@wizard.parameters), notice: 'Register was successfully saved.'
         else
-         redirect_to user_path(current_user), notice: 'Database was successfully saved.'
+         redirect_to user_path(current_user), notice: 'Register was successfully saved.'
         end
       else
         render action: "new" 
@@ -80,9 +80,9 @@ class SourcesController < ApplicationController
         if @wizard.active? && params[:source][:disjoint_relationship]
           redirect_to wizard_step2_path(@wizard.parameters), notice: 'Relationship was successfully saved.'
         elsif @wizard.active?
-          redirect_to wizard_step1_path(@wizard.parameters), notice: 'Database was successfully saved.'
+          redirect_to wizard_step1_path(@wizard.parameters), notice: 'Register was successfully saved.'
         else
-          redirect_to user_path(current_user), notice: 'Database was successfully saved.'
+          redirect_to user_path(current_user), notice: 'Register was successfully saved.'
         end
       else
         render action: "edit" 
@@ -96,7 +96,7 @@ class SourcesController < ApplicationController
     @source.destroy
 
     respond_to do |format|
-      format.html { redirect_to user_path(current_user), notice: "Database was deleted!" }
+      format.html { redirect_to user_path(current_user), notice: "Register was deleted!" }
       format.json { head :no_content }
     end
   end
