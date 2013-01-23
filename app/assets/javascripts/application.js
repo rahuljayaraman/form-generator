@@ -26,6 +26,16 @@ $(document).ready(function(){
     format: 'yyyy-mm-dd',
     autoclose: true
   });
+  $("a.show_example").click(function(){
+   $("p.example").fadeToggle("fast"); 
+   var text = $(this).text();
+   if(text == "Show Example"){
+     $(this).text("Hide Example");
+   }
+   else {
+     $(this).text("Show Example");
+   }
+  });
 
   $("#selected_items").sortable({
     axis: 'y',

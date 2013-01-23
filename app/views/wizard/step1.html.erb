@@ -1,7 +1,11 @@
 <h2 class="well">Step 1/4: Registers</h2>
 <div class="row">
   <p style="font-size: 110%;" class="span9">
-  Let's make some registers first. Think of registers as grids which hold your data. Define fields for your register below. Remember to make <b style="font-size: 120%;">Seperate Registers for supplying Masters</b>. Masters can be <b style="font-size: 120%">Imported</b> into your form in the next step.
+  Let's make some registers first. Think of registers as grids which hold your data. Define fields for your register below. Remember to make <b style="font-size: 120%;">Seperate Registers for supplying Masters</b>. Masters can be <b style="font-size: 120%">Imported as Drop-downs/Multi-selects</b> into your form.
+  <br><%= link_to "Show Example", "#", class: "show_example" %>
+  </p>
+  <p style="font-size: 110%; display: none;" class="span9 example">
+  Example: I wish to capture a sales executive's daily activity. So I make a Sales Register which has attributes like Call date, Customer Name, Products Pitched & Remarks. But I also want the Sales Executive to select one or many Products from a list instead of entering free text. So I make a separate register for Products with it's own unique fields like Product Code, Product Name, Product Description etc. I can Import Products into the Sales Register while building a form.
   </p>
   <%= link_to " Forms", wizard_step3_path(@wizard.parameters), class: "btn btn-large btn-primary span2 icon-arrow-right pull-right" %>
 </div>

@@ -1,7 +1,11 @@
 <h2 class="well">Step 2/4: Forms</h2>
 <div class="row">
   <p style="font-size: 110%;" class="span9">
-  Let's build some forms now. Start by selecting a Report below. To supply a <b style="font-size: 120%;">Controlled Means</b> of entering data, a <b style="font-size: 120%;">Dropdown or Multi-Select</b> can be used by <b style="font-size: 120%;">Importing A Register</b> and adding it to the form.
+  Let's build some forms now. Start by selecting a Register below. To supply a <b style="font-size: 120%;">Controlled Means</b> of entering data, a <b style="font-size: 120%;">Dropdown or Multi-Select</b> can be used by <b style="font-size: 120%;">Importing A Register</b> and adding it to the form.
+  <br><%= link_to "Show Example", "#", class: "show_example" %>
+  </p>
+  <p style="font-size: 110%; display: none;" class="span9 example">
+  Example: Building on my previous example, I click on Sales Register to start building a form for it. I select some fields from the available attributes pane on the right to get them in the 'selected' pane & drag them up & down to re-arrange the form as per my liking. I then click on Product in the Import pane. When prompted, I select 'Many' since the sales executive can select many Products. Product's attributes are displayed in the Multi-Select section on the right. I select one of those attributes & add it to the form.
   </p>
   <%= link_to " Reports", wizard_step4_path(@wizard.parameters), class: "btn btn-large btn-primary span2 icon-arrow-right pull-right" %>
 </div>
