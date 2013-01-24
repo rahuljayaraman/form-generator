@@ -30,7 +30,7 @@ class FormsController < ApplicationController
     @available_belongs_tos = @related_belongs_tos - @form.source_attributes
     @source_attribute_ids = @form.source_attributes.map(&:id)
     @wizard = Wizard.new params, view_context
-    @available_sources = current_user.sources - [@source]
+    @available_sources = current_user.sources - [@source] - @source.habtms - @source.belongs_tos - @source.has_manies
   end
 
   def show
