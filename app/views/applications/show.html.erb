@@ -8,17 +8,22 @@
         <hr>
       </div>
     <% end -%>
-    <div class="span8">
+    <div class="span7">
       <h2>Welcome to <%= @application.application_name  %></h2>
       <p class="well"><%= @application.application_description %></p>
       <hr>
     </div>
-    <div class="offset1 span2">
       <% if current_user.owns_application @application -%>
-        <%= render 'owner' %>
+        <div class="span2">
+          <%= render 'owner' %>
+        </div>
+        <div class="span2">
+          <%= render 'member' %>
+        </div>
       <% else -%>
-        <%= render 'member' %>
+        <div class="offset2 span2">
+          <%= render 'member' %>
+        </div>
       <% end -%>
-    </div>
   </div>
 </div>

@@ -17,9 +17,14 @@ class ApplicationsController < ApplicationController
     @role = @application.roles.new
     @roles = @application.roles.all
     @wizard = Wizard.new params, view_context
-    unless current_user.owns_application @application
+    if current_user.owns_application @application
       @reports = current_user.app_reports @application.id
       @forms = current_user.app_forms @application.id
+      @owner = true
+    else
+      @reports = current_user.app_reports @application.id
+      @forms = current_user.app_forms @application.id
+      @owner = false
     end
 
     respond_to do |format|

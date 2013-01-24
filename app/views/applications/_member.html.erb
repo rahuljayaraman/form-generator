@@ -1,5 +1,10 @@
 <div class="role well">
-  <b>Role: <%= current_user.app_roles(@application).size > 0 ? current_user.app_roles(@application).map(&:role_name).join(", ") : "N/A" %></b>
+  <% if @owner -%>
+    <% role_name = "Owner" -%>
+  <% else -%>
+    <% role_name = current_user.app_roles(@application).size > 0 ? current_user.app_roles(@application).map(&:role_name).join(", ") : "N/A"  -%>
+  <% end -%>
+  <b>Role: <%= role_name %></b>
 </div>
 <div class="forms">
   <%= render 'forms/index' %>

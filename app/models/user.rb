@@ -57,7 +57,12 @@ class User
   end
 
   def app_roles app_id
-    roles.where(application_id: app_id)
+    application = Application.find(app_id)
+    if owns_application application
+      application.roles
+    else
+      roles.where(application_id: app_id)
+    end
   end
 
   def app_forms app_id
