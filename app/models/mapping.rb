@@ -7,12 +7,8 @@ module Mapping
       'Date & Time' => DateTime,
       'Date' => Date,
       'Time' => Time,
-      'Collection' => Array,
-      'Radio Buttons' => Array,
-      'Check Boxes' => Array,
+      'Yes or No' => Boolean,
       'Password' => String,
-      'Email' => String,
-      'Telephone' => String,
       'True or False' => Boolean
     }
   end
@@ -25,12 +21,8 @@ module Mapping
       'Date & Time' => 'datetime',
       'Date' => 'date',
       'Time' => 'time',
-      'Collection' => 'select',
-      'Radio Buttons' => 'radio_buttons',
-      'Check Boxes' => 'check_boxes',
+      'Yes or No' => 'radio_buttons',
       'Password' => 'password',
-      'Email' => 'email',
-      'Telephone' => 'tel',
       'True or False' => 'boolean'
     }
   end
