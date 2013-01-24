@@ -11,7 +11,7 @@ class FormsController < ApplicationController
       @available_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
       @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
     end
-    @available_sources = current_user.sources - [@source]
+    @available_sources = current_user.sources - [@source] - @source.habtms - @source.belongs_tos - @source.has_manies
     @wizard = Wizard.new params, view_context
     respond_to do |format|
       format.html # show.html.erb
