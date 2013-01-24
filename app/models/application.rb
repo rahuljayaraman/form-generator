@@ -12,6 +12,8 @@ class Application
   def remove_member user_id
     member = self.members.find_by_id user_id
     members.delete member
+    save
+    User.find(user_id).used_applications.delete(self)
   end
 
   def register_or_add users
