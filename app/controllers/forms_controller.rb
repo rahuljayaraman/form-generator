@@ -73,6 +73,12 @@ class FormsController < ApplicationController
     # This line makes me want to puke. Unfortunately, find_or_initialize may not work for nested_attributes. Will wrap this in a transaction later.
     @form.form_attributes.destroy_all
     if @form.update_attributes(params[:form])
+      @source = @form.source
+      @related_has_manies = @form.has_manies.map(&:source) - [@source]
+      @related_belongs_tos = @form.belongs_tos.map(&:source) - [@source]
+      @source.habtm_ids += @related_has_manies.map(&:id)
+      @source.belongs_to_ids += @related_belongs_tos.map(&:id)
+      @source.save
       if @wizard.active?
         redirect_to wizard_step3_path(@wizard.parameters), notice: 'Form was Updated.'
       else
