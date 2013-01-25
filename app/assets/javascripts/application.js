@@ -22,6 +22,33 @@
 
 
 $(document).ready(function(){
+
+  $("a#toggle_validation").each(function(){
+    var element = $(this)
+    $(element).live("click", function() {
+      $(this).parent('div').parent('div').find('.model_validations').modal();
+    });
+  });
+
+  $(document).on('nested:fieldAdded', function(event){
+    var field = event.field;
+    var element = field.find('#toggle_validation')
+    $(element).on("click", element, showModal);
+  });
+
+  var showModal = function() {
+    $(this).parent('div').parent('div').find('.model_validations').modal();
+  }
+
+  //Overriding nested_form's default behaviour
+  window.nestedFormEvents.insertFields = function(content, assoc, link) {
+    if(assoc == "source_attributes") {
+      return $(link).closest('form').find("." + assoc + '_fields').prepend($(content));
+    }
+    else if(assoc == "model_validations") {
+      return $(link).closest('.fields').find('.modal-body').prepend($(content));
+    }
+  }
   $(".datepicker").datepicker({
     format: 'yyyy-mm-dd',
     autoclose: true
@@ -121,25 +148,15 @@ $(document).ready(function(){
     var length = $("#selected_items").find("li.checkboxes").length;
     return length;
   };
-  $(".range").hide();
 
-  //Toggle Show validations for sources/edit
-  $("#show_validation").live("click", function() {
-    var element = $(this).parent('div').find('#validation_fieldset:first')
-    element.toggle();
-    var val = element.find("select.v_dropdown").val();
-    if(val == "Length") {
-      element.find('.range').show();
-    }
-  });
 
   //Toggle show validation options
   $("select.v_dropdown").live("click", function() {
-    $(".range").hide();
+    $("input.range").addClass('hide');
     var value = $(this).val();
     switch(value) {
       case "Length":
-        $(this).parent("div").find('.range').show();
+        $(this).parent("div").find('input.range').removeClass('hide');
         break;
     }
   });

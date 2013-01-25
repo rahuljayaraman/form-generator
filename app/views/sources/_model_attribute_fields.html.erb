@@ -1,29 +1,21 @@
-<div id = "fieldset">
-    <span class="label label-success">Field</span>
-  <%= f.input_field :field_name, label: 'Field Name', placeholder: 'Field Name' %>
-  <%= f.input_field :field_type, label: 'Field Type', collection: Source.mapping.keys, prompt: 'Select Field Type' %>
+<div class="span2 well shadow">
+  <%= f.input_field :field_name, label: 'Field Name', placeholder: 'Field Name', class: "input-block span2" %><br>
+  <%= f.input_field :field_type, label: 'Field Type', collection: Source.mapping.keys, prompt: 'Select Field Type', class: "input-block span2" %><br>
+  <%= link_to ' validations', '#', class: "badge icon-check", id: "toggle_validation", style: "font-size: 90%;" %><br><br>
   <%= f.link_to_remove ' remove field', class: 'icon-remove badge'%>
-  <hr>
-  <%= f.simple_fields_for :model_validations do |m| %>
-    <% if params[:action] == 'edit' -%>
-      <%= link_to 'Toggle Show Validations', '#', id: 'show_validation'%>
-      <br>
-    <% end -%>
-    <br>
-    <% params[:action] == 'edit' ? message = "display: none;" : message = "" %>
-    <div id = "validation_fieldset" style = "<%= message %>">
-      <span class="label label-important">Validation</span>
-      <%= m.input_field :validation_type, prompt: "Select Validation Type", collection: ModelValidation.show, class: 'v_dropdown' %>
-      <%= m.link_to_remove ' remove validation', class: 'badge icon-remove'%>
-      <hr>
-      <span class="label label-warning">Validation Options</span>
-      <%= m.input_field :message, placeholder: "Failure Message", class: "span4" %>
-      <%= m.input_field :min, placeholder: "Min", class: "span1 range" %>
-      <%= m.input_field :max, placeholder: "Max", class: "span1 range" %>
-    </div>
-    <br>
-  <% end -%>
 </div>
-  <%= f.link_to_add ' Add Validation', :model_validations, class: "btn btn-small icon-plus"%>
-<br><br>
-<hr>
+<div class="model_validations modal hide fade">
+  <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Validations</h3><br>
+        <%= f.link_to_add ' Add Validation', :model_validations, class: "icon-plus btn"%>
+  </div>
+  <div class="modal-body">
+    <%= f.simple_fields_for :model_validations do |v| %>
+      <%= render 'sources/model_validation_fields', m: v %>
+    <% end -%>
+  </div>
+  <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>

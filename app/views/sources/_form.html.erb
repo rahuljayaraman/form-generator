@@ -1,18 +1,23 @@
-<%= simple_nested_form_for @source, html: {class: "span12"} do |f| %>
+<%= simple_nested_form_for @source, html: {class: ""} do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.button :submit, "Save", class: "btn btn-primary" %>
-    <%= link_to 'Back', user_path(current_user), class: "btn" %>
-    <br><br>
-    <%# render 'sources/relationships', f: f unless @wizard.try(:active?) %>
+    <div class="pull-right">
+      <%= link_to ' Back', user_path(current_user), class: "icon-backward btn btn-large" unless @wizard.try(:active?)%><br><br>
+      <%= button_tag(type: 'submit', class: "btn btn-large btn-primary") do %>
+        <i class='icon-save'> Save</i>
+      <% end -%>
+    </div>
     <%= f.input :source_name, label: "Name your Register", hint: "Add fields to build your register. Custom validations will help keep your data clean." %> 
-    <%= wizard_helper f, @wizard if @wizard.try(:active?) %>
-    <%# link_to ' Relationships', '#relationships', "data-toggle" => "modal", class: "btn btn-small icon-share" unless @wizard.try(:active?) %> <br><br>
-    <%= f.simple_fields_for :source_attributes do |m| %>
-      <%= render 'sources/model_attribute_fields', f: m %>
-    <% end -%>
-    <%= f.link_to_add ' Add Field', :source_attributes, class: "btn btn-danger icon-plus"%>
+    <%= wizard_helper f, @wizard if @wizard.try(:active?) %><br>
+    <%= f.link_to_add ' Add Field', :source_attributes, class: "btn icon-plus"%><br><br>
+    <div class="source_attributes_fields row">
+      <%= f.simple_fields_for :source_attributes do |m| %>
+        <div id="fieldset">
+          <%= render 'sources/model_attribute_fields', f: m %>
+        </div>
+      <% end -%>
+    </div>
   </div>
 
 <% end %>

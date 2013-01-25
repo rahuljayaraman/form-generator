@@ -1,0 +1,8 @@
+<div class="span4 well shadow">
+  <%= m.link_to_remove ' remove validation', class: 'badge icon-remove'%><br><br>
+  <%= m.input_field :validation_type, prompt: "Select Validation Type", collection: ModelValidation.show, class: 'v_dropdown span3' %>
+  <% # Validation Options  -%>
+  <%= m.input_field :message, placeholder: "Failure Message", class: "span4" %>
+  <%= m.input_field :min, placeholder: "Min", class: "span1 range hide" %>
+  <%= m.input_field :max, placeholder: "Max", class: "span1 range hide" %>
+</div>

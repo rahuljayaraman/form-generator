@@ -15,6 +15,14 @@
  *= require_tree .
 */
 
+div.shadow {
+  -webkit-box-shadow: 1px -1px 7px 1px #000; 
+  box-shadow: 1px -1px 7px 1px #000;
+}
 .center {
   text-align: center;
+}
+
+div.hide {
+  display: none;
 }
