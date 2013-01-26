@@ -15,4 +15,12 @@ module ApplicationHelper
     output += f.input "wizard[reports]", input_html: { value: wizard.try(:reports) }, as: :hidden if wizard.try(:active?) 
     output += f.input "wizard[wizard]", input_html: { value: @wizard }, as: :hidden if wizard.try(:active?) 
   end
+
+  def wizard_tag_helper wizard
+    output = hidden_field_tag "wizard[databases]", wizard.try(:databases) if wizard.try(:active?) 
+    output += hidden_field_tag "wizard[relationships]", wizard.try(:relationships) if wizard.try(:active?) 
+    output += hidden_field_tag "wizard[forms]", wizard.try(:forms) if wizard.try(:active?) 
+    output += hidden_field_tag "wizard[reports]", wizard.try(:reports) if wizard.try(:active?) 
+    output += hidden_field_tag "wizard[wizard]", @wizard if wizard.try(:active?) 
+  end
 end
