@@ -18,6 +18,7 @@ gem 'unicorn'
 gem 'capistrano'
 gem 'rvm-capistrano'
 gem 'roo'
+gem 'google-spreadsheet-ruby'
 
 group :assets do
   gem 'less-rails'
