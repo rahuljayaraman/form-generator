@@ -8,9 +8,9 @@
       <p>Provide us an excel sheet with headers & a line of data. We'll try & guess what your register should look like.</p>
       <%= form_tag import_sources_path, multipart: true do %>
         <%= file_field_tag :file %>
-        <%= hidden_field_tag :import, "header" %>
+        <%= hidden_field_tag :import, "header" %><br><br>
         <%= wizard_tag_helper @wizard if @wizard.try(:active?) %>
-        <%= submit_tag "Import", class: "btn btn-success" %>
+        <%= submit_tag "Import", class: "btn btn-success btn-large" %>
       <% end %>
     </div>
     <div class="modal-footer">
@@ -29,8 +29,8 @@
         <%= text_field_tag :source_name, nil, placeholder: "Name your register" %><br>
         <%= file_field_tag :file %>
         <%= wizard_tag_helper @wizard if @wizard.try(:active?) %>
-        <%= hidden_field_tag :import, "master" %>
-        <%= submit_tag "Import", class: "btn btn-success" %>
+        <%= hidden_field_tag :import, "master" %><br><br>
+        <%= submit_tag "Import", class: "btn btn-large btn-success" %>
       <% end %>
     </div>
     <div class="modal-footer">
