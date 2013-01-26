@@ -17,6 +17,7 @@ gem 'resque_mailer'
 gem 'unicorn'
 gem 'capistrano'
 gem 'rvm-capistrano'
+gem 'roo'
 
 group :assets do
   gem 'less-rails'
