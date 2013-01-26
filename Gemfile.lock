@@ -308,6 +308,7 @@ DEPENDENCIES
   database_cleaner
   fabrication
   faker
+  google-spreadsheet-ruby
   guard-rspec
   jquery-datatables-rails
   jquery-rails
