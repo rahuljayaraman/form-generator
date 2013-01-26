@@ -131,10 +131,13 @@ class SourcesController < ApplicationController
             else
               type = "String"
             end
-          binding.pry
           @source.source_attributes.build(field_name: value, field_type: type)
         end
-        render :new 
+        if @wizard.active?
+          render 'wizard/step1' 
+        else
+          render :new 
+        end
         return
       else
         #parse xls master

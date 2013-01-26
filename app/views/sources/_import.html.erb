@@ -9,6 +9,7 @@
       <%= form_tag import_sources_path, multipart: true do %>
         <%= file_field_tag :file %>
         <%= hidden_field_tag :import, "header" %>
+        <%= wizard_tag_helper @wizard if @wizard.try(:active?) %>
         <%= submit_tag "Import", class: "btn btn-success" %>
       <% end %>
     </div>
@@ -27,6 +28,7 @@
       <%= form_tag import_sources_path, multipart: true do %>
         <%= text_field_tag :source_name, nil, placeholder: "Name your register" %><br>
         <%= file_field_tag :file %>
+        <%= wizard_tag_helper @wizard if @wizard.try(:active?) %>
         <%= hidden_field_tag :import, "master" %>
         <%= submit_tag "Import", class: "btn btn-success" %>
       <% end %>
