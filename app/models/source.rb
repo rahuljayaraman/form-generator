@@ -1,3 +1,4 @@
+require 'roo'
 class Source
   include Mongoid::Document
   include Mongoid::Timestamps
