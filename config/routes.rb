@@ -7,7 +7,10 @@ BootstrapData::Application.routes.draw do
   match "wizard/step5" => "wizard#step5", as: :wizard_step5
   match "wizard/step6" => "wizard#step6", as: :wizard_step6
 
-  resources :sources, :forms, :reports, :form_renderers, :applications, :roles
+  resources :forms, :reports, :form_renderers, :applications, :roles
+  resources :sources do
+    collection {post :import}
+  end
 
   root :to => 'pages#home'
   mount Resque::Server, :at => "/resque"
