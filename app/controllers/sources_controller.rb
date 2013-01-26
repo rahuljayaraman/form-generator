@@ -42,6 +42,7 @@ class SourcesController < ApplicationController
   def edit
     @source = Source.find(params[:id])
     @sources = current_user.sources.not_in(_id: [@source.id])
+    @edit = true
     @wizard = Wizard.new params, view_context
     respond_to do |format|
       format.html { render template: "wizard/step1" if @wizard.active? }
@@ -108,6 +109,52 @@ class SourcesController < ApplicationController
 
     respond_to do |format|
       format.js
+    end
+  end
+
+  def import
+    @wizard = Wizard.new params, view_context
+    if params[:import]
+      unless params[:file]
+        redirect_to new_source_path, alert: "You forgot to attach a master file."
+        return
+      end
+      if params[:import] == "header"
+        #parse xls headers
+        headers = Source.import_headers(params[:file], 1)
+        values = Source.import_headers(params[:file], 2)
+        @source = Source.new
+        headers.each_with_index do |value, index|
+          case values[index].class.to_s
+            when "Integer", "Float"
+              type = "Number"
+            else
+              type = "String"
+            end
+          binding.pry
+          @source.source_attributes.build(field_name: value, field_type: type)
+        end
+        render :new 
+        return
+      else
+        #parse xls master
+        if params[:source_name].blank?
+          name = params[:file].original_filename
+        else
+          name = params[:source_name]
+        end
+        @source = Source.import_data name, params[:file], current_user
+        if @source.save
+          if @wizard.active?
+            @wizard.append_database @source.id
+            redirect_to wizard_step1_path(@wizard.parameters), notice: 'Master has been imported!'
+          else
+            redirect_to user_path(current_user), notice: "Master has been Imported!"
+          end
+        else
+          render action: "new" 
+        end
+      end
     end
   end
 end
