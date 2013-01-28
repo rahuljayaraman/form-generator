@@ -40,6 +40,9 @@ group :test do
 end
 
 group :development, :test do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'meta_request'
   gem 'rspec-rails'
   gem 'guard-rspec'
   gem 'rb-inotify', :require => false
