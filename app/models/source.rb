@@ -1,5 +1,6 @@
 require 'roo'
 class Source
+  class NoHeader < RuntimeError; end
   include Mongoid::Document
   include Mongoid::Timestamps
   include DynamicModel
@@ -89,34 +90,47 @@ class Source
     end
   end
 
-  def self.import_headers(file, row)
-    spreadsheet = open_spreadsheet(file)
-    header = spreadsheet.row(row)
-  end
 
-  def self.import_data(name, file, user)
+  def self.build_headers(name, file, user)
     spreadsheet = open_spreadsheet(file)
-    header = spreadsheet.row(1)
-    guess_type = spreadsheet.row(2)
+    first_row = spreadsheet.first_row
+    header = spreadsheet.row(first_row)
+    # guess_type = spreadsheet.row(first_row + 1)
     source = user.sources.new(source_name: name)
     header.each_with_index do |value, index|
-      case guess_type[index].class.to_s
-      when "String"
-        type = "String"
-      when "Integer", "Float"
-        type = "Number"
-      end
+      raise NoHeader unless value
+      type = guess_celltype spreadsheet.celltype(first_row+1, index)
       source.source_attributes.build(field_name: value, field_type: type)
     end
-    source.save
-    header = header.collect { |val| val.gsub(/[^0-9a-zA-Z]/i, '').underscore }
+    { source: source, header: header, spreadsheet: spreadsheet }
+  end
+
+  def self.import_data(source, header, spreadsheet, user)
+    header = header.collect { |val| val.to_s.gsub(/[^0-9a-zA-Z]/i, '').underscore }
+    model = source.initialize_dynamic_model
+    User.define_relationships [model]
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
-      model = source.initialize_dynamic_model
-      User.define_relationships [model]
       data = user.send(model.collection_name).new(row.to_hash)
       data.save
     end
-    source
+    model
+  end
+
+  def self.guess_celltype sym
+    case sym
+    when :string, :formula
+      type = "String"
+    when :float, :percentage
+      type = "Number"
+    when :date
+      type = "Date"
+    when :datetime
+      type =  "Date & Time"
+    when :time
+      type = "Time"
+    else
+      type = "String"
+    end
   end
 end

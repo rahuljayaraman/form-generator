@@ -119,20 +119,25 @@ class SourcesController < ApplicationController
         redirect_to new_source_path, alert: "You forgot to attach a master file."
         return
       end
-      if params[:import] == "header"
-        #parse xls headers
-        headers = Source.import_headers(params[:file], 1)
-        values = Source.import_headers(params[:file], 2)
+      if params[:source_name].present? && !params[:source_name].blank?
+        name = params[:source_name]
+      elsif params[:source_name].present?
+        name = params[:file].original_filename
+      else
+        name = ""
+      end
+      begin
+        source_header = Source.build_headers(name, params[:file], current_user)
+      rescue Source::NoHeader
         @source = Source.new
-        headers.each_with_index do |value, index|
-          case values[index].class.to_s
-            when "Integer", "Float"
-              type = "Number"
-            else
-              type = "String"
-            end
-          @source.source_attributes.build(field_name: value, field_type: type)
-        end
+        flash.now[:alert] = "You seem to have a blank entry in your headers. Please correct this & try again."
+        render :new
+        return
+      end
+
+      @source = source_header[:source]
+
+      if params[:import] == "header"
         if @wizard.active?
           render 'wizard/step1' 
         else
@@ -141,13 +146,13 @@ class SourcesController < ApplicationController
         return
       else
         #parse xls master
-        if params[:source_name].blank?
-          name = params[:file].original_filename
-        else
-          name = params[:source_name]
+        unless @source.save
+          flash.now[:alert] = "Please try and upload the masters again or click on save to create headers only."
+          render :new
+          return
         end
-        @source = Source.import_data name, params[:file], current_user
-        if @source.save
+        @data = Source.import_data(@source, source_header[:header], source_header[:spreadsheet], current_user) 
+        if @data
           if @wizard.active?
             @wizard.append_database @source.id
             redirect_to wizard_step1_path(@wizard.parameters), notice: 'Master has been imported!'
@@ -155,6 +160,9 @@ class SourcesController < ApplicationController
             redirect_to user_path(current_user), notice: "Master has been Imported!"
           end
         else
+          @source.destroy
+          @source = Source.new
+          flash.now[:alert] = "There was something wrong with the file you uploaded. Please check the file & try again."
           render action: "new" 
         end
       end
