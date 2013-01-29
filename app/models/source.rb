@@ -28,8 +28,8 @@ class Source
 
   def collection_name_helper
     user_id = self.user.id
-    klass_name = self.source_name.attribute.classify
-    (klass_name + user_id).tableize
+    klass_name = self.source_name.attribute
+    (klass_name + user_id).classify.tableize
   end
 
   def remove_unrelated_form_attributes
