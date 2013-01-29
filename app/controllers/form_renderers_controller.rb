@@ -12,7 +12,7 @@ class FormRenderersController < ApplicationController
   end
 
   def index
-    @attributes = @source.source_attributes + @source.belongs_tos + @source.habtms
+    @attributes = @form.source_attributes
     add = Struct.new(:id, :field_name)
     @attributes += [add.new(1, 'Created At'), add.new(2, 'Updated At')]
     @user_attributes = ['Name', 'Email']
