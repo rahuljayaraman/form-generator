@@ -1,7 +1,7 @@
 module DynamicModel
   def initialize_dynamic_model
-    model_name = self.source_name.attribute.classify
-    klass_name = "#{model_name}#{self.user.id}"
+    model_name = self.source_name.attribute
+    klass_name = "#{model_name}#{self.user.id}".classify
     object = self
 
     klass = Class.new do
@@ -59,24 +59,24 @@ module DynamicModel
 
       #Relationships
       object.has_manies.each do |h|
-        object_model_name = h.source_name.attribute.classify
-        object_klass_name = "#{object_model_name}#{object.user.id}"
+        object_model_name = h.source_name.attribute
+        object_klass_name = "#{object_model_name}#{object.user.id}".classify
         has_many object_klass_name.tableize.to_sym, inverse_of: klass_name.underscore.to_sym, inverse_class_name: klass_name
         attr_field = object_klass_name.underscore + "_ids"
         attr_accessible attr_field.to_sym
       end
 
       object.belongs_tos.each do |h|
-        object_model_name = h.source_name.attribute.classify
-        object_klass_name = "#{object_model_name}#{object.user.id}"
+        object_model_name = h.source_name.attribute
+        object_klass_name = "#{object_model_name}#{object.user.id}".classify
         belongs_to object_klass_name.underscore.to_sym, inverse_of: klass_name.underscore.to_sym, inverse_class_name: klass_name
         attr_field = object_klass_name.underscore + "_id"
         attr_accessible attr_field.to_sym
       end
 
       object.habtms.each do |h|
-        object_model_name = h.source_name.attribute.classify
-        object_klass_name = "#{object_model_name}#{object.user.id}"
+        object_model_name = h.source_name.attribute
+        object_klass_name = "#{object_model_name}#{object.user.id}".classify
         has_and_belongs_to_many object_klass_name.tableize.to_sym, inverse_of: klass_name.underscore.to_sym, inverse_class_name: klass_name
         attr_field = object_klass_name.underscore + "_ids"
         attr_accessible attr_field.to_sym
