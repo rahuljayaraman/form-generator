@@ -101,6 +101,11 @@ class ReportsController < ApplicationController
     belongs_tos = @report.source.belongs_tos.map(&:initialize_dynamic_model)
     associated_models = (has_manies + belongs_tos + has_and_belongs_to_many) << @model
     User.define_relationships associated_models
+    @direct_attributes = @report.find_direct_attributes
+    @belongs_to_attributes = @report.find_belongs_to_attributes
+    @habtm_attributes = @report.find_habtm_attributes
+    @has_many_attributes = @report.find_has_many_attributes
+
     if params[:search]
       @data = @report.search(params[:search])
     else

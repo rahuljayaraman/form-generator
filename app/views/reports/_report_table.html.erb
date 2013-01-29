@@ -1,0 +1,37 @@
+<table class = "table table-bordered" id="datatables">
+  <thead>
+  <% if @user_attributes %>
+    <% @user_attributes.each do |u| -%>
+      <th><%= u.humanize %></th>
+    <% end -%>
+  <% end -%>
+    <% @attributes.each do |m| -%>
+      <th><%= m.field_name.humanize %></th>
+    <% end -%>
+  </thead>
+
+  <tbody>
+  <% @data.each do |d| %>
+    <tr>
+    <% if @user_attributes %>
+      <% @user_attributes.each do |u| -%>
+          <td><%= d.send("user").send(u.attribute) || "N/A" %></td>
+      <% end -%>
+    <% end -%>
+    <% @attributes.each do |m| -%>
+      <% if @direct_attributes.include? m -%>
+        <td><%= d.send(m.field_name.attribute) || "N/A" %></td>
+      <% elsif @belongs_to_attributes.include? m -%>
+      <td><%= d.send(m.source.collection_name_helper.singularize).send(m.field_name.attribute) || "N/A" rescue "N/A"%></td>
+      <% elsif @habtm_attributes.include? m -%>
+        <td><%= d.send(m.source.collection_name_helper).map(&m.field_name.attribute.to_sym).join(", ") || "N/A" %></td>
+      <% elsif @has_many_attributes.include? m -%>
+        <td><%= d.send(m.source.collection_name_helper).map(&m.field_name.attribute.to_sym).join(", ") || "N/A" %></td>
+      <% else -%>
+          <td><%= d.send(m.field_name.attribute).to_s(:short) rescue "N/A" %></td>
+      <% end -%>
+    <% end -%>
+    </tr>
+  <% end %>
+</tbody>
+</table>
