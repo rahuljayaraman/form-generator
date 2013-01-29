@@ -7,6 +7,15 @@ describe 'Dynamic Model' do
   let(:field_name) { fields.last.field_name }
   subject { model }
 
+  it "should destroy collection when related source is destroyed", focus: true do
+    source.save
+    hash = {field_name.to_sym => "123"}
+    record = model.create(hash)
+    model.count.should == 1
+    source.destroy
+    model.count.should == 0
+  end
+
   it "should perform a search based on attributes provided" do
     hash = {field_name.to_sym => "123"}
     record = model.create(hash)
