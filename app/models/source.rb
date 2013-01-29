@@ -100,7 +100,7 @@ class Source
     source = user.sources.new(source_name: name)
     header.each_with_index do |value, index|
       raise NoHeader unless value
-      type = guess_celltype spreadsheet.celltype(first_row+1, index)
+      type = guess_celltype spreadsheet.celltype(first_row+1, index+1)
       source.source_attributes.build(field_name: value, field_type: type)
     end
     { source: source, header: header, spreadsheet: spreadsheet }
