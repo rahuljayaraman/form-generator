@@ -34,6 +34,7 @@ class UserMailer < ActionMailer::Base
   def confirm_builder_invitation sender, user
     @user = User.find user
     @sender = User.find sender
+    @url = user_url(user)
     mail(:to => @user.email,
          :subject => "App Generator | Builder Confirmation")
   end
