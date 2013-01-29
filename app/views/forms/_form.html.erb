@@ -1,4 +1,16 @@
 <%= simple_form_for(@form) do |f| %>
+  <%= f.error_notification %>
+  <% if @form.form_attributes.map(&:errors).any? %>
+    <div class="alert alert-error">
+      <% @form.form_attributes.map(&:errors).each_with_index do |error, index| %>
+        Field <%= index+1 %> <br>
+        <% error.messages.each_pair do |k, v| %>
+          <%= k.to_s.humanize %>: <%= v.join(",") %><br>
+        <% end -%><br>
+      <% end -%>
+    </div>
+  <% end -%>
+
   <%= f.input :form_name %>
   <hr>
   <%= wizard_helper f, @wizard %>
