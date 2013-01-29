@@ -12,9 +12,22 @@ class FormRenderersController < ApplicationController
   end
 
   def index
-    @data = current_user.send(@model.collection_name)
-    @attributes = @form.source_attributes.map(&:field_name)
-    @attributes += ['Created At', 'Updated At']
+    @attributes = @source.source_attributes + @source.belongs_tos + @source.habtms
+    add = Struct.new(:id, :field_name)
+    @attributes += [add.new(1, 'Created At'), add.new(2, 'Updated At')]
+    @user_attributes = ['Name', 'Email']
+    @model = @source.initialize_dynamic_model
+    #Initialize related models
+    has_and_belongs_to_many = @source.habtms.map(&:initialize_dynamic_model)
+    has_manies = @source.has_manies.map(&:initialize_dynamic_model)
+    belongs_tos = @source.belongs_tos.map(&:initialize_dynamic_model)
+    associated_models = (has_manies + belongs_tos + has_and_belongs_to_many) << @model
+    User.define_relationships associated_models
+    @data = @model.all
+    @direct_attributes = @source.source_attributes
+    @belongs_to_attributes = @source.belongs_tos_attributes
+    @habtm_attributes = @source.habtms_attributes
+    @has_many_attributes = @source.has_manies_attributes
   end
 
   def show
