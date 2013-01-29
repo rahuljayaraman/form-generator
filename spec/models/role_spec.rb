@@ -13,6 +13,7 @@ describe Role do
   let(:user) { Fabricate :standalone_user }
 
   it "should accomodate application specific users" do
+    application.save
     role.users << user
     role.save
     role.users.should include user
