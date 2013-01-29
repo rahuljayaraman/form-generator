@@ -51,6 +51,8 @@
                     </a>
                     <ul class="dropdown-menu">
                       <% if current_user.builder? -%>
+                        <li><%= link_to '  Build an Application', new_application_path, class: "icon-cogs", style: "font-size: 110%;" %></li>
+                        <li class="divider"></li>
                         <li class="muted"><b>&nbsp;Owned</b></li>
                         <li class="divider"></li>
                         <% current_user.owned_applications.each do |app| -%>

@@ -19,6 +19,8 @@
         </div>
         <div class="span2">
           <%= render 'member' %>
+          <%= link_to 'EDIT APP', edit_application_path(@application), class: "btn btn-block" %>
+          <%= link_to ' DELETE APP', @application, method: :delete, data: { confirm: 'Are you sure? Once deleted, you will lose all your roles & application members.' }, class: "btn btn-block btn-danger" %></td>
         </div>
       <% else -%>
         <div class="offset2 span2">
