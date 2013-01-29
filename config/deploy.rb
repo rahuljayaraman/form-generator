@@ -93,3 +93,6 @@ namespace :mongoid do
     run "cd #{current_path} && RAILS_ENV='production' bundle exec rake db:mongoid:create_indexes", :once => true
   end
 end
+
+        require './config/boot'
+        require 'honeybadger/capistrano'

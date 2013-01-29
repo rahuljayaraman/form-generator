@@ -19,6 +19,7 @@ gem 'capistrano'
 gem 'rvm-capistrano'
 gem 'roo'
 gem 'google-spreadsheet-ruby'
+gem 'honeybadger'
 
 group :assets do
   gem 'less-rails'

@@ -96,6 +96,9 @@ GEM
       rspec (~> 2.11)
     highline (1.6.15)
     hike (1.2.1)
+    honeybadger (1.5.0)
+      activesupport
+      json
     http_parser.rb (0.5.3)
     httpauth (0.2.0)
     i18n (0.6.1)
@@ -321,6 +324,7 @@ DEPENDENCIES
   faker
   google-spreadsheet-ruby
   guard-rspec
+  honeybadger
   jquery-datatables-rails
   jquery-rails
   jquery-ui-rails
