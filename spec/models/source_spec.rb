@@ -75,12 +75,7 @@ describe Source do
       subject.view_mapping['Date & Time'].should == 'datetime'
       subject.view_mapping['Date'].should == 'date'
       subject.view_mapping['Time'].should == 'time'
-      subject.view_mapping['Collection'].should == 'select'
-      subject.view_mapping['Radio Buttons'].should == 'radio_buttons'
-      subject.view_mapping['Check Boxes'].should == 'check_boxes'
       subject.view_mapping['Password'].should == 'password'
-      subject.view_mapping['Email'].should == 'email'
-      subject.view_mapping['Telephone'].should == 'tel'
       subject.view_mapping['True or False'].should == 'boolean'
     end
   end
