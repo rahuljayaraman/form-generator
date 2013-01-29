@@ -52,7 +52,7 @@ class ReportsController < ApplicationController
         @wizard.append_report @report.id
         redirect_to wizard_step4_path(@wizard.parameters), notice: 'Report was successfully saved.'
       else
-        redirect_to user_path(current_user), notice: 'Report was successfully created.' 
+        redirect_to report_path(@report), notice: 'Report was successfully created.' 
       end
     else
       render action: "new" 
@@ -69,7 +69,7 @@ class ReportsController < ApplicationController
       if @wizard.active?
         redirect_to wizard_step4_path(@wizard.parameters), notice: 'Report was successfully updated.'
       else
-        redirect_to user_path(current_user), notice: 'Report was successfully updated.' 
+        redirect_to report_path(@report), notice: 'Report was successfully updated.' 
       end
     else
       render action: "edit" 

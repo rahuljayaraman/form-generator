@@ -51,7 +51,7 @@ class FormsController < ApplicationController
         @wizard.append_form @form.id
         redirect_to wizard_step3_path(@wizard.parameters), notice: 'Form was saved.'
       else
-        redirect_to user_path(current_user), notice: "Form saved"
+        redirect_to form_path(@form), notice: "Form saved"
       end
     else
       @source = @form.source
@@ -83,7 +83,7 @@ class FormsController < ApplicationController
       if @wizard.active?
         redirect_to wizard_step3_path(@wizard.parameters), notice: 'Form was Updated.'
       else
-        redirect_to user_path(current_user), notice: "Form Updated"
+        redirect_to form_path(@form), notice: "Form Updated"
       end
     else
       render action: "edit" 

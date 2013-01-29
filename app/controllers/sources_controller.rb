@@ -61,7 +61,7 @@ class SourcesController < ApplicationController
           @wizard.append_database @source.id
           redirect_to wizard_step1_path(@wizard.parameters), notice: 'Register was successfully saved.'
         else
-         redirect_to user_path(current_user), notice: 'Register was successfully saved.'
+         redirect_to source_path(@source), notice: 'Register was successfully saved.'
         end
       else
         render action: "new" 
@@ -83,7 +83,7 @@ class SourcesController < ApplicationController
         elsif @wizard.active?
           redirect_to wizard_step1_path(@wizard.parameters), notice: 'Register was successfully saved.'
         else
-          redirect_to user_path(current_user), notice: 'Register was successfully saved.'
+          redirect_to source_path(@source), notice: 'Register was successfully saved.'
         end
       else
         render action: "edit" 

@@ -59,7 +59,7 @@ class ApplicationsController < ApplicationController
       if @wizard.active?
         redirect_to application_path(@application, @wizard.parameters), notice: 'Welcome!'
       else
-        redirect_to user_path(current_user), notice: 'Application was successfully created.' 
+        redirect_to application_path(@application), notice: 'Application was successfully created.' 
       end
     else
       render action: "new" 
@@ -73,7 +73,7 @@ class ApplicationsController < ApplicationController
 
     respond_to do |format|
       if @application.update_attributes(params[:application])
-        format.html { redirect_to user_path(current_user), notice: 'Application was successfully updated.' }
+        format.html { redirect_to application_path(@application), notice: 'Application was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
