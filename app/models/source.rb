@@ -24,7 +24,7 @@ class Source
   attr_accessible :source_name, :user_id, :source_attributes_attributes, :has_many_ids, :belongs_to_ids, :habtm_ids
 
   after_save :remove_unrelated_form_attributes
-  before_destroy :delete_collection
+  after_destroy :delete_collection
 
   def collection_name_helper
     user_id = self.user.id
