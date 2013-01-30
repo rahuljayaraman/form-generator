@@ -10,7 +10,7 @@ class Form
   has_and_belongs_to_many :roles
 
   validates_presence_of :form_name
-  validates_uniqueness_of :form_name
+  validates_uniqueness_of :form_name, scope: :user_id
 
   accepts_nested_attributes_for :form_attributes, :allow_nil => false
   attr_accessible :form_name, :source_id, :form_attributes_attributes
