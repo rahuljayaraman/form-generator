@@ -1,8 +1,10 @@
 <% unless @edit -%>
-  <h3>Please select a Register</h3>
-  <% @sources.each do |source| -%>
-    <%= link_to source.source_name, source_path(source, @wizard.try(:parameters)), remote: true, class: "btn btn-mini" %>
-  <% end -%>
+  <div class="well">
+    <h2>Please select a Register</h2>
+    <% @sources.each do |source| -%>
+      <%= link_to source.source_name, source_path(source, @wizard.try(:parameters)), remote: true, class: "btn btn-mini" %>
+    <% end -%>
+  </div>
 <hr>
 <% end -%>
 <div class = "render_form">
