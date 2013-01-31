@@ -1,7 +1,7 @@
 <h3>Feed</h3>
 <table class="table table-hover">
 <% @forms.each do |form| -%>
-  <% model = form.source.initialize_dynamic_model -%>
+  <% model = form.source.initialize_dynamic_model.order_by("updated_at desc").limit(10) -%>
   <% unless current_user.owns_application @application -%>
     <% model = model.where(:user_id => current_user.id) %>
   <% end -%>
