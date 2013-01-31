@@ -1,7 +1,8 @@
-<h3>Maybe you wanted to access one of these applications</h3>
+<h1>Application List</h1>
 <hr>
-<ul>
-  <% @used_applications.each do |app| %>
-    <li><%= link_to app.application_name, application_path(app) %></li>
-  <% end -%>
-</ul>
+<% @used_applications.each do |app| %>
+  <div class="span6 row">
+    <h3><%= link_to app.application_name, application_path(app) %></h3>
+    <b><p class="well"><%= app.application_description %></p></b>
+  </div>
+<% end -%>
