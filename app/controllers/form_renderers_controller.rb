@@ -58,7 +58,7 @@ class FormRenderersController < ApplicationController
   def create
     @object = current_user.send(@model.collection_name).new(params[@model.name.underscore])
     if @object.save
-      redirect_to form_renderer_path(@object, form: @form.id), notice: "Entry to #{@form.form_name} saved."
+      redirect_to form_renderer_path(@object, form: @form.id, application: @application.try(:id)), notice: "Entry to #{@form.form_name} saved."
     else
       @attributes = @form.source_attributes
       @available_source_attributes = @source.source_attributes
@@ -97,7 +97,7 @@ class FormRenderersController < ApplicationController
   private
 
   def initialize_model
-    if params[:application]
+    if params[:application] && !params[:application].blank?
       @application = Application.find params[:application]
     end
     @form = Form.find(params[:form])

@@ -16,5 +16,5 @@
 
 <hr>
 <%= link_to 'Edit', edit_form_renderer_path(@object, form: @form.id), class: "btn" %> 
-<%= link_to 'Continue', new_form_renderer_path(form: @form.id), class: "btn" %>
+<%= link_to 'Continue', new_form_renderer_path(form: @form.id, application: @application.try(:id)), class: "btn" %>
 

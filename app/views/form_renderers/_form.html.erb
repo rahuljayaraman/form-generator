@@ -12,6 +12,7 @@
     <% end -%>
   <% end -%>
   <%= hidden_field_tag :form, @form.id %>
+  <%= hidden_field_tag :application, @application.try(:id) %>
 </div>
 
 <div class="form-actions">
