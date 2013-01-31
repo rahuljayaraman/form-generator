@@ -26,6 +26,16 @@ class ApplicationsController < ApplicationController
       @forms = current_user.app_forms @application.id
       @owner = false
     end
+    @sources = @forms.map(&:source)
+    @models = @sources.map(&:initialize_dynamic_model)
+    @has_manies = @belongs_tos = @habtms = []
+    @sources.each do |source|
+      @has_manies += source.has_manies.map(&:initialize_dynamic_model)
+      @belongs_tos += source.belongs_tos.map(&:initialize_dynamic_model)
+      @habtms += source.habtms.map(&:initialize_dynamic_model)
+    end
+    associated_models = @models + @has_manies + @belongs_tos + @habtms
+    User.define_relationships associated_models
 
     respond_to do |format|
       format.html # show.html.erb

@@ -31,7 +31,11 @@ class FormRenderersController < ApplicationController
   end
 
   def show
-    @object = current_user.send(@model.collection_name).find(params[:id])
+    if @application && current_user.owns_application(@application)
+      @object = @model.find(params[:id])
+    else
+      @object = current_user.send(@model.collection_name).find(params[:id])
+    end
     @attributes = @object.attributes.except "_id"
     @all_my_attributes = @form.source_attributes
     @available_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
@@ -46,7 +50,11 @@ class FormRenderersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    @object = current_user.send(@model.collection_name).find(params[:id])
+    if @application && current_user.owns_application(@application)
+      @object = @model.find(params[:id])
+    else
+      @object = current_user.send(@model.collection_name).find(params[:id])
+    end
     @attributes = @form.source_attributes
     @available_source_attributes = @source.source_attributes
     @available_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
@@ -71,11 +79,16 @@ class FormRenderersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.json
   def update
-    @object = current_user.send(@model.collection_name).find(params[:id])
+    @object = @model.find(params[:id])
+    if @application && current_user.owns_application(@application)
+      @object.user_id = @object.user_id
+    else
+      @object.user_id = current_user.id
+    end
     @attributes = @object.attributes.except "_id"
 
     if @object.update_attributes(params[@model.name.underscore])
-      redirect_to form_renderer_path(@object, form: @form.id), notice: "Entry to #{@form.form_name} updated."
+      redirect_to form_renderer_path(@object, form: @form.id, application: @application.try(:id)), notice: "Entry to #{@form.form_name} updated."
     else
       @attributes = @form.source_attributes
       render action: "edit" 
@@ -85,11 +98,15 @@ class FormRenderersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @object = current_user.send(@model.collection_name).find(params[:id])
+    if @application && current_user.owns_application(@application)
+      @object = @model.find(params[:id])
+    else
+      @object = current_user.send(@model.collection_name).find(params[:id])
+    end
     @object.destroy
 
     respond_to do |format|
-      format.html { redirect_to root_path }
+      format.html { redirect_to application_path(@application), alert: "Entry deleted!" }
       format.json { head :no_content }
     end
   end

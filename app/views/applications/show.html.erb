@@ -12,6 +12,7 @@
       <h2>Welcome to <%= @application.application_name  %></h2>
       <p class="well"><%= @application.application_description %></p>
       <hr>
+      <%= render 'applications/feed' %>
     </div>
       <% if current_user.owns_application @application -%>
         <div class="span2">
