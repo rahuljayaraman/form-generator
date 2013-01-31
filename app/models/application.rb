@@ -10,6 +10,7 @@ class Application
   belongs_to :owner, class_name: "User", inverse_of: :owned_applications
 
   validates_presence_of :application_name
+  attr_accessible :application_name, :application_description, :email_header, :email_message
 
   def remove_member user_id
     member = self.members.find_by_id user_id
