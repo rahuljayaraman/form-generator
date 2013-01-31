@@ -2,6 +2,8 @@ class Application
   include Mongoid::Document
   field :application_name, type: String
   field :application_description, type: String
+  field :email_header, type: String
+  field :email_message, type: String
 
   has_many :roles
   has_and_belongs_to_many :members, class_name: "User", inverse_of: :used_applications

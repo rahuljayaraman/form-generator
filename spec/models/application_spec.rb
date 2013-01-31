@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Application do
-  it { should have_fields(:application_name, :application_description) }
+  it { should have_fields(:application_name, :application_description, :email_message) }
   it { should validate_presence_of :application_name }
   it { should belong_to :owner }
   it { should have_many :roles }

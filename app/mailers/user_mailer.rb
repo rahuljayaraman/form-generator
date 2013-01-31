@@ -6,8 +6,9 @@ class UserMailer < ActionMailer::Base
     @user = User.find user
     @url  = users_url + "/#{@user.activation_token}/activate"
     @application = @user.used_applications.find application_id
+    header = @application.email_header || "Please join #{@application.application_name}" 
     mail(:to => @user.email,
-         :subject => "Please join #{@application.application_name}")
+         :subject => header)
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
