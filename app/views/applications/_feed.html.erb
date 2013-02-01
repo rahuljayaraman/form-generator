@@ -6,7 +6,7 @@
     <% model = model.where(:user_id => current_user.id) %>
   <% end -%>
   <% model.each do |object| -%>
-    <tr><td><%= object.user.name %> <small><b class="muted">(<%= object.user.email %>)</b></small> created a record in <%= form.form_name %> <%= time_ago_in_words(object.updated_at) rescue "Undefined" %> ago. <small><b><%= link_to " edit", edit_form_renderer_path(object.id, form: form.id, application: @application.id), class: "icon-edit" %> &nbsp; &nbsp;<%= link_to ' delete', form_renderer_path(object.id, form: form.id, application: @application.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "icon-trash" %></b></small></td></td></tr>
+    <tr><td><%= object.user.name %> <small><b class="muted">(<%= object.user.email %>)</b></small> created a record in <%= form.form_name %> <%= time_ago_in_words(object.updated_at) rescue "Undefined" %> ago. <small><b><br><%= link_to " show", form_renderer_path(object.id, form: form.id, application: @application.id), class: "icon-eye-open" %> &nbsp; &nbsp; <%= link_to " edit", edit_form_renderer_path(object.id, form: form.id, application: @application.id), class: "icon-edit" %> &nbsp; &nbsp;<%= link_to ' delete', form_renderer_path(object.id, form: form.id, application: @application.id), method: :delete, data: { confirm: 'Are you sure?' }, class: "icon-trash" %></b></small></td></td></tr>
           
     <% end -%>
 <% end -%>
