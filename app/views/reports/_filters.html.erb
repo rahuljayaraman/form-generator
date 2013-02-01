@@ -16,6 +16,6 @@
     <%= text_field_tag :from, nil, name: "search[model][created_from]", placeholder: "Creation date: From", class: "datepicker"%>
     <%= text_field_tag :to, nil, name: "search[model][created_to]", placeholder: "Creation date: To", class: "datepicker" %>
     <br>
-    <%= submit_tag "Search", class: "btn" %>
-
+    <%= submit_tag "Search", class: "btn" %><br><br>
+    <%= link_to " Download Xls", view_reports_path(@report, format: :xls), class: "btn btn-success icon-share" %>
 <% end -%>

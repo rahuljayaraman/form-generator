@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+      <% if @user_attributes %>
+        <% @user_attributes.each do |u| -%>
+          <Cell><Data ss:Type="String"><%= u.humanize %></Data></Cell>
+        <% end -%>
+      <% end -%>
+        <% @attributes.each do |m| -%>
+          <Cell><Data ss:Type="String"><%= m.field_name.humanize %></Data></Cell>
+        <% end -%>
+      </Row>
+
+      <% @data.each do |d| %>
+        <Row>
+          <% if @user_attributes %>
+            <% @user_attributes.each do |u| -%>
+              <Cell><Data ss:Type="String"><%= d.send("user").send(u.attribute) || "N/A" %></Data></Cell>
+            <% end -%>
+          <% end -%>
+          <% @attributes.each do |m| -%>
+            <% if @direct_attributes.include? m -%>
+              <Cell><Data ss:Type="<%= Source.view_mapping[m.field_type].humanize %>"><%= d.send(m.field_name.attribute) || "N/A" %></Data></Cell>
+            <% elsif @belongs_to_attributes.include? m -%>
+              <Cell><Data ss:Type="<%= Source.view_mapping[m.field_type].humanize %>"><%= d.send(m.source.collection_name_helper.singularize).send(m.field_name.attribute) || "N/A" rescue "N/A"%>></Data></Cell>
+            <% elsif @habtm_attributes.include? m -%>
+              <Cell><Data ss:Type="<%= Source.view_mapping[m.field_type].humanize %>"><%= d.send(m.source.collection_name_helper).map(&m.field_name.attribute.to_sym).join(", ") || "N/A" %>></Data></Cell>
+            <% elsif @has_many_attributes.include? m -%>
+              <Cell><Data ss:Type="<%= Source.view_mapping[m.field_type].humanize %>"><%= d.send(m.source.collection_name_helper).map(&m.field_name.attribute.to_sym).join(", ") || "N/A" %>></Data></Cell>
+            <% else -%>
+              <Cell><Data ss:Type="<%= Source.view_mapping[m.field_type].humanize %>"><%= d.send(m.field_name.attribute).to_s(:short) rescue "N/A" %>></Data></Cell>
+            <% end -%>
+          <% end -%>
+        </Row>
+      <% end %>
+    </table>

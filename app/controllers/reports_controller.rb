@@ -91,8 +91,8 @@ class ReportsController < ApplicationController
   def view_report
     @report = Report.find params[:id]
     @attributes = @report.source_attributes
-    add = Struct.new(:field_name)
-    @attributes += [add.new('Created At'), add.new('Updated At')]
+    add = Struct.new(:field_name, :field_type)
+    @attributes += [add.new('Created At', 'Date & Time'), add.new('Updated At', 'Date & Time')]
     @user_attributes = @report.user_attributes.reject(&:blank?) if @report.user_attributes
     @model = @report.find_model
     #Initialize related models
@@ -110,6 +110,10 @@ class ReportsController < ApplicationController
       @data = @report.search(params[:search])
     else
       @data = @model.all
+    end
+    respond_to do |format|
+      format.html
+      format.xls
     end
   end
 end
