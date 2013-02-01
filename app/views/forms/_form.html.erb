@@ -14,6 +14,7 @@
   <% end -%>
 
   <%= f.input :form_name %>
+  <%= f.input :hint, hint: "This contents of hint will be placed on top of the form." %>
   <hr>
   <%= wizard_helper f, @wizard %>
   <div class="row">

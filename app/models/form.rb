@@ -3,6 +3,7 @@ class Form
   include Mongoid::Timestamps
 
   field :form_name, type: String
+  field :hint, type: String
 
   belongs_to :source
   belongs_to :user
@@ -13,7 +14,7 @@ class Form
   validates_uniqueness_of :form_name, scope: :user_id
 
   accepts_nested_attributes_for :form_attributes, :allow_nil => false
-  attr_accessible :form_name, :source_id, :form_attributes_attributes
+  attr_accessible :form_name, :source_id, :form_attributes_attributes, :hint
 
   def source_attributes
     form_attributes.map(&:source_attribute).uniq

@@ -1,5 +1,8 @@
 <%= f.error_notification %>
 
+<% if @form.hint && !@form.hint.blank? -%>
+  <p class="well"><%= @form.hint %></p>
+<% end -%>
 <div class="form-inputs">
   <% @attributes.each do |m| %>
   
