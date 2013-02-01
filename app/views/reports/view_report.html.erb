@@ -3,6 +3,8 @@
 </div>
 <h2><%= @report.report_name.humanize %> Report</h2>
 <hr>
-<%= render 'report_table' %>
+<div style="overflow: auto; width: 100%;">
+  <%= render 'report_table' %>
+</div>
 
 <div class="form-actions"><%= link_to 'Back', :back, class: "btn" %></div>
