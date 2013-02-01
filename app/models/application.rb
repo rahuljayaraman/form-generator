@@ -2,6 +2,7 @@ class Application
   include Mongoid::Document
   field :application_name, type: String
   field :application_description, type: String
+  field :application_instructions, type: String
   field :email_header, type: String
   field :email_message, type: String
 
@@ -10,7 +11,7 @@ class Application
   belongs_to :owner, class_name: "User", inverse_of: :owned_applications
 
   validates_presence_of :application_name
-  attr_accessible :application_name, :application_description, :email_header, :email_message
+  attr_accessible :application_name, :application_description, :email_header, :email_message, :application_instructions
 
   def remove_member user_id
     member = self.members.find_by_id user_id

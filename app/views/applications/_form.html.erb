@@ -4,7 +4,8 @@
   <div class="form-inputs">
     <%= f.input :application_name %>
     <%= wizard_helper f, @wizard %>
-    <%= f.input :application_description, as: :text, input_html: {rows: 5} %>
+    <%= f.input :application_description, as: :text, input_html: {rows: 5}, hint: "A line of text that will best describe your application." %>
+    <%= f.input :application_instructions, as: :text, input_html: {rows: 7}, hint: "This will be displayed on the application's homepage." %>
     <%= f.input :email_header, label: "Email Subject", hint: "Your can define a custom email subject & body for your invitations." %>
     <%= f.input :email_message, label: "Email Body", as: :text, input_html: {rows: 5} %>
   </div>
