@@ -8,6 +8,7 @@
   <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h3>Validations</h3><br>
+        <%= f.input :hint, hint: "The hint would be placed below the input field." %><br>
         <%= f.link_to_add ' Add Validation', :model_validations, class: "icon-plus btn"%>
   </div>
   <div class="modal-body">
