@@ -10,7 +10,9 @@
     <% end -%>
     <div class="span7">
       <h2>Welcome to <%= @application.application_name  %></h2>
-      <p class="well"><%= @application.application_instructions %></p>
+      <% if @application.application_instructions && !@application.application_instructions.blank?-%>
+        <p class="well"><%= @application.application_instructions %></p>
+      <% end -%>
       <hr>
       <%= render 'applications/feed' %>
     </div>
