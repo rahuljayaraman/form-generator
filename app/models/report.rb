@@ -14,6 +14,8 @@ class Report
 
   attr_accessible :report_name, :source_attribute_ids, :source_id, :user_attributes
 
+  default_scope order_by("updated_at desc")
+
   def find_model
     source.initialize_dynamic_model
   end

@@ -1,7 +1,7 @@
 <table class = "table table-bordered" id="">
   <thead>
     <th>Report Name</th>
-    <th>Created At</th>
+    <th>Updated</th>
     <th>View Report</th>
     <th>Actions</th>
   </thead>
@@ -10,7 +10,7 @@
   <% @reports.each do |report| %>
     <tr>
       <td><%= report.report_name %></td>
-      <td><%= report.created_at.to_s(:short) %></td>
+      <td><%= time_ago_in_words(report.updated_at) %> ago.</td>
       <td><%= link_to 'View', view_reports_path(report), class: "label"  %></td>
       <td><%= link_to 'Show', report %>
       <%= link_to 'Edit', edit_report_path(report) %>

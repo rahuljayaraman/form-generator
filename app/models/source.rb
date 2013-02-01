@@ -6,6 +6,8 @@ class Source
   include DynamicModel
   extend Mapping
 
+  default_scope order_by("updated_at desc")
+
   field :source_name, type: String
 
   has_many :source_attributes, dependent: :destroy

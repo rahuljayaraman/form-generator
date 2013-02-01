@@ -16,6 +16,8 @@ class Form
   accepts_nested_attributes_for :form_attributes, :allow_nil => false
   attr_accessible :form_name, :source_id, :form_attributes_attributes, :hint
 
+  default_scope order_by("updated_at desc")
+
   def source_attributes
     form_attributes.map(&:source_attribute).uniq
   end
