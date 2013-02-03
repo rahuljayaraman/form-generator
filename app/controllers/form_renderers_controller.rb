@@ -6,9 +6,9 @@ class FormRenderersController < ApplicationController
   def new
     @object = @model.new
     @attributes = @form.source_attributes
-    @available_source_attributes = @source.source_attributes
-    @available_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
-    @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
+    @available_source_attributes = @relationship.direct_attributes
+    @available_many_manies = @relationship.has_many_attributes
+    @available_belongs_tos = @relationship.belongs_to_attributes
   end
 
   def index
@@ -16,18 +16,11 @@ class FormRenderersController < ApplicationController
     add = Struct.new(:id, :field_name)
     @attributes += [add.new(1, 'Created At'), add.new(2, 'Updated At')]
     @user_attributes = ['Name', 'Email']
-    @model = @source.initialize_dynamic_model
-    #Initialize related models
-    has_and_belongs_to_many = @source.habtms.map(&:initialize_dynamic_model)
-    has_manies = @source.has_manies.map(&:initialize_dynamic_model)
-    belongs_tos = @source.belongs_tos.map(&:initialize_dynamic_model)
-    associated_models = (has_manies + belongs_tos + has_and_belongs_to_many) << @model
-    User.define_relationships associated_models
     @data = @model.all
-    @direct_attributes = @source.source_attributes
-    @belongs_to_attributes = @source.belongs_tos_attributes
-    @habtm_attributes = @source.habtms_attributes
-    @has_many_attributes = @source.has_manies_attributes
+    @direct_attributes = @relationship.direct_attributes
+    @belongs_to_attributes = @relationship.belongs_to_attributes
+    @habtm_attributes = @relationship.habtm_attributes
+    @has_many_attributes = @relationship.has_many_attributes
   end
 
   def show
@@ -38,8 +31,8 @@ class FormRenderersController < ApplicationController
     end
     @attributes = @object.attributes.except "_id"
     @all_my_attributes = @form.source_attributes
-    @available_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
-    @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
+    @available_many_manies = @relationship.habtm_attributes
+    @available_belongs_tos = @relationship.belongs_to_attributes
 
 
     respond_to do |format|
@@ -56,9 +49,9 @@ class FormRenderersController < ApplicationController
       @object = current_user.send(@model.collection_name).find(params[:id])
     end
     @attributes = @form.source_attributes
-    @available_source_attributes = @source.source_attributes
-    @available_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
-    @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
+    @available_source_attributes = @relationship.direct_attributes
+    @available_many_manies = @relationship.habtm_attributes
+    @available_belongs_tos = @relationship.belongs_to_attributes
   end
 
   # POST /users
@@ -69,9 +62,9 @@ class FormRenderersController < ApplicationController
       redirect_to form_renderer_path(@object, form: @form.id, application: @application.try(:id)), notice: "Entry to #{@form.form_name} saved."
     else
       @attributes = @form.source_attributes
-      @available_source_attributes = @source.source_attributes
-      @available_many_manies = @source.habtms.map(&:source_attributes).inject([]){|initial, val| initial + val}
-      @available_belongs_tos = @source.belongs_tos.map(&:source_attributes).inject([]){|initial, val| initial + val}
+      @available_source_attributes = @relationship.direct_attributes
+      @available_many_manies = @relationship.habtm_attributes
+      @available_belongs_tos = @relationship.belongs_to_attributes
       render action: "new" 
     end
   end
@@ -118,12 +111,8 @@ class FormRenderersController < ApplicationController
       @application = Application.find params[:application]
     end
     @form = Form.find(params[:form])
-    @source = @form.source
-    @model = @source.initialize_dynamic_model
-    has_and_belongs_to_many = @source.habtms.map(&:initialize_dynamic_model)
-    has_manies = @source.has_manies.map(&:initialize_dynamic_model)
-    belongs_tos = @source.belongs_tos.map(&:initialize_dynamic_model)
-    associated_models = (has_manies + belongs_tos + has_and_belongs_to_many) << @model
-    User.define_relationships associated_models
+    @relationship = Relationship.new @form
+    @relationship.define!
+    @model = @relationship.get_model
   end
 end
