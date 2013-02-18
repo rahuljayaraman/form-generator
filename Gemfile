@@ -21,7 +21,7 @@ gem 'roo'
 gem 'google-spreadsheet-ruby'
 gem 'honeybadger'
 gem 'tire'
-gem 'will_paginate'
+gem 'kaminari'
 
 group :assets do
   gem 'less-rails'
