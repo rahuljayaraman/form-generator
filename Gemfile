@@ -20,6 +20,7 @@ gem 'rvm-capistrano'
 gem 'roo'
 gem 'google-spreadsheet-ruby'
 gem 'honeybadger'
+gem 'tire'
 
 group :assets do
   gem 'less-rails'

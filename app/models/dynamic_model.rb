@@ -9,6 +9,8 @@ module DynamicModel
       include Mongoid::Timestamps
       include ActiveModel::Validations
       include Mongoid::MultiParameterAttributes
+      include Tire::Model::Search
+      include Tire::Model::Callbacks
 
       store_in collection: self.collection_name
       field_names = []
