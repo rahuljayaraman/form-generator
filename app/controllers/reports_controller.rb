@@ -91,23 +91,25 @@ class ReportsController < ApplicationController
   def view_report
     @report = Report.find params[:id]
     @attributes = @report.source_attributes
-    add = Struct.new(:field_name, :field_type)
+    add = Struct.new(:field_name, :field_type, :id)
     @attributes += [add.new('Created At', 'Date & Time'), add.new('Updated At', 'Date & Time')]
     @user_attributes = @report.user_attributes.reject(&:blank?) if @report.user_attributes
-    @model = @report.find_model
     #Initialize related models
-    has_and_belongs_to_many = @report.source.habtms.map(&:initialize_dynamic_model)
-    has_manies = @report.source.has_manies.map(&:initialize_dynamic_model)
-    belongs_tos = @report.source.belongs_tos.map(&:initialize_dynamic_model)
-    associated_models = (has_manies + belongs_tos + has_and_belongs_to_many) << @model
-    User.define_relationships associated_models
-    @direct_attributes = @report.find_direct_attributes
-    @belongs_to_attributes = @report.find_belongs_to_attributes
-    @habtm_attributes = @report.find_habtm_attributes
-    @has_many_attributes = @report.find_has_many_attributes
+    @relationship = Relationship.new nil, @report.source
+    @relationship.define!
+    @model = @relationship.get_model
+    @direct_attributes = @relationship.direct_attributes
+    @belongs_to_attributes = @relationship.belongs_to_attributes
+    @habtm_attributes = @relationship.habtm_attributes
+    @has_many_attributes = @relationship.has_many_attributes
 
-    if params[:search]
-      @data = @report.search(params[:search])
+    if params[:search].present?
+      begin
+        @data = @report.search(params[:search])
+      rescue Tire::Search::SearchRequestFailed
+        @data = @model.all
+        flash.now[:alert] = "Invalid Search Query"
+      end
     else
       @data = @model.all
     end
