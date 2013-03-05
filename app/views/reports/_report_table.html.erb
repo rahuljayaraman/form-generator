@@ -28,7 +28,7 @@
       <% elsif @has_many_attributes.include? m -%>
         <td><%= d.send(m.source.collection_name_helper).map(&m.field_name.attribute.to_sym).join(", ") || "N/A" %></td>
       <% else -%>
-          <td><%= d.send(m.field_name.attribute).to_s(:short) rescue "N/A" %></td>
+          <td><%= d.send(m.field_name.attribute).to_datetime.to_s(:short) rescue "N/A" %></td>
       <% end -%>
     <% end -%>
     </tr>

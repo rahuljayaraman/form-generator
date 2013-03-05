@@ -73,7 +73,7 @@ module DynamicModel
 
       def self.search query
         begin
-          tire.search(load: true, per_page: 7) do
+          tire.search(per_page: 7) do
             query { string query[:q]} if query[:q].present?
             if query[:from].present? and query[:to].present?
               filter :range, created_at: {from: query[:from], to: query[:to]}
@@ -93,8 +93,59 @@ module DynamicModel
         end
       end
 
+      #Defining methods for elastic search indexing
+      object.has_manies.each do |relation|
+        relation.source_attributes.each do |source_attribute|
+          field_name = source_attribute.field_name.attribute
+          define_method "hm_#{relation.source_name.attribute}_#{field_name}" do
+            self.send(relation.collection_name.attribute).send(field_name)
+          end
+        end
+      end
+
+      object.habtms.each do |relation|
+        relation.source_attributes.each do |source_attribute|
+          field_name = source_attribute.field_name.attribute
+          define_method "habtm_#{relation.source_name.attribute}_#{field_name}" do
+            self.send(relation.collection_name.attribute).send(field_name)
+          end
+        end
+      end
+
+      object.belongs_tos.each do |relation|
+        relation.source_attributes.each do |source_attribute|
+          field_name = source_attribute.field_name.attribute
+          define_method "bt_#{relation.source_name.attribute}_#{field_name}" do
+            self.send(relation.collection_name.attribute.singularize).send(field_name)
+          end
+        end
+      end
+
       def self.import_search_index
         self.tire.index.import self.all
+      end
+
+      def to_indexed_json
+        list_of_method_names = []
+        object.belongs_tos.each do |relation|
+          relation.source_attributes.each do |source_attribute|
+            field_name = source_attribute.field_name.attribute
+            list_of_method_names << "bt_#{relation.source_name.attribute}_#{field_name}" 
+          end
+        end
+        object.habtms.each do |relation|
+          relation.source_attributes.each do |source_attribute|
+            field_name = source_attribute.field_name.attribute
+            list_of_method_names << "habtm_#{relation.source_name.attribute}_#{field_name}"
+          end
+        end
+        object.has_manies.each do |relation|
+          relation.source_attributes.each do |source_attribute|
+            field_name = source_attribute.field_name.attribute
+            list_of_method_names << "hm_#{relation.source_name.attribute}_#{field_name}"
+          end
+        end
+        to_json(methods: list_of_method_names)
       end
     end
 
