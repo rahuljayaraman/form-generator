@@ -27,6 +27,7 @@ class Source
 
   after_save :remove_unrelated_form_attributes
   after_destroy :delete_collection
+  after_destroy :delete_index
 
   def collection_name_helper
     user_id = self.user.id
@@ -110,5 +111,12 @@ class Source
 
   def delete_collection
     initialize_dynamic_model.collection.drop
+  end
+
+  def delete_index
+    index_name = initialize_dynamic_model.collection_name
+    Tire.index index_name do
+      delete
+    end
   end
 end
