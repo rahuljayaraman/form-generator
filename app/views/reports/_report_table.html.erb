@@ -1,4 +1,4 @@
-<table class = "table table-bordered" id="datatables">
+<table class = "table table-bordered" id="">
   <thead>
   <% if @user_attributes %>
     <% @user_attributes.each do |u| -%>
@@ -34,4 +34,5 @@
     </tr>
   <% end %>
 </tbody>
+<%= will_paginate @data %>
 </table>

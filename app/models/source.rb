@@ -38,38 +38,9 @@ class Source
     FormAttribute.cleanup_relationships self
   end
 
-  def search_models attr
-    # attr = {model: {}, belongs_to: {source_id: {hash of attributes & values}}}
-    belongs_to = {}
-    if attr[:belongs_to]
-      attr[:belongs_to].keys.each do |source_id|
-        attr[:belongs_to][source_id].each do |key, value|
-          attr[:belongs_to][source_id].delete key if value.blank?
-        end
-        if source_id == "user"
-          if attr[:belongs_to]["user"].empty?
-            attr[:belongs_to].delete "user"
-          else
-            belongs_to["user"] = [] unless belongs_to[source_id.to_sym]
-            belongs_to["user"] += User.search(attr[:belongs_to]["user"]).map(&:id)
-            attr[:belongs_to].delete "user"
-          end
-        else
-          unless attr[:belongs_to][source_id].empty?
-            source = Source.find source_id
-            belongs_to[source_id] = [] unless belongs_to[source_id.to_sym]
-            belongs_to[source_id] += source.search(attr[:belongs_to][source_id]).map(&:id) unless attr[:belongs_to][source_id].empty?
-          end
-        end
-      end
-    end
-    # ({:quia=>""}, {:"50eea19581ee9e61a7000013"=>[1, 2, 3]})
-    belongs_to = nil if belongs_to.empty?
-    records = self.search attr[:model], belongs_to
-  end
-
-  def search attr, belongs_to = nil
-    initialize_dynamic_model.search attr, belongs_to
+  def search_dynamic_model query
+    model = self.initialize_dynamic_model
+    model.search(query)
   end
 
   def belongs_tos_attributes

@@ -24,8 +24,8 @@ class Report
     source_attributes.map(&:field_name)
   end
 
-  def search attr
-    source.search_models attr
+  def search query
+    source.search_dynamic_model query
   end
 
   def find_direct_attributes

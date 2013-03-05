@@ -1,21 +1,9 @@
-<%= form_tag view_reports_path(@report) do %>
-  <%# attr = {model: {}, belongs_to: {source_id: {hash of attributes & values}}} %>
-    <% if @user_attributes -%>
-      <% @user_attributes.each do |attr| -%>
-        <%= text_field_tag attr, nil, placeholder: attr, name: "search[belongs_to][user][#{attr.attribute}]" %>
-      <% end -%><br>
-    <% end -%>
-    <% @report.find_direct_attributes.each do |direct| -%>
-      <%= text_field_tag direct.field_name.attribute.to_sym, nil, placeholder: direct.field_name, name: "search[model][#{direct.field_name.attribute}]" %>
-    <% end -%><br>
-
-    <% @report.find_belongs_to_attributes.each do |direct| -%>
-      <%= text_field_tag direct.field_name.attribute.to_sym, nil, placeholder: direct.field_name, name: "search[belongs_to][#{direct.source.id}][#{direct.field_name.attribute}]" %>
-    <% end -%>
-    <br>
-    <%= text_field_tag :from, nil, name: "search[model][created_from]", placeholder: "Creation date: From", class: "datepicker"%>
-    <%= text_field_tag :to, nil, name: "search[model][created_to]", placeholder: "Creation date: To", class: "datepicker" %>
-    <br>
-    <%= submit_tag "Search", class: "btn" %><br><br>
-    <%= link_to " Download Xls", view_reports_path(@report, format: :xls), class: "btn btn-success icon-share" %>
-<% end -%>
+<%= form_tag view_reports_path(@report), class: "form-search" do %>
+  <%= fields_for :search do |s| %>
+    <%= s.text_field :q, class: "input-large search-query" %>
+    <%= s.text_field :from, class: "input-medium search-query datepicker", placeholder: "Created at: From" %>
+    <%= s.text_field :to, class: "input-medium search-query datepicker", placeholder: "Created at: To" %>
+  <% end -%>
+  <%= submit_tag "Search", name: nil, class: "btn" %><br><br>
+  <%= link_to " Download Xls", view_reports_path(@report, format: :xls), class: "btn btn-success icon-share" %>
+<% end %>

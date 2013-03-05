@@ -13,25 +13,13 @@ describe Source do
 
   context "Search" do
     let(:source) { Fabricate.build :source }
-    let(:next_source) { Fabricate.build :source, source_name: "belongs to" }
-    let(:source_attribute) { source.source_attributes.last }
-
-    it "should have a router search method to search & collate records from several models" do
-      attr = {model: {source_attribute.field_name.attribute.to_sym => ""}, belongs_to: {next_source.id.to_s.to_sym =>[1,2,3]}}
-      next_source.stub(:search) {[stub(id: 1), stub(id: 2), stub(id: 3)]}
-      Source.stub(:find) {next_source}
-      source.stub(:search)
-      next_source.should_receive(:search).with(attr[:belongs_to][next_source.id.to_s.to_sym])
-      source.should_receive(:search).with(attr[:model], {next_source.id.to_s.to_sym => [1,2,3]})
-      source.search_models attr
-    end
 
     it "should delegate search to dynamic model" do
       attr = {"123" => "456"}
       class NewTest; def self.search; end; end;
       source.stub(:initialize_dynamic_model) { NewTest }
-      NewTest.should_receive(:search).with(attr, nil)
-      source.search attr
+      NewTest.should_receive(:search).with(attr)
+      source.search_dynamic_model attr
     end
   end
 

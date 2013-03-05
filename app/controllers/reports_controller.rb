@@ -106,12 +106,15 @@ class ReportsController < ApplicationController
     if params[:search].present?
       begin
         @data = @report.search(params[:search])
-      rescue Tire::Search::SearchRequestFailed
-        @data = @model.all
+      rescue SearchWithTire::NoIndex
+        @data = @report.search(params[:search])
+        flash.now[:alert] = "Sorry it took that long. We had to index all your data. Please try searching again. It will be much faster."
+      rescue SearchWithTire::InvalidQuery
+        @data = @model.paginate(per_page: 7, page: params[:page])
         flash.now[:alert] = "Invalid Search Query"
       end
     else
-      @data = @model.all
+      @data = @model.paginate(per_page: 7, page: params[:page])
     end
     respond_to do |format|
       format.html

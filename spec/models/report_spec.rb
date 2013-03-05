@@ -15,8 +15,8 @@ describe Report do
 
     it "should be able to search & filter records based on params provided" do
       attributes = Hash[report.find_attribute_names.map {|name| [name.attribute.to_sym, "123"]}]
-      report.source.stub(:search_models)
-      report.source.should_receive(:search_models).with(attributes)
+      report.source.stub(:search_dynamic_model)
+      report.source.should_receive(:search_dynamic_model).with(attributes)
       subject.search attributes
     end
   end

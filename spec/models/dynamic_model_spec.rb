@@ -1,25 +1,19 @@
 require 'spec_helper'
 
-describe 'Dynamic Model' do
+describe 'Dynamic Model', focus: true do
   let(:source) { Fabricate.build(:source) }
   let(:model) { source.initialize_dynamic_model }
   let(:fields) { source.source_attributes }
   let(:field_name) { fields.last.field_name }
   subject { model }
 
-  it "should destroy collection when related source is destroyed", focus: true do
+  it "should destroy collection when related source is destroyed" do
     source.save
-    hash = {field_name.to_sym => "123"}
+    hash = {query: {field_name.to_sym => "123"}}
     record = model.create(hash)
     model.count.should == 1
     source.destroy
     model.count.should == 0
-  end
-
-  it "should perform a search based on attributes provided" do
-    hash = {field_name.to_sym => "123"}
-    record = model.create(hash)
-    model.search(hash).should include record
   end
 
   it "should include relationships defined" do
