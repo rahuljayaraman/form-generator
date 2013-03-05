@@ -53,4 +53,5 @@ group :development, :test do
   gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i
   gem 'growl' if RUBY_PLATFORM =~ /darwin/i
   gem 'annotate'
+  gem 'yajl-ruby'
 end
