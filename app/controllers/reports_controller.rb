@@ -112,6 +112,9 @@ class ReportsController < ApplicationController
       rescue SearchWithTire::InvalidQuery
         @data = @model.paginate(per_page: 7, page: params[:page])
         flash.now[:alert] = "Invalid Search Query"
+      rescue SearchWithTire::NoData
+        @data = @model.paginate(per_page: 7, page: params[:page])
+        flash.now[:alert] = "You don't seem to have any data to search."
       end
     else
       @data = @model.paginate(per_page: 7, page: params[:page])

@@ -1,6 +1,7 @@
 module SearchWithTire
   class InvalidQuery < StandardError; end;
   class NoIndex < StandardError; end;
+  class NoData < StandardError; end;
 end
 
 module DynamicModel
@@ -81,8 +82,11 @@ module DynamicModel
           end
         rescue Tire::Search::SearchRequestFailed => e
           if e.message.include? "Index"
-            import_search_index
-            raise SearchWithTire::NoIndex
+            if import_search_index
+              raise SearchWithTire::NoIndex
+            else
+              raise SearchWithTire::NoData
+            end
           else
             raise SearchWithTire::InvalidQuery
           end
