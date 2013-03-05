@@ -28,6 +28,7 @@ class Source
   after_save :remove_unrelated_form_attributes
   after_destroy :delete_collection
   after_destroy :delete_index
+  after_destroy :delete_reports
 
   def collection_name_helper
     user_id = self.user.id
@@ -118,5 +119,10 @@ class Source
     Tire.index index_name do
       delete
     end
+  end
+
+  def delete_reports
+    reports = Report.where(source_id: self.id)
+    reports.destroy_all
   end
 end
