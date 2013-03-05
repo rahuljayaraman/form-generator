@@ -39,6 +39,8 @@ GEM
     binding_of_caller (0.6.8)
     bootstrap-datepicker-rails (0.6.36)
       railties (>= 3.0)
+    bootstrap-will_paginate (0.0.9)
+      will_paginate
     builder (3.0.4)
     capistrano (2.14.1)
       highline
@@ -330,6 +332,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-datepicker-rails
+  bootstrap-will_paginate
   capistrano
   capybara (~> 1.1.0)
   coffee-rails

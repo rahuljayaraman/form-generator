@@ -22,6 +22,7 @@ gem 'google-spreadsheet-ruby'
 gem 'honeybadger'
 gem 'tire'
 gem 'will_paginate_mongoid'
+gem 'bootstrap-will_paginate'
 
 group :assets do
   gem 'less-rails'
