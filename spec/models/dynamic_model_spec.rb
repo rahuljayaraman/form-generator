@@ -9,7 +9,7 @@ describe 'Dynamic Model', focus: true do
 
   it "should destroy collection when related source is destroyed" do
     source.save
-    hash = {query: {field_name.to_sym => "123"}}
+    hash = {field_name.to_sym => "123"}
     record = model.create(hash)
     model.count.should == 1
     source.destroy

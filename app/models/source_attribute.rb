@@ -38,4 +38,16 @@ class SourceAttribute
   def name_with_source
     "#{source.source_name} - #{field_name}"
   end
+
+  def elastic_belongs_tos_method_name
+    "bt_#{self.source.source_name.attribute}_#{self.field_name.attribute}" 
+  end
+
+  def elastic_has_manies_method_name
+    "hm_#{self.source.source_name.attribute}_#{self.field_name.attribute}"  
+  end
+
+  def elastic_habtm_method_name
+    "habtm_#{self.source.source_name.attribute}_#{self.field_name.attribute}"  
+  end
 end

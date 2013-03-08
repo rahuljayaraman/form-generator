@@ -9,7 +9,6 @@ module DynamicModel
     model_name = self.source_name.attribute
     klass_name = "#{model_name}#{self.user.id}".classify
     object = self
-    method_list = []
 
     klass = Class.new do
       include Mongoid::Document
@@ -20,7 +19,10 @@ module DynamicModel
       include Tire::Model::Callbacks
 
       store_in collection: self.collection_name
-      field_names = []
+      @@user_method_list = []
+      @@has_manies_method_list = []
+      @@belongs_tos_method_list = []
+      @@habtm_method_list = []
       object.source_attributes.each do |m|
         field m.field_name.attribute.to_sym, type: object.class.mapping[m.field_type]
         attr_accessible m.field_name.attribute.to_sym
@@ -99,9 +101,13 @@ module DynamicModel
         relation.source_attributes.each do |source_attribute|
           field_name = source_attribute.field_name.attribute
           method_name = "hm_#{relation.source_name.attribute}_#{field_name}"  
-          method_list << method_name
+          @@has_manies_method_list << method_name
           define_method method_name do
-            self.send(relation.collection_name.attribute).send(field_name)
+            begin
+              self.send(relation.collection_name_helper.attribute).send(field_name)
+            rescue NoMethodError
+              "N/A"
+            end
           end
         end
       end
@@ -110,9 +116,13 @@ module DynamicModel
         relation.source_attributes.each do |source_attribute|
           field_name = source_attribute.field_name.attribute
           method_name = "habtm_#{relation.source_name.attribute}_#{field_name}" 
-          method_list << method_name
+          @@habtm_method_list << method_name
           define_method method_name do
-            self.send(relation.collection_name.attribute).send(field_name)
+            begin
+              self.send(relation.collection_name_helper.attribute).send(field_name)
+            rescue NoMethodError
+              "N/A"
+            end
           end
         end
       end
@@ -121,16 +131,48 @@ module DynamicModel
         relation.source_attributes.each do |source_attribute|
           field_name = source_attribute.field_name.attribute
           method_name = "bt_#{relation.source_name.attribute}_#{field_name}" 
-          method_list << method_name
+          @@belongs_tos_method_list << method_name
           define_method method_name do
-            self.send(relation.collection_name.attribute.singularize).send(field_name)
+            begin
+              self.send(relation.collection_name_helper.attribute.singularize).send(field_name)
+            rescue NoMethodError
+              "N/A"
+            end
           end
-          set_method_list
+        end
+      end
+      
+      #Define user relations for Elastic search
+      User.available_attributes.each do |field_name|
+        method_name = "user_#{field_name.attribute}" 
+        @@user_method_list << method_name
+        define_method method_name do
+          begin
+            self.user.send(field_name.attribute)
+          rescue NoMethodError
+            "N/A"
+          end
         end
       end
 
-      def set_method_list
-        @method_list ||= method_list
+      def self.method_list
+        @@user_method_list + @@belongs_tos_method_list + @@has_manies_method_list + @@habtm_method_list
+      end
+
+      def self.user_method_list
+        @@user_method_list
+      end
+
+      def self.has_manies_method_list
+        @@has_manies_method_list
+      end
+
+      def self.belongs_tos_method_list
+        @@belongs_tos_method_list
+      end
+
+      def self.habtm_method_list
+        @@habtm_method_list
       end
 
       def self.import_search_index
@@ -138,7 +180,7 @@ module DynamicModel
       end
 
       def to_indexed_json
-        to_json(methods: @method_list)
+        to_json(methods: @@user_method_list + @@belongs_tos_method_list + @@has_manies_method_list + @@habtm_method_list)
       end
     end
 
