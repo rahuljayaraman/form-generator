@@ -9,6 +9,7 @@ module DynamicModel
     model_name = self.source_name.attribute
     klass_name = "#{model_name}#{self.user.id}".classify
     object = self
+    method_list = []
 
     klass = Class.new do
       include Mongoid::Document
@@ -97,7 +98,9 @@ module DynamicModel
       object.has_manies.each do |relation|
         relation.source_attributes.each do |source_attribute|
           field_name = source_attribute.field_name.attribute
-          define_method "hm_#{relation.source_name.attribute}_#{field_name}" do
+          method_name = "hm_#{relation.source_name.attribute}_#{field_name}"  
+          method_list << method_name
+          define_method method_name do
             self.send(relation.collection_name.attribute).send(field_name)
           end
         end
@@ -106,7 +109,9 @@ module DynamicModel
       object.habtms.each do |relation|
         relation.source_attributes.each do |source_attribute|
           field_name = source_attribute.field_name.attribute
-          define_method "habtm_#{relation.source_name.attribute}_#{field_name}" do
+          method_name = "habtm_#{relation.source_name.attribute}_#{field_name}" 
+          method_list << method_name
+          define_method method_name do
             self.send(relation.collection_name.attribute).send(field_name)
           end
         end
@@ -115,10 +120,17 @@ module DynamicModel
       object.belongs_tos.each do |relation|
         relation.source_attributes.each do |source_attribute|
           field_name = source_attribute.field_name.attribute
-          define_method "bt_#{relation.source_name.attribute}_#{field_name}" do
+          method_name = "bt_#{relation.source_name.attribute}_#{field_name}" 
+          method_list << method_name
+          define_method method_name do
             self.send(relation.collection_name.attribute.singularize).send(field_name)
           end
+          set_method_list
         end
+      end
+
+      def set_method_list
+        @method_list ||= method_list
       end
 
       def self.import_search_index
@@ -126,26 +138,7 @@ module DynamicModel
       end
 
       def to_indexed_json
-        list_of_method_names = []
-        object.belongs_tos.each do |relation|
-          relation.source_attributes.each do |source_attribute|
-            field_name = source_attribute.field_name.attribute
-            list_of_method_names << "bt_#{relation.source_name.attribute}_#{field_name}" 
-          end
-        end
-        object.habtms.each do |relation|
-          relation.source_attributes.each do |source_attribute|
-            field_name = source_attribute.field_name.attribute
-            list_of_method_names << "habtm_#{relation.source_name.attribute}_#{field_name}"
-          end
-        end
-        object.has_manies.each do |relation|
-          relation.source_attributes.each do |source_attribute|
-            field_name = source_attribute.field_name.attribute
-            list_of_method_names << "hm_#{relation.source_name.attribute}_#{field_name}"
-          end
-        end
-        to_json(methods: list_of_method_names)
+        to_json(methods: @method_list)
       end
     end
 
