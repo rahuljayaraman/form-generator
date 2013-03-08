@@ -7,7 +7,7 @@ class FormRenderersController < ApplicationController
     @object = @model.new
     @attributes = @form.source_attributes
     @available_source_attributes = @relationship.direct_attributes
-    @available_many_manies = @relationship.has_many_attributes
+    @available_many_manies = @relationship.habtm_attributes
     @available_belongs_tos = @relationship.belongs_to_attributes
   end
 
