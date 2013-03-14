@@ -74,14 +74,19 @@ module DynamicModel
         self.name.tableize
       end
 
-      def self.search query
+      def self.search params
+        query = params[:search]
         begin
-          tire.search(per_page: 7) do
-            query { string query[:q]} if query[:q].present?
-            if query[:from].present? and query[:to].present?
-              filter :range, created_at: {from: query[:from], to: query[:to]}
+          tire.search(per_page: 7, page: params[:page]) do
+            if query
+              query { string query[:q]} if query[:q].present?
+              if query[:from].present? and query[:to].present?
+                filter :range, created_at: {from: query[:from], to: query[:to]}
+              end
+              sort { by :created_at, "desc" } if query[:q].blank?
+            else
+              sort { by :created_at, "desc" }
             end
-            sort { by :created_at, "desc" } if query[:q].blank?
           end
         rescue Tire::Search::SearchRequestFailed => e
           if e.message.include? "Index"
@@ -104,7 +109,7 @@ module DynamicModel
           @@has_manies_method_list << method_name
           define_method method_name do
             begin
-              self.send(relation.collection_name_helper.attribute).send(field_name)
+              self.send(relation.collection_name_helper.attribute).map{|i|i.send(field_name.to_sym)}.join(",")
             rescue NoMethodError
               "N/A"
             end
@@ -119,9 +124,9 @@ module DynamicModel
           @@habtm_method_list << method_name
           define_method method_name do
             begin
-              self.send(relation.collection_name_helper.attribute).send(field_name)
-            rescue NoMethodError
-              "N/A"
+              self.send(relation.collection_name_helper.attribute).map{|i|i.send(field_name.to_sym)}.join(",")
+            # rescue NoMethodError
+            #   "N/A"
             end
           end
         end

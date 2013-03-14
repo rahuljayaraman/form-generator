@@ -1,3 +1,4 @@
+require 'will_paginate/array'
 class ReportsController < ApplicationController
   # GET /reports
   # GET /reports.json
@@ -103,22 +104,16 @@ class ReportsController < ApplicationController
     @habtm_attributes = @relationship.habtm_attributes
     @has_many_attributes = @relationship.has_many_attributes
 
-    if params[:search].present?
       begin
-        @data = @report.search(params[:search])
+        @data = @report.search(params)
       rescue SearchWithTire::NoIndex
-        @data = @report.search(params[:search])
+        @data = []
         flash.now[:alert] = "Sorry it took that long. We had to index all your data. Please try searching again. It will be much faster."
       rescue SearchWithTire::InvalidQuery
-        @data = @model.paginate(per_page: 7, page: params[:page])
         flash.now[:alert] = "Invalid Search Query"
       rescue SearchWithTire::NoData
-        @data = @model.paginate(per_page: 7, page: params[:page])
         flash.now[:alert] = "You don't seem to have any data to search."
       end
-    else
-      @data = @model.paginate(per_page: 7, page: params[:page])
-    end
     respond_to do |format|
       format.html
       format.xls

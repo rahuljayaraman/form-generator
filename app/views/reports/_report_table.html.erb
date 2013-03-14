@@ -24,9 +24,9 @@
       <% elsif @belongs_to_attributes.include? m -%>
       <td><%= d.send(m.elastic_belongs_tos_method_name) || "N/A" rescue "N/A"%></td>
       <% elsif @habtm_attributes.include? m -%>
-        <td><%= d.send(m.elastic_habtm_method_name).join(", ") || "N/A" %></td>
+        <td><%= d.send(m.elastic_habtm_method_name) || "N/A" %></td>
       <% elsif @has_many_attributes.include? m -%>
-        <td><%= d.send(m.elastic_has_manies_method_name).join(", ") || "N/A" %></td>
+        <td><%= d.send(m.elastic_has_manies_method_name) || "N/A" %></td>
       <% else -%>
           <td><%= d.send(m.field_name.attribute).to_datetime.to_s(:short) rescue "N/A" %></td>
       <% end -%>
