@@ -23,6 +23,7 @@ gem 'honeybadger'
 gem 'tire'
 gem 'will_paginate_mongoid'
 gem 'bootstrap-will_paginate'
+gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
 
 group :assets do
   gem 'less-rails'

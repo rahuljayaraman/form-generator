@@ -9,7 +9,8 @@ module Mapping
       'Time' => Time,
       'Yes or No' => Boolean,
       'Password' => String,
-      'True or False' => Boolean
+      'True or False' => Boolean,
+      'File' => String,
     }
   end
 
@@ -23,7 +24,8 @@ module Mapping
       'Time' => 'time',
       'Yes or No' => 'radio_buttons',
       'Password' => 'password',
-      'True or False' => 'boolean'
+      'True or False' => 'boolean',
+      'File' => 'file',
     }
   end
 end

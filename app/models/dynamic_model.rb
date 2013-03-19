@@ -26,6 +26,14 @@ module DynamicModel
       object.source_attributes.each do |m|
         field m.field_name.attribute.to_sym, type: object.class.mapping[m.field_type]
         attr_accessible m.field_name.attribute.to_sym
+        if m.field_type == "File"
+          uploader_klass = Class.new CarrierWave::Uploader::Base do
+            storage :file
+          end
+          uploader_klass_name = m.field_name.attribute.classify + "Uploader"
+          Object.const_set uploader_klass_name, uploader_klass
+          mount_uploader m.field_name.attribute.to_sym, uploader_klass
+        end
       end
       #All dynamic models belong to user
       belongs_to :user, inverse_class_name: klass_name
