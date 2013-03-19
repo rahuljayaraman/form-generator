@@ -1,1 +1,4 @@
-<%= f.input m.field_name.attribute.to_sym, as: :text, input_html: {rows: 5}, hint: m.hint %>
+<%= tinymce_assets %>
+<%# f.input m.field_name.attribute.to_sym, as: :text, input_html: {rows: 40, cols: 120}, hint: m.hint, class: "tinymce" %>
+<%= f.text_area m.field_name.attribute.to_sym, :class => "tinymce", :rows => 20, :cols => 120, hint: m.hint %>
+<%= tinymce %>

@@ -18,6 +18,7 @@
 //= require dataTables/jquery.dataTables.bootstrap
 //= require jquery.ui.sortable
 //= require jquery_nested_form
+//= require tinymce-jquery
 //= require_tree .
 
 

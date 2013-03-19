@@ -25,7 +25,7 @@
           <% base_name = Pathname.new(d.send(attr_field_name).url).basename.to_s -%>
           <td><%= link_to(base_name, "/uploads/#{base_name}") || "N/A" %></td>
         <% else -%>
-          <td><%= d.send(attr_field_name) || "N/A" %></td>
+          <td><%= strip_tags d.send(attr_field_name) || "N/A" %></td>
         <% end -%>
       <% elsif @belongs_to_attributes.include? m -%>
       <td><%= d.send(m.elastic_belongs_tos_method_name) || "N/A" rescue "N/A"%></td>
