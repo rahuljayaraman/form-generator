@@ -14,7 +14,7 @@
         <p class="well"><%= @application.application_instructions %></p>
       <% end -%>
       <hr>
-      <%= render 'applications/feed' %>
+      <%= render 'applications/feed', application: @application, forms: @forms %>
     </div>
       <% if current_user.owns_application @application -%>
         <div class="span2">
