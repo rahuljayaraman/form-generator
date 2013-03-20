@@ -112,7 +112,7 @@ class User
   end
 
   def self.available_attributes
-    ['Name', 'Email']
+    ['Name']
   end
 
   def self.search hash
