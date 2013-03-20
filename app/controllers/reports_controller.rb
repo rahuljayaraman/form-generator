@@ -91,6 +91,9 @@ class ReportsController < ApplicationController
 
   def view_report
     @report = Report.find params[:id]
+    if params[:application]
+      @application = Application.find(params[:application])
+    end
     @attributes = @report.source_attributes
     add = Struct.new(:field_name, :field_type, :id)
     @attributes += [add.new('Created At', 'Date & Time'), add.new('Updated At', 'Date & Time'), add.new('','Link')]

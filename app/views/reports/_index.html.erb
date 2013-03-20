@@ -6,7 +6,7 @@
 <% @reports.each do |report| %>
   <tbody>
     <tr>
-      <td><%= link_to report.report_name, view_reports_path(report) %></td>
+      <td><%= link_to report.report_name, view_reports_path(report, {application: @application.id}) %></td>
     </tr>
   </tbody>
 <% end %>
