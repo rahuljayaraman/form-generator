@@ -8,6 +8,7 @@
     <th>Email</th>
     <th>Designation</th>
     <th>Phone No.</th>
+    <th>Skills</th>
   </thead>
 
 <% @users.each do |user| %>
@@ -17,6 +18,7 @@
       <td><%= user.email %></td>
       <td><%= user.designation %></td>
       <td><%= user.phone || "N/A" %></td>
+      <td><%= user.skills.map(&:skill_name).join(",") || "N/A" %></td>
     </tr>
   </tbody>
 <% end %>
