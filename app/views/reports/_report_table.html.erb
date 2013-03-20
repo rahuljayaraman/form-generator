@@ -22,8 +22,13 @@
       <% if @direct_attributes.include? m -%>
         <% attr_field_name = m.field_name.attribute -%>
         <% if m.field_type == "File" -%>
-          <% base_name = Pathname.new(d.send(attr_field_name).url).basename.to_s -%>
-          <td><%= link_to(base_name, "/uploads/#{base_name}") || "N/A" %></td>
+          <% base_name = Pathname.new(d.send(attr_field_name).url).basename.to_s rescue nil -%>
+          <% base_path = "/uploads/#{base_name}" if base_name -%>
+          <% if base_name -%>
+            <td><%= link_to(base_name, base_path) if base_path || "N/A" %></td>
+          <% else -%>
+            <td>N/A</td>
+          <% end -%>
         <% else -%>
           <td><%= sanitize(strip_tags(d.send(attr_field_name))) || "N/A" %></td>
         <% end -%>
