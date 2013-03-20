@@ -4,21 +4,26 @@
 <% @all_my_attributes.each do |attr| -%>
   <% field_attributes = attr.field_name.attribute %>
   <% if @available_many_manies.include? attr -%>
-    <b><%= attr.field_name.pluralize %></b>: <%= @object.send(attr.source.collection_name_helper.to_sym).map do |f| -%>
+    <h3><%= attr.field_name.pluralize %></h3> 
+    <%= @object.send(attr.source.collection_name_helper.to_sym).map do |f| -%>
       <% f.send(field_attributes) %>
     <% end.join(", ") -%>
     <br>
   <% elsif @available_belongs_tos.include? attr -%>
-    <b><%= attr.field_name %></b>: <%= @object.send(attr.source.collection_name_helper.singularize.to_sym).send(attr.field_name.attribute.to_sym) rescue "N/A" %><br>
+    <h3><%= attr.field_name %></h3>
+    <%= @object.send(attr.source.collection_name_helper.singularize.to_sym).send(attr.field_name.attribute.to_sym) rescue "N/A" %><br>
   <% else -%>
    <% sym_attr = attr.field_name.attribute.to_sym -%>
    <% if attr.field_type == "File" -%>
-     <b><%= attr.field_name %></b>: <%= link_to Pathname.new(@object.send(sym_attr).to_s).basename.to_s, @object.send(sym_attr).try(:url) %><br>
+     <h3><%= attr.field_name %></h3>
+     <%= link_to Pathname.new(@object.send(sym_attr).to_s).basename.to_s, @object.send(sym_attr).try(:url) %><br>
     <% else -%>
       <% if attr.field_type == "Paragraph" -%>
-        <b><%= attr.field_name %></b>:<div class="well"> <%= raw @object.send(sym_attr) %></div><br>
+        <h3><%= attr.field_name %></h3>
+        <div class="well"> <%= raw @object.send(sym_attr) %></div><br>
     <% else -%>
-      <b><%= attr.field_name %></b>: <%= @object.send(sym_attr) %><br>
+      <h3><%= attr.field_name %></h3>
+      <%= @object.send(sym_attr) %><br>
     <% end -%>
     <% end -%>
   <% end -%>
