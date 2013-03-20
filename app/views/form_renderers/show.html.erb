@@ -20,7 +20,7 @@
     <% else -%>
       <% if attr.field_type == "Paragraph" -%>
         <h3><%= attr.field_name %></h3>
-        <div class="well"> <%= raw @object.send(sym_attr) %></div><br>
+        <div class="well" style="background: white;"> <%= raw @object.send(sym_attr) %></div><br>
     <% else -%>
       <h3><%= attr.field_name %></h3>
       <%= @object.send(sym_attr) %><br>

@@ -30,7 +30,7 @@
             <td>N/A</td>
           <% end -%>
         <% else -%>
-          <td><%= sanitize(strip_tags(d.send(attr_field_name))) || "N/A" %></td>
+          <td><%= truncate(sanitize(strip_tags(d.send(attr_field_name))), length: 30, omission: "...(cont.)") || "N/A" %></td>
         <% end -%>
       <% elsif @belongs_to_attributes.include? m -%>
       <td><%= d.send(m.elastic_belongs_tos_method_name) || "N/A" rescue "N/A"%></td>
