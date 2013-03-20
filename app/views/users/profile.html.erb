@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="span2">
+    <% if !@user.avatar.blank? -%>
+      <%= image_tag @user.avatar.url(:thumb).to_s, class: "img-polaroid" %>
+    <% else -%>
+      <%= image_tag "profile.png", class: "img-polaroid" -%>
+    <% end -%>
+    <br>
+    <small><b><%= link_to 'Edit Profile', edit_user_path(@user), class: "muted" %></b></small>
+  </div>
+
+  <div class="span9">
+    <h2><%= @user.name %> <small>(<%= @user.email %>)</small></h2>
+    <h4><%= @user.designation %></h4>
+    <h4>Mobile: <%= @user.phone %></h4>
+    <div class="row">
+      <div class="span2">
+        <h4>Skills</h4>
+        <p><%= @user.skills.map(&:skill_name).join(", ") %></p>
+      </div>
+      <div class="span2">
+        <h4>Interests</h4>
+        <p><%= @user.interests.map(&:interest_name).join(", ") %></p>
+      </div>
+    </div>
+  </div>
+</div>

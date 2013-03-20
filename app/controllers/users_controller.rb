@@ -17,6 +17,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def index
+    @users = User.all
+  end
+
   # GET /users/new
   # GET /users/new.json
   def new
@@ -31,6 +35,7 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
+    # @user.skills.build
   end
 
   # POST /users
@@ -53,7 +58,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to profile_user_path(@user), notice: 'Your profile was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -116,6 +121,10 @@ class UsersController < ApplicationController
       format.html { redirect_to user_path(current_user), notice: "#{view_context.pluralize(split_users.size, "Builder")} invited." }
       format.json { head :no_content }
     end
+  end
+
+  def profile
+    @user = User.find(params[:id])
   end
 end
 

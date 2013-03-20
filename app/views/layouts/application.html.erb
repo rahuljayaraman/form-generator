@@ -75,6 +75,8 @@
                     </a>
                     <ul class="dropdown-menu">
                       <li><%= link_to "Edit Profile", edit_user_path(current_user.id) %></li>
+                      <li><%= link_to "View Profile", profile_user_path(current_user.id) %></li>
+                      <li><%= link_to "Employee Lookup", users_path %></li>
                       <li class="divider"></li>
                       <li> <%= link_to "Logout", :logout %></li>
                     </ul>

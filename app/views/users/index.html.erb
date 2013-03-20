@@ -1,0 +1,24 @@
+<%= link_to 'Back', user_path(current_user), class: "btn pull-right" -%>
+<h2>Listing Users</h2>
+<hr>
+
+<table class="table table-bordered" id="datatables">
+  <thead>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Designation</th>
+    <th>Phone No.</th>
+  </thead>
+
+<% @users.each do |user| %>
+  <tbody>
+    <tr>
+      <td><%= link_to(user.name, profile_user_path(user)) || "N/A" %></td>
+      <td><%= user.email %></td>
+      <td><%= user.designation %></td>
+      <td><%= user.phone || "N/A" %></td>
+    </tr>
+  </tbody>
+<% end %>
+</table>
+

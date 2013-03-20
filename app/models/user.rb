@@ -4,6 +4,8 @@ class User
 
   field :name, type: String
   field :email, type: String
+  field :designation, type: String
+  field :phone, type: Integer
   field :crypted_password, type: String
   field :salt, type: String
   field :activation_state,            type: String
@@ -11,6 +13,9 @@ class User
   field :activation_token_expires_at, type: DateTime
   field :builder, type: Boolean
   field :inviter, type: Boolean
+  field :avatar
+
+  mount_uploader :avatar, AvatarUploader
 
   index({ activation_token: 1 }, { unique: true, background: true })
 
@@ -18,10 +23,13 @@ class User
   has_many :reports
   has_many :forms
   has_many :owned_applications, class_name: "Application", inverse_of: :owner
+  embeds_many :skills
+  embeds_many :interests
   has_and_belongs_to_many :used_applications, class_name: "Application", inverse_of: :members
   has_and_belongs_to_many :roles
 
-  attr_accessible :name, :email, :password, :password_confirmation, :role_ids
+  attr_accessible :name, :email, :password, :password_confirmation, :role_ids, :designation, :skills_attributes, :interests_attributes, :phone, :avatar
+  accepts_nested_attributes_for :skills, :interests, allow_destroy: true
 
   validates :email, presence: true, uniqueness: true
   validates :password,   :presence => true, :confirmation => true, :if => :activated?

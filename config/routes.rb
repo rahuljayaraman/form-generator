@@ -17,6 +17,7 @@ BootstrapData::Application.routes.draw do
 
   resources :user_sessions, as: :user_sessions
   resources :users do
+    get :profile, on: :member
     member do
       get :activate
       put :confirm

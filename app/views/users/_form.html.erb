@@ -1,9 +1,30 @@
-<%= simple_form_for(@user, url: user_path(@user), method: :put) do |f| %>
+<%= simple_nested_form_for(@user, url: user_path(@user), method: :put) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :email, disabled: true %>
+    <%= f.input :designation %>
+    <%= f.input :phone, label: "Mobile No." %>
+    <%= f.link_to_add ' Add Skill', :skills, class: "btn btn-small icon-plus" %><br>
+    <div class="skills_fields">
+      <%= f.simple_fields_for :skills do |s| %>
+        <div id="fieldset" class="">
+          <br><%= s.input_field :skill_name, as: :string, placeholder: "Skill" %>
+          <%= f.link_to_remove ' remove skill', class: 'icon-remove badge'%>
+        </div>
+      <% end -%>
+    </div>
+    <%= f.link_to_add ' Add Interest', :interests, class: "btn btn-small icon-plus" %><br>
+    <div class="interests_fields">
+      <%= f.simple_fields_for :interests do |s| %>
+        <div id="fieldset" class="">
+          <br><%= s.input_field :interest_name, as: :string, placeholder: "Interest" %>
+          <%= f.link_to_remove ' remove interest', class: 'icon-remove badge'%>
+        </div>
+      <% end -%>
+    </div>
+    <%= f.input :avatar, as: :file -%>
     <%= f.input :password %>
     <%= f.input :password_confirmation %>
   </div>

@@ -24,6 +24,7 @@ gem 'tire'
 gem 'will_paginate_mongoid'
 gem 'bootstrap-will_paginate'
 gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
+gem 'rmagick'
 gem 'tinymce-rails'
 
 group :assets do

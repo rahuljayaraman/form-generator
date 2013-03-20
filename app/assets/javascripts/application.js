@@ -49,6 +49,14 @@ $(document).ready(function(){
     else if(assoc == "model_validations") {
       return $(link).closest('.fields').find('.modal-body').prepend($(content));
     }
+    else if(assoc == "skills") {
+      console.log($(link).closest('form'));
+      return $(link).closest('form').find('.skills_fields').prepend($(content));
+    }
+    else if(assoc == "interests") {
+      console.log($(link).closest('form'));
+      return $(link).closest('form').find('.interests_fields').prepend($(content));
+    }
   }
   $(".datepicker").datepicker({
     format: 'yyyy-mm-dd',

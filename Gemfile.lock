@@ -234,6 +234,7 @@ GEM
       actionmailer (~> 3.0)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rmagick (2.13.2)
     roo (1.10.1)
       choice (>= 0.1.4)
       google-spreadsheet-ruby (>= 0.1.5)
@@ -370,6 +371,7 @@ DEPENDENCIES
   rb-inotify
   resque
   resque_mailer
+  rmagick
   roo
   rspec-rails
   rvm-capistrano
