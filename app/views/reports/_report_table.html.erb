@@ -38,6 +38,8 @@
         <td><%= d.send(m.elastic_habtm_method_name) || "N/A" %></td>
       <% elsif @has_many_attributes.include? m -%>
         <td><%= d.send(m.elastic_has_manies_method_name) || "N/A" %></td>
+      <% elsif m.field_type == 'Link' -%>
+        <td><%= link_to('Show', form_renderer_path(d, {application: @application.try(:id), form: @report.find_form.first.id }) ) || "N/A" %></td>
       <% else -%>
           <td><%= d.send(m.field_name.attribute).to_datetime.to_s(:short) rescue "N/A" %></td>
       <% end -%>

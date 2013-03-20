@@ -46,4 +46,8 @@ class Report
     has_many_ids = self.source.has_manies.map(&:id)
     source_attributes.where(:source_id.in => has_many_ids)
   end
+
+  def find_form
+    source.forms
+  end
 end

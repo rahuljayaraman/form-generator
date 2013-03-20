@@ -93,7 +93,7 @@ class ReportsController < ApplicationController
     @report = Report.find params[:id]
     @attributes = @report.source_attributes
     add = Struct.new(:field_name, :field_type, :id)
-    @attributes += [add.new('Created At', 'Date & Time'), add.new('Updated At', 'Date & Time')]
+    @attributes += [add.new('Created At', 'Date & Time'), add.new('Updated At', 'Date & Time'), add.new('','Link')]
     @user_attributes = @report.user_attributes.reject(&:blank?) if @report.user_attributes
     #Initialize related models
     @relationship = Relationship.new nil, @report.source
